@@ -15,7 +15,7 @@
     <p><b>Alphabet</b><p>
     <p>To formally define a language, we must first define an alphabet of symbols over which the language can exist.</p>
     <p><i>Definition</i></p>
-    <p>We will define &Sigma; as the alphabet of symbols from which a language can be constructed.</p>
+    <p>Let &Sigma; represent the alphabet of symbols from which a language can be constructed.</p>
     <p><i>Examples</i></p>
     <p>&Sigma; = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}</p>
     <p>This is the alphabet of numerical digits that could be used to construct integers.</p>
@@ -23,6 +23,18 @@
     <p>This is the alphabet containing the characters a and b.</p>
     <p>&Sigma; = {big, walrus}</p>
     <p>This is the alphabet containing the words big and walrus.</p>
+    <p><b>String</b></p>
+    <p>To examine a language, we must first consider the set of all strings that can be produced from an alphabet. To formally define a string, we must first define a special string, as follows:</p>
+    <p><i>Definition</i></p>
+    <p>Let &epsilon; represent the empty string, which, for any alphabet &Sigma;, contains no symbols.</p>
+    <p>Now, a string s can be constructed from the alphabet &Sigma; by starting with the empty string &epsilon; and appending symbols from &Sigma;. We will define S as the set of all possible values of s.<p>
+    <p><i>Examples</i></p>
+    <p>&Sigma; = {a, b}</p>
+    <p>S = {&epsilon;, a, b, aa, ab, ba, bb, aaa, ...}</p>
+    <p>This is the set of strings that can be constructed from the symbols a and b.</p>
+    <p>&Sigma; = {0, 1, 2}
+    <p>S = {&epsilon;, 0, 1, 2, 00, 01, 02, 10, 11, 12, 20, 21, 22, 000, 001, ...}
+    <p>This is the set of "ternary" numbers, including the empty string.</p>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
