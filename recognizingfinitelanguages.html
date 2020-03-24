@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h3>Pages</h3>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="theory.html">Theory</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <h3>Recognizing finite languages</h3>
+    <p><b>Problem statement</b></p>
+    <p>Given a finite language L and an input string s, how do we determine whether s &isin; L?</p>
+    <p><b>Algorithm</b></p>
+    <pre>
+For each string l &isin; L
+    If l = s
+        Return true
+Return false
+    </pre>
+    <p><b>Examples</b></p>
+    <p><i>Example</i></p>
+    <p>&Sigma; = {red, yellow, blue}</p>
+    <p>L = {red, yellow, blue}</p>
+    <p>red &isin; L, since the matching element red appears in its definition.</p>
+    <p>green &notin; L, since the matching element does not appear in its definition.</p>
+    <p><i>Example</i></p>
+    <p>L = {00, 01, 10, 11}</p>
+    <p>11 &isin; L, since the matching element 11 appears in its definition.</p>
+    <p>111 &notin; L, since the matching element does not appear in its definition.</p>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
