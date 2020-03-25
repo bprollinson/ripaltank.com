@@ -25,21 +25,21 @@
     <p>R = a</p>
     <p>This regular expression recognizes the string a.</p>
     <p><b>Concatenation of expressions</b></p>
-    <p>We want to allow for the inclusion of strings consisting of multiple symbols in our regular language. In order to support this, we want to allow the concatenation (squishing together) of two grammars to create a more complex grammar.</p>
+    <p>We want to allow for the inclusion of strings consisting of multiple symbols in our regular language. In order to support this, we want to allow the concatenation (squishing together) of two expressions to create a more complex expression.</p>
     <p><i>Example</i></p>
     <p>&Sigma; = {a, b}</p>
     <p>We know that R<sub>1</sub> = {a} and R<sub>2</sub> = {b} are regular expressions.</p>
     <p>R = R<sub>1</sub>R<sub>2</sub> = ab</p>
     <p>This regular expression recognizes the string ab.</p>
     <p><b>Union of expressions</b></p>
-    <p>We want to allow for the choice of two expressions in our regular language. In order to support this, we want to allow the union ("or" operation) of two grammars to create a more complex grammar.</p>
+    <p>We want to allow for the choice of two expressions in our regular language. In order to support this, we want to allow the union ("or" operation) of two expressions to create a more complex expression.</p>
     <p><i>Example</i></p>
     <p>&Sigma; = {a, b}</p>
     <p>We know that R<sub>1</sub> = {a} and R<sub>2</sub> = {b} are regular expressions.</p>
     <p>R = R<sub>1</sub> &cup; R<sub>2</sub> = a &cup; b</p>
     <p>This regular expression recognizes the strings a and b.</p>
     <p><b>Kleene closure of an expression</b></p>
-    <p>We want to allow the repretition of expressions in our regular language. In order to support this, we want to allow the Kleene closure (*) operator to be applied to a grammar to create a more complex grammar.</p>
+    <p>We want to allow the repretition of expressions in our regular language. In order to support this, we want to allow the Kleene closure (*) operator to be applied to an expression to create a more complex expression.</p>
     <p>&Sigma; = {a}</p>
     <p>We know that R<sub>1</sub> = {a} is a regular expression.</p>
     <p>R = R<sub>1</sub><sup>*</sup>
