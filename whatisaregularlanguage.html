@@ -15,6 +15,35 @@
     <p><b>Background</b></p>
     <p>Finite languages are easy to understand, specify and recognize, but they're not very expressive.</p>
     <p>In practice, many useful languages are not limited to a fixed number of strings. As a result, we need some way to begin to represent infinite languages.</p>
+    <p><b>Language set operators</b></p>
+    <p>To discuss regular languages, we need to first define the following set operators:</p>
+    <ol>
+      <li>If R<sub>1</sub> = {s<sub>1,1</sub>, s<sub>1,2</sub>, ...} and R<sub>2</sub> = {s<sub>2,1</sub>, s<sub>2,2</sub>, ...} then R = R<sub>1</sub>R<sub>1</sub>R<sub>2</sub> = {s<sub>1,1</sub>s<sub>2,1</sub>, s<sub>1,2</sub>s<sub>2,1</sub>, s<sub>1,1</sub>s<sub>2,2</sub>, ...}
+        <ol>
+          <li>Informally, the concatenation of two sets involves squishing together the a combination of one element from each set in the provided order of operands</li>
+        </ol>
+      </li>
+      <li>If R<sub>1</sub> = {s<sub>1,1</sub>, s<sub>1,2</sub>, ...} and R<sub>2</sub> = {s<sub>2,1</sub>, s<sub>2,2</sub>, ...} then R = R<sub>1</sub> &cup; R<sub>2</sub> = {s<sub>1,1</sub>, s<sub>2,1</sub>, s<sub>1,2</sub>, s<sub>2,2</sub>, ...}
+        <ol>
+          <li>Informally, the union of two sets involves including any element in either set</li>
+        </ol>
+      </li>
+      <li>If R<sub>1</sub> = {s<sub>1</sub>, s<sub>2</sub>, ...}  then R = R<sup>*</sup> = {&epsilon;, s<sub>1</sub>, s<sub>2</sub>, s<sub>1</sub>s<sub>1</sub>, s<sub>1</sub>s<sub>2</sub>, s<sub>2</sub>s<sub>1</sub>, s<sub>2</sub>s<sub>2</sub>, s<sub>1</sub>s<sub>1</sub>s<sub>1</sub>, ...}
+        <ol>
+          <li>Informally, the Kleene closure of a set involves starting with &epsilon; and concatenating any element of that set any number of times</li>
+        </ol>
+      </li>
+    </ol>
+    <p><b>Definition</b></p>
+    <p>For any alphabet &Sigma;:</p>
+    <ol>
+      <li>The empty language, L = {}, is regular</li>
+      <li>The language containing the empty string, L = {&epsilon;} is regular</li>
+      <li>For any &sigma; &isin; &Sigma;, the language containing a fixed single-symbol string L = {&sigma;} is regular</li>
+      <li>For any two regular languages R<sub>1</sub> and R<sub>2</sub>, R<sub>1</sub>R<sub>2</sub> is regular</li>
+      <li>For any two regular languages R<sub>1</sub> and R<sub>2</sub>, R<sub>1</sub> &cup; R<sub>2</sub> is regular</li>
+      <li>For any regular language R<sub>1</sub>, R<sub>1</sub><sup>*</sup> is regular</li>
+    </ol>
     <p><b>Regular language representations</b></p>
     <p>There are two straightfoward ways of specifying a regular language:</p>
     <ul>
