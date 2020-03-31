@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h3>Pages</h3>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="theory.html">Theory</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <h3>&epsilon;-nondeterministic finite automata</h3>
+    <p><b>Overview</b></p>
+    <p>An &epsilon;-nondeterministic finite automaton (&epsilon;-NFA for short) is another tool that can be used to recognize strings as part of a regular language.</p>
+    <p><b>Example of an &epsilon;-NFA</b></p>
+    <p>The following is an example of an &epsilon;-NFA:</p>
+    <img src="assets/exampleepsilonnfa.png" alt="Example &epsilon;-NFA"/>
+    <p>It contains 5 states and 5 state transitions.</p>
+    <p>State s<sub>0</sub> is the initial state, while s<sub>3</sub> and s<sub>5</sub> are accepting states.</p>
+    <p>State s<sub>1</sub> illustrates a construction that is not allowed in an NFA but is allowed in an &epsilon;-NFA: transitions with &epsilon; as input.</p>
+    <p>This &epsilon;-NFA accepts the language represented by the following regular expression:</p>
+    <p>a(b &cup; c)</p>
+    <p><b>Anatomy</b></p>
+    <p>In general, an &epsilon;-NFA consists of:</p>
+    <ol>
+      <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub></li>
+      <li>
+        <ol>
+          <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
+          <li>Any number of states can be long to the set of final states, S<sub>f</sub></li>
+          <li>
+            <ol>
+              <li>S<sub>f</sub> &sube; S</li>
+            </ol>
+          </li>
+        </ol>
+      </li>
+      <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z &cup; {&epsilon;}</li>
+      <li>
+        <ol>
+          <li>This differs from NFAs which don't allow &epsilon; as an input symbol for transitions</li>
+        </ol>
+      </li>
+    </ol>
+    <p>In &epsilon;-NFAs, we have a few inherent structural restrictions, as follows:</p>
+    <ol>
+      <li>T = T[s<sub>i</sub>, t] = {s<sub>f<sub>1</sub></sub>, s<sub>f<sub>2</sub></sub>, ..., s<sub>f<sub>n</sub></sub>}, a set of states</li>
+      <li>t &isin; Z, a single symbol in our alphabet</li>
+    </ol>
+    <p><b>The &epsilon;-NFA parsing algorithm</b></b>
+    <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by &epsilon;-NFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p>
+    <pre>
+Set S<sub>current</sub> = {s<sub>i</sub>}
+While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon;-transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>current</sub> such that s &notin; S
+    Add s<sub>&epsilon;<sub>next</sub></sub> to S<sub>current</sub>
+For i = 1 to n
+    symbol = &sigma;<sub>i</sub>
+    S<sub>next</sub> = {}
+    For each s<sub>current</sub> in S<sub>current</sub>
+        s<sub>next</sub> = T[s<sub>current</sub>, symbol]
+        If s<sub>next</sub> exists
+            Add s<sub>next</sub> to S<sub>next</sub>
+        While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon;-transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>next</sub> such that s &notin; S
+            Add s<sub>&epsilon;<sub>next</sub></sub> to S<sub>next</sub>
+    If S<sub>next</sub> is empty
+        Reject
+    S<sub>current</sub> = S<sub>next</sub>
+End for
+If S<sub>current</sub> contains an accepting state
+    Accept
+Otherwise
+    Reject
+    </pre>
+    <p>Informally, we perform the NFA parsing algorithm but in addition, whenever a state is added to a set we are considering, we also add all states reachable directly or directly through &epsilon;-transitions from it.</p>
+    <p>Note that this parsing algorithm is becoming somewhat complicated and is not often used in practice. We will later show how to reduce &epsilon;-NFAs into NFAs and then DFAs to simplify the parsing algorithm.</p>
+    <p><b>Parsing examples</b></p>
+    <p>For s = a</p>
+    <table>
+      <tr>
+        <th>States</th>
+        <th>Input symbol</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>{s<sub>0</sub>}</td>
+        <td>a</td>
+        <td>Transition to {s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>} (since s<sub>2</sub> and s<sub>4</sub> are reachable via &epsilon;-transition)</td>
+      </tr>
+      <tr>
+        <td>{s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>}</td>
+        <td>$ (end of string)</td>
+        <td>Reject (since S<sub>current</sub> does not contain an accepting state)</td>
+      </tr>
+    </table>
+    <p>For s = ab</p>
+    <table>
+      <tr>
+        <th>States</th>
+        <th>Input symbol</th>
+        <th>Action</th>
+      </tr>
+      <tr>
+        <td>{s<sub>0</sub>}</td>
+        <td>a</td>
+        <td>Transition to {s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>} (since s<sub>2</sub> and s<sub>4</sub> are reachable via &epsilon;-transition)</td>
+      </tr>
+      <tr>
+        <td>{s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>}</td>
+        <td>b</td>
+        <td>Transition to {s<sub>3</sub>}</td>
+      </tr>
+      <tr>
+        <td>{s<sub>3</sub>}</td>
+        <td>$ (end of string)</td>
+        <td>Accept (since S<sub>current</sub> contain s<sub>3</sub> which is an accepting state)</td>
+      </tr>
+    </table>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
