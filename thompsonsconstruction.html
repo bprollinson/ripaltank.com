@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h3>Pages</h3>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="theory.html">Theory</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <h3>Thompson's construction</h3>
+    <p><b>Background</b></p>
+    <p>We've seen regular expressions and finite automata. Now, we will demonstrate a method of constructing automata from regular expressions.</p>
+    <p><b>Introduction</b></p>
+    <p>Thompsons' construction solves two problems with relation to recognizing regular languages specified by a regular expression:</p>
+    <ol>
+      <li>It proves that a state machine that recognizes the language exists AND</li>
+      <li>It illustrates the process for constructing the machine</li>
+    </ol>
+    <p><b>Building blocks</b></p>
+    <p>First, we will construct a simple state machine that recognizes a single-character string, as follows:</p>
+    <img src="assets/thompsonsinglecharacter.png" alt="&epsilon;-NFA recognizing single character string"/>
+    <p>This will form one of the building blocks of our construction. The other building block is the corresponding machine that recognizes the empty string:</p>
+    <img src="assets/thompsonepsilon.png" alt="&epsilon;-NFA recognizing the empty string"/>
+    <p><b>Concatenation</b></p>
+    <p>To represent the concatention of two smaller state machines, we need to first model a smaller machine abstractly, as follows:</p>
+    <img src="assets/thompsonstategroup.png" alt="&epsilon;-NFA state group"/>
+    <p>The smaller state machines can be thought of "state groups" - a collection of states with a start state and an end state. We can create a larger state group recognizing the concatenation of the languages from two smaller groups as follows:</p>
+    <img src="assets/thompsonconcatenation.png" alt="Concatenation of &epsilon;-NFA state groups"/>
+    <p>This new state group combines the state machines from the two existing groups via an epsilon transition. This allows the concatenation of languages to be recognizes without needing to process any additional input symbols. We also set the final state of the second group to be the only accepting state so that a partial match is not recognized.</p>
+    <p><b>Union</b></p>
+    <p>To represent the union of two smaller state machines, we can combine them as follows:</p>
+    <img src="assets/thompsonunion.png" alt="Union of &epsilon;-NFA state groups"/>
+    <p>Here, an &epsilon;-transition can be made to the machine for either part of the union and back out to a final accepting state. Hence, if either smaller state machine would have accepted, this larger machine will accept.</p>
+    <p><b>Kleene closure</b></p>
+    <p>Similarly, we can construct a larger machine to recognize the kleene closure of any smaller group as follows:</p>
+    <img src="assets/thompsonkleeneclosure.png" alt="Kleene closure of &epsilon;-NFA state groups"/>
+    <p>Here, to recognize &epsilon; we make the &epsilon; transition. To recognize some positive number of repetitions of something the inner tate group recognizes, we can progress through the inner group and then the backward via the opposite &epsilon;-transition as many times is needed.</p>
+    <p><b>Summary</b></p>
+    <p>By using these constructions, we can build an &epsilon;-NFA from any regular expression and recognize its language.</p>
+    <p><b>Example</b></p>
+    <p>The following &epsilon;-NFA recognizes the language corresponding to the expression R = ab &cup; c<sup>*</sup>:</p>
+    <img src="assets/thompsonexample.png" alt="&epsilon-NFA that recognizes ab &cup; c*"/>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
