@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h3>Pages</h3>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="theory.html">Theory</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <h3>Converting an &epsilon;-NFA to an NFA</h3>
+    <p><b>Background</b></p>
+    <p>We've seen the method of constructing &epsilon;-NFAs from regular expressions. However, using an &epsilon;-NFA to recognize a string is tricky. We will look at a method to convert &epsilon;-NFAs to NFAs.</p>
+    <p><b>Removing &epsilon;-transitions</b></p>
+    <p>Observe the following &epsilon;-NFA:</p>
+    <img src="assets/exampleepsilonbeforecharactertransition.png" alt="&epsilon;-NFA with epsilon transition before character transition"/>
+    <p>This recognizes the string "a". Because the &epsilon;-transition doesn't consume an input symbol, it can be simplified to the following:</p>
+    <img src="assets/exampleepsilonbeforecharactertransitionreduced.png" alt="Simplified NFA"/>
+    <p>Similarly, the following &epsilon;-NFA recognizes the same language:</p>
+    <img src="assets/examplemultipleepsilonbeforecharactertransition.png" alt="&epsilon;-NFA with multiple epsilon transitions before character transition"/>
+    <p>When we are converting an &epsilon;-NFA into an NFA, whenever we have a sequence of &epsilon;-transitions linking state s<sub>1</sub> through s<sub>n - 1</sub>, followed by a transition with input symbol &sigma; from state s<sub>n - 1</sub> to state s<sub>n</sub>, we can replace it with a two-state construction of state s<sub>1</sub> to s<sub>n - 1</sub> with input symbol &sigma;.</p>
+    <p><b>Making states accepting</b></p>
+    <p>Observe the following &epsilon;-NFA:</p>
+    <img src="assets/exampleepsilonbeforefinalstate.png" alt="&epsilon;-NFA with epsilon transition before accepting state"/>
+    <p>This recognizes the string "a". Because the &epsilon;-transition doesn't consume an input symbol, it can be simplified to the following:</p>
+    <img src="assets/exampleepsilonbeforefinalstatereduced.png" alt="Simplified NFA"/>
+    <p>Similarly, the following &epsilon;-NFA recognizes the same language:</p>
+    <img src="assets/examplemultipleepsilonbeforefinalstate.png" alt="&epsilon;-NFA with multiple epsilon transitions before accepting state"/>
+    <p>When we are converting an &epsilon;-NFA into an NFA, whenever we have a sequence of &epsilon;-transitions linking state s<sub>2</sub> through s<sub>n</sub> following a transition with input symbol &sigma; from state s<sub>1</sub> to state s<sub>2</sub>, we can replace it with a two-state construction of state s<sub>1</sub> to s<sub>n - 1</sub> with input symbol &sigma;.</p>
+    <p><b>Summary</b></p>
+    <p>Following the above rules, we can convert an &epsilon;-NFA into an NFA, removing all &epsilon;-transitions. However, we may still have states with multiple transitions corresponding to the same symbol.</p>
+    <p><b>More complex example</b></p>
+    <img src="assets/exampleepsilonnfatoreduce.png" alt="Complex &epsilon;-NFA with multiple epsilon transitions leading to character transitions and accepting states"/>
+    <p>Using the same rules as above, this can be reduced into the following NFA (which happens to, by chance, also be a DFA):</p>
+    <img src="assets/examplenfareduced.png" alt="Simplified NFA"/>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
