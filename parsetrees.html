@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h3>Pages</h3>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="theory.html">Theory</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <h3>Parse trees</h3>
+    <p><b>Background</b></p>
+    <p>We've now seen how we can how to derive strings that belong to some language using a context-free grammar. One of the next questions you might ask about such a defivation is "what does this mean?"</p>
+    <p><b>What is a parse tree?</b></p>
+    <p>A parse tree is a structure that illustrates the structure of a string as part of a language. In particular, a parse tree illustrates, in a recursive structure, what a non-terminal symbol produces within a particular string derivation.</p>
+    <p><b>Example</b></p>
+    <p>Let's say we are examining the language specified by the following context-free grammar:</p>
+    <p>
+      SENTENCE &rarr; SUBJECT VERB OBJECT.<br/>
+      SUBJECT &rarr; John | Jane<br/>
+      VERB &rarr; threw | kicked<br/>
+      OBJECT &rarr; DIRECTOBJECT | QUALIFIEDOBJECT<br/>
+      DIRECTOBJECT &rarr; the ball | the puck<br/>
+      QUALIFIEDOBJECT &rarr; the ADJECTIVE ball | the ADJECTIVE puck<br/>
+      ADJECTIVE &rarr; big | heavy
+    </p>
+    <p>Example derivation:</p>
+    <p>
+      SENTENCE<br/>
+      &rarr; SUBJECT VERB OBJECT. (via rule 1)<br/>
+      &rarr; John VERB OBJECT. (via rule 2)<br/>
+      &rarr; John threw OBJECT. (via rule 3)<br/>
+      &rarr; John threw QUALIFIEDOBJECT. (via rule 4)<br/>
+      &rarr; John threw the ADJECTIVE puck. (via rule 6)<br/>
+      &rarr; John threw the heavy puck. (via rule 7)
+    </p>
+    <p>Based on this, we know that the sentence "John threw the heavy puck." is part of our language. But what does it mean?</p>
+    <p>The following parse tree represents our string derivation:</p>
+    <img src="assets/parsetreeexample1.png" alt="Parse tree for the string 'John threw the heavy puck.'"/>
+    <p>We can learn the following from seeing a parse tree for a string (and not requiring any other information):</p>
+    <ol>
+      <li>We know that our string is part of our language from the presence of the parse tree</li>
+      <li>We can determine what the input string is by reading the terminal nodes from the tree</li>
+      <li>We can determine the productions used to derive our string by reading the non-terminal nodes from the tree and observing their direct child nodes</li>
+      <li>
+        <ol>
+          <li>For example, we can tell that the production "SENTENCE &rarr; SUBJECT VERB OBJECT." is used in this derivation by observing the top non-terminal node and its children</li>
+        </ol>
+      </li>
+      <li>We can determine, structurally, what conceptual part of the language structure a non-terminal, terminal or &epsilon; node belongs to</li>
+      <li>
+        <ol>
+          <li>For example, we know that the terminal "puck" belongs to a qualified object and that the terminal "heavy" is an adjective that belong to a qualified object</li>
+        </ol>
+      </li>
+    </ol>
+    <p><b>Removing string ambiguity with a parse tree</b></p>
+    <p>Let's say we have the following context-free grammar:</p>
+    <p>
+      S &rarr; aSb<br/>
+      S &rarr; aS<br/>
+      S &rarr; &epsilon;
+    </p>
+    <p>By inspection, it's not to hard to understand that this CFG specifies the following language:</p>
+    <p>L = {a<sup>n + k</sup>b<sup>n</sup> | n, k >= 0}</p>
+    <p>Informally, this language contains the empty string, plus some number of as following by some number of bs where there are at least as many as as bs.</p>
+    <p>Deriving a string:</p>
+    <p>
+      S<br/>
+      &rarr; aSb (via rule 1)<br/>
+      &rarr; aaSbb (via rule 1)<br/>
+      &rarr; aaaSbb (via rule 2)<br/>
+      &rarr; aaabb (via rule 3)
+    </p>
+    <p>From this derivation, we know that aaabb &isin; L. The corresponding parse tree is:</p>
+    <img src="assets/parsetreeexample2.png" alt="Parse tree for the string 'aaabb'"/>
+    <p>From this parse tree, we can tell that, in our derivation, we chose to introduce the unbalanced "a" symbol deep within the structure of our derivation. It can use used, in this example, to remove ambiguity from the meaning of our input string.</p>
+    <p><b>Conclusion</b></p>
+    <p>We can use parse trees to ilustrate the structure and hence the meaning of an input string within our language.</p>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
