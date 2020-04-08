@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h3>Pages</h3>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="theory.html">Theory</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <h3>The LL(1) parse table</h3>
+    <p><b>Background</b></p>
+    <p>We've now see context-free grammar and the motivation for developing a top-down parsing algorithm. In this section, we will introduce the simplest top-down parsing algorithm using an LL(1) parser.</p>
+    <p><b>Anatomy of an LL(1) parse table</b></p>
+    <p>The following illustrates the setup of an LL(1) parse table. For &Sigma; = {&sigma;<sub>1</sub>, &sigma;<sub>2</sub>, ..., &sigma;<sub>n</sub>}, N = {n<sub>1</sub>, n<sub>2</sub>, ..., n<sub>n</sub>}, T = {t<sub>1</sub>, t<sub>2</sub>, ..., t<sub>n</sub>}, P = {p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>n</sub>}, our table looks like:</p>
+    <table border>
+      <tr>
+        <td></td>
+        <td><b>t<sub>1</sub></b></td>
+        <td><b>t<sub>2</sub></b></td>
+        <td><b>...</b></td>
+        <td><b>t<sub>n</sub></b></td>
+      </tr>
+      <tr>
+        <td><b>n<sub>1</sub></b></td>
+        <td>a<sub>n<sub>1</sub>,t<sub>1</sub></sub></td>
+        <td>a<sub>n<sub>1</sub>,t<sub>2</sub></sub></td>
+        <td>...</td>
+        <td>a<sub>n<sub>1</sub>,t<sub>n</sub></sub></td>
+      </tr>
+      <tr>
+        <td><b>n<sub>2</sub></b></td>
+        <td>a<sub>n<sub>2</sub>,t<sub>1</sub></sub></td>
+        <td>a<sub>n<sub>2</sub>,t<sub>2</sub></sub></td>
+        <td>...</td>
+        <td>a<sub>n<sub>2</sub>,t<sub>n</sub></sub></td>
+      </tr>
+      <tr>
+        <td><b>...</b></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><b>n<sub>n</sub></b></td>
+        <td>a<sub>n<sub>n</sub>,t<sub>1</sub></sub></td>
+        <td>a<sub>n<sub>n</sub>,t<sub>2</sub></sub></td>
+        <td>...</td>
+        <td>a<sub>n<sub>n</sub>,t<sub>n</sub></sub></td>
+      </tr>
+    </table>
+    <p>Here, t<sub>i</sub> &isin; &Sigma; &cup; $. a<sub>n<sub>i</sub>,t<sub>j</sub></sub> &isin; I &cup; &oslash;.</p>
+    <p>$ is a special "end of string" symbol that will be explained later. &oslash; here is not the empty set, but instead a null element.</p>
+    <p><b>The fundamental question</b></p>
+    <p>The funamental question an LL(1) parse table attempts to answer is:</p>
+    <p>Given a non-terminal n &isin; N and remaining unprocessed input string s<sub>remaining</sub>, which production should we apply to n?</p>
+    <p><b>The fundamental answer</b></p>
+    <p>Let's represent our non-terminal to expand as n<sub>next</sub> and the next input symbol as t<sub>next</sub>. Our next parse action a<sub>next</sub> can be found by simply looking up the table entry corresponding to n<sub>next</sub> and t<sub>next</sub>.We can represent this as:</p>
+    <p>a<sub>next</sub> = a<sub>n<sub>next</sub>,t<sub>next</sub></sub></p>
+    <p>The result can be interpreted as:</p>
+    <ol>
+      <li>Reject the input string entirely if a<sub>next</sub> = &oslash;</li>
+      <li>Apply the production rule with index specified by a<sub>next</sub> if a<sub>next</sub> &isin; I</li>
+    </ol>
+    <p><b>Parse table example</b></p>
+    <p>&Sigma; = {a, b}</p>
+    <p>
+      S &rarr; a<br/>
+      S &rarr; b
+    </p>
+    <p>Our parse table is:</p>
+    <table border>
+      <tr>
+        <td></td>
+        <td><b>a</b></td>
+        <td><b>b</b></td>
+      </tr>
+      <tr>
+        <td><b>S</b></td>
+        <td>1</td>
+        <td>2</td>
+      </tr>
+    </table>
+    <p>
+      Using this table, if we have non-terminal S and are trying to produce the string a, it indicates that grammar rule 1 should be applied. This leads to a derivation that looks like:
+    </p>
+    <p>
+      S<br/>
+      &rarr; a (via rule 1)
+    </p>
+    <p><b>More complex parse table example</b></p>
+    <p>
+      &Sigma; = {a, b}
+    </p>
+    <p>
+      S &rarr; aZ<br/>
+      Z &rarr; B<br/>
+      B &rarr; b
+    </p>
+    <p>
+      Our parse table is:
+    </p>
+    <table border>
+      <tr>
+        <td></td>
+        <td><b>a</b></td>
+        <td><b>b</b></td>
+      </tr>
+      <tr>
+        <td><b>S</b></td>
+        <td>1</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td><b>Z</b></td>
+        <td></td>
+        <td>2</td>
+      </tr>
+      <tr>
+        <td><b>B</b></td>
+        <td></td>
+        <td>3</td>
+      </tr>
+    </table>
+    <p>Using the rules from the above parse table, we can derive the string ab as follows:</p>
+    <p>
+      S<br/>
+      &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
+      &rarr; aB (via rule 2, looking up the table entry for Z and b)<br/>
+      &rarr; ab (via rule 3, looking up the table entry for B and b)
+    </p>
+    <p>Trying to parse the string aa using the same parse table:</p>
+    <p>
+      S<br/>
+      &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
+      reject! (since there is not table entry for Z and a)
+    </p>
+    <p><b>Conclusion</b></p>
+    <p>We've now seen the basic architecture of the LL(1) parsing table and the basic selection method for our next parse action. In the next section, we will formally introduce the LL(1) parsing algorithm.</p>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
