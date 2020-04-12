@@ -19,11 +19,11 @@
     <p>We've seen the method of constructing &epsilon;-NFAs from regular expressions. However, using an &epsilon;-NFA to recognize a string is tricky. We will look at a method to convert &epsilon;-NFAs to NFAs.</p>
     <p><b>Removing &epsilon;-transitions</b></p>
     <p>Observe the following &epsilon;-NFA:</p>
-    <img src="assets/exampleepsilonbeforecharactertransition.png" alt="&epsilon;-NFA with epsilon transition before character transition"/>
+    <img src="assets/exampleepsilonbeforecharactertransition.png" alt="&epsilon;-NFA with epsilon transition before character transition. This &epsilon;-NFA contains 3 states - s0, s1 and s2. s0 transitions to s1 on input symbol &epsilon; s1 transitions to s2 on input symbol a. s2 is accepting."/>
     <p>This recognizes the string "a". Because the &epsilon;-transition doesn't consume an input symbol, it can be simplified to the following:</p>
-    <img src="assets/exampleepsilonbeforecharactertransitionreduced.png" alt="Simplified NFA"/>
+    <img src="assets/exampleepsilonbeforecharactertransitionreduced.png" alt="Simplified NFA. This NFA contains 2 states - s0 and s1. s0 transitions to s1 on input symbol a. s1 is accepting."/>
     <p>Similarly, the following &epsilon;-NFA recognizes the same language:</p>
-    <img src="assets/examplemultipleepsilonbeforecharactertransition.png" alt="&epsilon;-NFA with multiple epsilon transitions before character transition"/>
+    <img src="assets/examplemultipleepsilonbeforecharactertransition.png" alt="&epsilon;-NFA with multiple epsilon transitions before character transition."/>
     <p>When we are converting an &epsilon;-NFA into an NFA, whenever we have a sequence of &epsilon;-transitions linking state s<sub>1</sub> through s<sub>n - 1</sub>, followed by a transition with input symbol &sigma; from state s<sub>n - 1</sub> to state s<sub>n</sub>, we can replace it with a two-state construction of state s<sub>1</sub> to s<sub>n - 1</sub> with input symbol &sigma;.</p>
     <p><b>Making states accepting</b></p>
     <p>Observe the following &epsilon;-NFA:</p>
