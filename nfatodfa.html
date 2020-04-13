@@ -19,13 +19,13 @@
     <p>We've seen the process of converting and &epsilon;-NFA to an NFA. This process will be extremely helpful in converting regular expressions into a state machine that's easy to use. However, NFAs may still have multiple transitions for the same input symbol from the same state, which makes the recognition process difficult. In this section, we'll demonstrate how to convert an NFA into a DFA in order to provide a simpler recognition mechanism.</p>
     <p><b>Example</b></p>
     <p>The following NFA contains multiple transitions for the same input symbol from the same state:</p>
-    <img src="assets/examplemultipletransitionssamesymbol.png" alt="NFA with multiple transitions for the same symbol"/>
+    <img src="assets/examplemultipletransitionssamesymbol.png" alt="NFA with multiple transitions for the same state and symbol. This NFA contains 4 states - s0, s1, s2 and s3. s0 transitions to s1 on input symbol a. s1 transitions to s2 and s3 on input symbol b. s2 is accepting."/>
     <p>This NFA recognizes the language L = {ab}. When parsing the string ab, after we encounter symbol b in state s<sub>1</sub>, we can choose to transition to state s<sub>2</sub> or s<sub>3</sub>. Since we are only looking for a single path to an accepting state, we would choose to transition to s<sub>2</sub> and accept the string.</p>
     <p>As a result, this NFA is equivalent to the following DFA:</p>
-    <img src="assets/exampledfareduced.png" alt="Simplified DFA"/>
+    <img src="assets/exampledfareduced.png" alt="Simplified DFA. This DFA contains 3 states - s0, s1 and s2. s0 transitions to s1 on input symbol a. s1 transitions to s2 on input symbol b. s2 is accepting."/>
     <p><b>More complex example</b></p>
     <p>The following NFA is a more complex example of an NFA that can be reduced:</p>
-    <img src="assets/examplecomplexmultipletransitionssamesymbol.png" alt="Complex NFA with multiple transitions for the same symbol"/>
+    <img src="assets/examplecomplexmultipletransitionssamesymbol.png" alt="Complex NFA with multiple transitions for the same symbol and state. This NFA contains 6 states - s0 through s5. s0 transitions to s1 on input symbol a. s1 transitions to s0 and s3 on input symbol b. s1 transitions to s2 on input symbol c. s3 transitions to s4 on input symbol a. s4 transitions to s5 on input symbol c. s2 is accepting."/>
     <p>Here, it's less clear how to reduce this to a DFA.</p>
     <p>Now, consider the transitions from s<sub>1</sub>	for input symbol b. The possible set of next states is: {s<sub>0</sub>, s<sub>3</sub>}.</p>
     <p>Since we only need to find a single path for a certain input string to an accepting state, we would continue this process. For example, if the next input symbol is a, the possible set of next states is: {s<sub>1</sub>, s<sub>4</sub>}.</p>
