@@ -42,7 +42,7 @@
     </p>
     <p>Based on this, we know that the sentence "John threw the heavy puck." is part of our language. But what does it mean?</p>
     <p>The following parse tree represents our string derivation:</p>
-    <img src="assets/parsetreeexample1.png" alt="Parse tree for the string 'John threw the heavy puck.'"/>
+    <img src="assets/parsetreeexample1.png" alt="Parse tree for the string 'John threw the heavy puck.' SENTENCE is at the top of the parse tree. On the second level, SENTENCE becomes 4 symbols: SUBJECT, VERB, OBJECT and PERIOD. On the third level, SUBJECT becomes John, VERB becomes threw and OBJECT becomes QUALIFIEDOBJECT. On the fourth level, QUALIFIEDOBJECT becomes 3 symbols: the, ADJECTIVE and puck. On the fifth level, ADJECTIVE becomes heavy."/>
     <p>We can learn the following from seeing a parse tree for a string (and not requiring any other information):</p>
     <ol>
       <li>We know that our string is part of our language from the presence of the parse tree</li>
@@ -79,7 +79,7 @@
       &rarr; aaabb (via rule 3)
     </p>
     <p>From this derivation, we know that aaabb &isin; L. The corresponding parse tree is:</p>
-    <img src="assets/parsetreeexample2.png" alt="Parse tree for the string 'aaabb'"/>
+    <img src="assets/parsetreeexample2.png" alt="Parse tree for the string 'aaabb'. S is as the top of the parse tree. On the second and third levels, S becomes 3 symbols: a, S and b. On the fourth level, S becomes 2 symbols: a and S. On the fifth level, S becomes &epsilon;."/>
     <p>From this parse tree, we can tell that, in our derivation, we chose to introduce the unbalanced "a" symbol deep within the structure of our derivation. It can use used, in this example, to remove ambiguity from the meaning of our input string.</p>
     <p><b>Conclusion</b></p>
     <p>We can use parse trees to ilustrate the structure and hence the meaning of an input string within our language.</p>
