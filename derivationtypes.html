@@ -57,7 +57,7 @@
       &rarr; if (x) { func1(); } else { func2(); }
     </p>
     <p>Now, observe the following parse tree:</p>
-    <img src="assets/ifstatementparsetree.png"/ alt="Parse tree for the string if (x) { func1(); } else { func2() }">
+    <img src="assets/ifstatementparsetree.png"/ alt="Parse tree for the string if (x) { func1(); } else { func2() }. IFSTATEMENT is at the top of the parse tree. On the second level, IFSTATEMENT becomes 4 symbols: IF, IFBODY, ELSE, ELSEBODY, END. On the third level, IF becomes 5 symbols: if, (, CONDITION, ), {. On the third level, IFBODY becomes func1();. On the third level, ELSE becomes 3 symbols: }, else, {. On the third level, ELSEBODY becomes func2();. On the third level, END becomes }. On the fourth level, CONDITION becomes x.">
     <p>If we observe the parse tree and compare it to the leftmost and rightmost derivations, we can see that the parse tree conceptually applies. For a leftmost derivation, we can simply read the terminal (leaf) nodes from left to right. For the rightmost derivation, we can read the terminal nodes from right to left.</p>
     <p><b>Conclusion</b></p>
     <p>A parse tree is a good representation of a string derivation regardless of our choice of derivation, which does not impact the contextual meaning of our input string.</p>
