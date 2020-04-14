@@ -56,7 +56,7 @@
     <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by &epsilon;-NFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p>
     <pre>
 Set S<sub>current</sub> = {s<sub>i</sub>}
-While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon;-transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>current</sub> such that s &notin; S
+While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon; transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>current</sub> such that s &notin; S
     Add s<sub>&epsilon;<sub>next</sub></sub> to S<sub>current</sub>
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>
@@ -65,7 +65,7 @@ For i = 1 to n
         s<sub>next</sub> = T[s<sub>current</sub>, symbol]
         If s<sub>next</sub> exists
             Add s<sub>next</sub> to S<sub>next</sub>
-        While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon;-transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>next</sub> such that s &notin; S
+        While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon; transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>next</sub> such that s &notin; S
             Add s<sub>&epsilon;<sub>next</sub></sub> to S<sub>next</sub>
     If S<sub>next</sub> is empty
         Reject
@@ -76,7 +76,7 @@ If S<sub>current</sub> contains an accepting state
 Otherwise
     Reject
     </pre>
-    <p>Informally, we perform the NFA parsing algorithm but in addition, whenever a state is added to a set we are considering, we also add all states reachable directly or directly through &epsilon;-transitions from it.</p>
+    <p>Informally, we perform the NFA parsing algorithm but in addition, whenever a state is added to a set we are considering, we also add all states reachable directly or directly through &epsilon; transitions from it.</p>
     <p>Note that this parsing algorithm is becoming somewhat complicated and is not often used in practice. We will later show how to reduce &epsilon;-NFAs into NFAs and then DFAs to simplify the parsing algorithm.</p>
     <p><b>Parsing examples</b></p>
     <p>For s = a</p>
@@ -89,7 +89,7 @@ Otherwise
       <tr>
         <td>{s<sub>0</sub>}</td>
         <td>a</td>
-        <td>Transition to {s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>} (since s<sub>2</sub> and s<sub>4</sub> are reachable via &epsilon;-transition)</td>
+        <td>Transition to {s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>} (since s<sub>2</sub> and s<sub>4</sub> are reachable via &epsilon; transition)</td>
       </tr>
       <tr>
         <td>{s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>}</td>
@@ -107,7 +107,7 @@ Otherwise
       <tr>
         <td>{s<sub>0</sub>}</td>
         <td>a</td>
-        <td>Transition to {s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>} (since s<sub>2</sub> and s<sub>4</sub> are reachable via &epsilon;-transition)</td>
+        <td>Transition to {s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>} (since s<sub>2</sub> and s<sub>4</sub> are reachable via &epsilon; transition)</td>
       </tr>
       <tr>
         <td>{s<sub>1</sub>, s<sub>2</sub>, s<sub>4</sub>}</td>
