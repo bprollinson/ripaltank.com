@@ -2,3 +2,7 @@ body {
   background-color: #ddddff;
   font-family: Palatino,Palatino Linotype,Palatino LT STD,Book Antiqua,Georgia,serif;
 }
+.section {
+  background-color: #eeeeff;
+  border-radius: 4px;
+}

@@ -15,54 +15,62 @@
       </ul>
     </nav>
     <h2>What is a language?</h2>
-    <p><b>Alphabet</b><p>
-    <p>To formally define a language, we must first define an alphabet of symbols over which the language can exist.</p>
-    <p><i>Definition</i></p>
-    <p>Let &Sigma; represent the alphabet of symbols from which a language can be constructed.</p>
-    <p><i>Examples</i></p>
-    <p>&Sigma; = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}</p>
-    <p>This is the alphabet of numerical digits that could be used to construct integers.</p>
-    <p>&Sigma; = {a, b}</p>
-    <p>This is the alphabet containing the characters a and b.</p>
-    <p>&Sigma; = {big, walrus}</p>
-    <p>This is the alphabet containing the words big and walrus.</p>
-    <p><b>Strings</b></p>
-    <p>To examine a language, we must first consider the set of all strings that can be produced from an alphabet. To formally define a string, we must first define a special string, as follows:</p>
-    <p><i>Definition</i></p>
-    <p>Let &epsilon; represent the empty string, which, for any alphabet &Sigma;, contains no symbols.</p>
-    <p>Now, a string s can be constructed from the alphabet &Sigma; by starting with the empty string &epsilon; and appending symbols from &Sigma;. We will examine S as the set of all possible values of s.</p>
-    <p><i>Examples</i></p>
-    <p>&Sigma; = {a, b}</p>
-    <p>S = {&epsilon;, a, b, aa, ab, ba, bb, aaa, ...}</p>
-    <p>This is the set of strings that can be constructed from the symbols a and b.</p>
-    <p>&Sigma; = {0, 1, 2}</p>
-    <p>S = {&epsilon;, 0, 1, 2, 00, 01, 02, 10, 11, 12, 20, 21, 22, 000, 001, ...}</p>
-    <p>This is the set of "ternary" numbers, including the empty string.</p>
-    <p><i>Definition</i></p>
-    <p>S = &Sigma;<sup>*</sup> = {&epsilon;, &Sigma;, &Sigma;&Sigma;, ...}</p>
-    <p>This operation is called the Kleene closure.</p>
-    <p>Here, note that &Sigma; represents the set of all possible symbols and is not one fixed symbol.</p>
-    <p><b>Language</b></p>
-    <p>We've defined the set of possible strings in a language, but which will we consider valid as part of a language definition?</p>
-    <p>Although it's possible that a language includes all possible strings over its its alphabet, this is usually not the case.</p>
-    <p><i>Examples</i></p>
-    <p>&Sigma; = {0, 1, 2}</p>
-    <p>S = {&epsilon;, 0, 1, 2, 00, 01, 02, 10, 11, 12, 20, 21, 22, 000, 001, ...}</p>
-    <p>Let's say we want to allow all ternary strings, but we want a unique numerical representation for each value. Hence, we want to exclude strings with leading zeros before a nonzero digit as we ll as the empty string.</p>
-    <p>Let's use L to represent our language.</p>
-    <p>L = {&epsilon;, 0, 1, 2, 10, 11, 12, 20, 21, 22, ...}</p>
-    <p>Here, 10 &isin; L but 010 &notin; L.</p>
-    <p>&Sigma; = {a, ripe, banana}</p>
-    <p>S = {a, ripe, banana, a a, a ripe, a banana, ripe a, ...}</p>
-    <p>Let's say we want to allow only valid English phrases from this alphabet.</p>
-    <p>L = {a ripe banana}</p>
-    <p>These languages are a strict subset of &Sigma;<sup>*</sup> because not all strings are included.</p>
-    <p><i>Definition</i></p>
-    <p>Let L represent a language.</p>
-    <p>L &isin; &Sigma;<sup>*</sup></p>
-    <p><b>Summary</b></p>
-    <p>A language can be defined as a subset of strings defined over an alphabet.</p>
-    <p>Although a language can allow all such strings, in most practical examples, the language is a strict suset of such strings.</p>
+    <div class="section">
+      <h3>Alphabet</h3>
+      <p>To formally define a language, we must first define an alphabet of symbols over which the language can exist.</p>
+      <p><i>Definition</i></p>
+      <p>Let &Sigma; represent the alphabet of symbols from which a language can be constructed.</p>
+      <p><i>Examples</i></p>
+      <p>&Sigma; = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}</p>
+      <p>This is the alphabet of numerical digits that could be used to construct integers.</p>
+      <p>&Sigma; = {a, b}</p>
+      <p>This is the alphabet containing the characters a and b.</p>
+      <p>&Sigma; = {big, walrus}</p>
+      <p>This is the alphabet containing the words big and walrus.</p>
+    </div>
+    <div class="section">
+      <h3>Strings</h3>
+      <p>To examine a language, we must first consider the set of all strings that can be produced from an alphabet. To formally define a string, we must first define a special string, as follows:</p>
+      <p><i>Definition</i></p>
+      <p>Let &epsilon; represent the empty string, which, for any alphabet &Sigma;, contains no symbols.</p>
+      <p>Now, a string s can be constructed from the alphabet &Sigma; by starting with the empty string &epsilon; and appending symbols from &Sigma;. We will examine S as the set of all possible values of s.</p>
+      <p><i>Examples</i></p>
+      <p>&Sigma; = {a, b}</p>
+      <p>S = {&epsilon;, a, b, aa, ab, ba, bb, aaa, ...}</p>
+      <p>This is the set of strings that can be constructed from the symbols a and b.</p>
+      <p>&Sigma; = {0, 1, 2}</p>
+      <p>S = {&epsilon;, 0, 1, 2, 00, 01, 02, 10, 11, 12, 20, 21, 22, 000, 001, ...}</p>
+      <p>This is the set of "ternary" numbers, including the empty string.</p>
+      <p><i>Definition</i></p>
+      <p>S = &Sigma;<sup>*</sup> = {&epsilon;, &Sigma;, &Sigma;&Sigma;, ...}</p>
+      <p>This operation is called the Kleene closure.</p>
+      <p>Here, note that &Sigma; represents the set of all possible symbols and is not one fixed symbol.</p>
+    </div>
+    <div class="section">
+      <h3>Language</h3>
+      <p>We've defined the set of possible strings in a language, but which will we consider valid as part of a language definition?</p>
+      <p>Although it's possible that a language includes all possible strings over its its alphabet, this is usually not the case.</p>
+      <p><i>Examples</i></p>
+      <p>&Sigma; = {0, 1, 2}</p>
+      <p>S = {&epsilon;, 0, 1, 2, 00, 01, 02, 10, 11, 12, 20, 21, 22, 000, 001, ...}</p>
+      <p>Let's say we want to allow all ternary strings, but we want a unique numerical representation for each value. Hence, we want to exclude strings with leading zeros before a nonzero digit as we ll as the empty string.</p>
+      <p>Let's use L to represent our language.</p>
+      <p>L = {&epsilon;, 0, 1, 2, 10, 11, 12, 20, 21, 22, ...}</p>
+      <p>Here, 10 &isin; L but 010 &notin; L.</p>
+      <p>&Sigma; = {a, ripe, banana}</p>
+      <p>S = {a, ripe, banana, a a, a ripe, a banana, ripe a, ...}</p>
+      <p>Let's say we want to allow only valid English phrases from this alphabet.</p>
+      <p>L = {a ripe banana}</p>
+      <p>These languages are a strict subset of &Sigma;<sup>*</sup> because not all strings are included.</p>
+      <p><i>Definition</i></p>
+      <p>Let L represent a language.</p>
+      <p>L &isin; &Sigma;<sup>*</sup></p>
+    </div>
+    <div class="section">
+      <p><b>Summary</b></p>
+      <p>A language can be defined as a subset of strings defined over an alphabet.</p>
+      <p>Although a language can allow all such strings, in most practical examples, the language is a strict suset of such strings.</p>
+    </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
