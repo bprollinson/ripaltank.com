@@ -5,4 +5,7 @@ body {
 .section {
   background-color: #eeeeff;
   border-radius: 4px;
+  padding: 4px;
+  margin-top: 8px;
+  margin-bottom: 8px;
 }
