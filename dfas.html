@@ -15,40 +15,47 @@
       </ul>
     </nav>
     <h2>Deterministic finite automata</h2>
-    <p><b>Overview</b></p>
-    <p>A deterministic finite automaton (DFA for short) is a tool that can be used to recognize strings as part of a regular language.</p>
-    <p><b>Example of a DFA</b></p>
-    <p>The following is an example of a DFA:</p>
-    <img src="assets/exampledfa.png" alt="Example DFA. This DFA contains 4 states - s0, s1, s2 and s3. s0 transitions to s1 on input symbol a. s1 transitions to s2 on input symbol b and s3 on input symbol c. s3 transitions to itself on input symbol d."/>
-    <p>It contains 4 states (the circles) and 4 state transitions (the arrows between states).</p>
-    <p>State s<sub>0</sub> is the initial state (indicated by the arrow coming from no other state), while s<sub>2</sub> and s<sub>3</sub> are accepting states (indicated by the double circle).</p>
-    <p>This DFA accepts the language represented by the following regular expression:</p>
-    <p>R = ab &cup; acd<sup>*</sup></p>
-    <p><b>Anatomy</b></p>
-    <p>In general, a DFA consists of:</p>
-    <ol>
-      <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub></li>
-      <li>
-        <ol>
-          <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
-          <li>Any number of states can be long to the set of final states, S<sub>f</sub></li>
-          <li>
-            <ol>
-              <li>S<sub>f</sub> &sube; S</li>
-            </ol>
-          </li>
-        </ol>
-      </li>
-      <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
-    </ol>
-    <p>In DFAs, we have a few inherent structural restrictions, as follows:</p>
-    <ol>
-      <li>T = T[s<sub>i</sub>, t] = s<sub>f</sub>, a singular state</li>
-      <li>t &isin; Z, a single symbol in our alphabet</li>
-    </ol>
-    <p><b>The DFA parsing algorithm</b></p>
-    <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by DFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
-    <pre>
+    <div class="section">
+      <h3>Overview</h3>
+      <p>A deterministic finite automaton (DFA for short) is a tool that can be used to recognize strings as part of a regular language.</p>
+    </div>
+    <div class="section">
+      <h3>Example of a DFA</h3>
+      <p>The following is an example of a DFA:</p>
+      <img src="assets/exampledfa.png" alt="Example DFA. This DFA contains 4 states - s0, s1, s2 and s3. s0 transitions to s1 on input symbol a. s1 transitions to s2 on input symbol b and s3 on input symbol c. s3 transitions to itself on input symbol d."/>
+      <p>It contains 4 states (the circles) and 4 state transitions (the arrows between states).</p>
+      <p>State s<sub>0</sub> is the initial state (indicated by the arrow coming from no other state), while s<sub>2</sub> and s<sub>3</sub> are accepting states (indicated by the double circle).</p>
+      <p>This DFA accepts the language represented by the following regular expression:</p>
+      <p>R = ab &cup; acd<sup>*</sup></p>
+    </div>
+    <div class="section">
+      <h3>Anatomy</h3>
+      <p>In general, a DFA consists of:</p>
+      <ol>
+        <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub></li>
+        <li>
+          <ol>
+            <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
+            <li>Any number of states can be long to the set of final states, S<sub>f</sub></li>
+            <li>
+              <ol>
+                <li>S<sub>f</sub> &sube; S</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
+      </ol>
+      <p>In DFAs, we have a few inherent structural restrictions, as follows:</p>
+      <ol>
+        <li>T = T[s<sub>i</sub>, t] = s<sub>f</sub>, a singular state</li>
+        <li>t &isin; Z, a single symbol in our alphabet</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>The DFA parsing algorithm</h3>
+      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by DFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
+      <pre>
 Set s<sub>current</sub> = s<sub>i</sub>
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>
@@ -60,69 +67,72 @@ If s<sub>current</sub> is accepting
     Accept
 Otherwise
     Reject
-    </pre>
-    <p>Informally, we begin with our initial state, and transition to subsequent states for each symbol in the input.</p>
-    <p>We reject the language if we end on a non-accepting state at the end of our input or attempt an invalid transition. We accept if an accepting state is reached at end of input.</p>
-    <p><b>Parsing examples</b></p>
-    <p>For s = acd</p>
-    <table>
-      <tr>
-        <th>State</th>
-        <th>Input symbol</th>
-        <th>Action</th>
-      </tr>
-      <tr>
-        <td>s<sub>0</sub></td>
-        <td>a</td>
-        <td>Transition to s<sub>1</sub></td>
-      </tr>
-      <tr>
-        <td>s<sub>1</sub></td>
-        <td>c</td>
-        <td>Transition to s<sub>3</sub></td>
-      </tr>
-      <tr>
-        <td>s<sub>3</sub></td>
-        <td>d</td>
-        <td>Transition to s<sub>3</sub></td>
-      </tr>
-      <tr>
-        <td>s<sub>3</sub></td>
-        <td>$ (end of string)</td>
-        <td>Accept (since s<sub>3</sub> is an accepting state)</td>
-      </tr>
-    </table>
-    <p>For s = a</p>
-    <table>
-      <tr>
-        <th>State</th>
-        <th>Input symbol</th>
-        <th>Action</th>
-      </tr>
-      <tr>
-        <td>s<sub>0</sub></td>
-        <td>a</td>
-        <td>Transition to s<sub>1</sub></td>
-      </tr>
-      <tr>
-        <td>s<sub>1</sub></td>
-        <td>$ (end of string)</td>
-        <td>Reject (since s<sub>1</sub> is not an accepting state)</td>
-      </tr>
-    </table>
-    <p>For s = b</p>
-    <table>
-      <tr>
-        <th>State</th>
-        <th>Input symbol</th>
-        <th>Action</th>
-      </tr>
-      <tr>
-        <td>s<sub>0</sub></td>
-        <td>b</td>
-        <td>Reject (since no transition exists from s<sub>0</sub> for symbol b)</td>
-      </tr>
-    </table>
+      </pre>
+      <p>Informally, we begin with our initial state, and transition to subsequent states for each symbol in the input.</p>
+      <p>We reject the language if we end on a non-accepting state at the end of our input or attempt an invalid transition. We accept if an accepting state is reached at end of input.</p>
+    </div>
+    <div class="section">
+      <h3>Parsing examples</h3>
+      <p>For s = acd</p>
+      <table>
+        <tr>
+          <th>State</th>
+          <th>Input symbol</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>s<sub>0</sub></td>
+          <td>a</td>
+          <td>Transition to s<sub>1</sub></td>
+        </tr>
+        <tr>
+          <td>s<sub>1</sub></td>
+          <td>c</td>
+          <td>Transition to s<sub>3</sub></td>
+        </tr>
+        <tr>
+          <td>s<sub>3</sub></td>
+          <td>d</td>
+          <td>Transition to s<sub>3</sub></td>
+        </tr>
+        <tr>
+          <td>s<sub>3</sub></td>
+          <td>$ (end of string)</td>
+          <td>Accept (since s<sub>3</sub> is an accepting state)</td>
+        </tr>
+      </table>
+      <p>For s = a</p>
+      <table>
+        <tr>
+          <th>State</th>
+          <th>Input symbol</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>s<sub>0</sub></td>
+          <td>a</td>
+          <td>Transition to s<sub>1</sub></td>
+        </tr>
+        <tr>
+          <td>s<sub>1</sub></td>
+          <td>$ (end of string)</td>
+          <td>Reject (since s<sub>1</sub> is not an accepting state)</td>
+        </tr>
+      </table>
+      <p>For s = b</p>
+      <table>
+        <tr>
+          <th>State</th>
+          <th>Input symbol</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>s<sub>0</sub></td>
+          <td>b</td>
+          <td>Reject (since no transition exists from s<sub>0</sub> for symbol b)</td>
+        </tr>
+      </table>
+    </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>

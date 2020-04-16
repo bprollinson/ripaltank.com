@@ -15,46 +15,53 @@
       </ul>
     </nav>
     <h2>Nondeterministic finite automata</h2>
-    <p><b>Overview</b></p>
-    <p>A nondeterministic finite automaton (NFA for short) is another tool that can be used to recognize strings as part of a regular language.</p>
-    <p><b>Example of an NFA</b></p>
-    <p>The following is an example of an NFA:</p>
-    <img src="assets/examplenfa.png" alt="Example NFA. This NFA container 5 states - s0, s1, s2, s3 and s4. s0 transitions to s1 on input symbol a. s1 transitions to both s2 and s4 on input symbol b. s3 transition to s3 on input symbol c."/>
-    <p>It contains 5 states and 5 state transitions.</p>
-    <p>State s<sub>0</sub> is the initial state, while s<sub>3</sub> and s<sub>4</sub> are accepting states.</p>
-    <p>State s<sub>1</sub> illustrates a construction that is not allowed in a DFA but is allowed in an NFA: a state with multiple transitions for the same symbol.</p>
-    <p>This NFA accepts the language represented by the following regular expression:</p>
-    <p>R = abc &cup; abd<sup>*</sup></p>
-<p><b>Anatomy</b></p>
-    <p>In general, an NFA consists of:</p>
-    <ol>
-      <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub></li>
-      <li>
-        <ol>
-          <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
-          <li>Any number of states can be long to the set of final states, S<sub>f</sub></li>
-          <li>
-            <ol>
-              <li>S<sub>f</sub> &sube; S</li>
-            </ol>
-          </li>
-        </ol>
-      </li>
-      <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
-    </ol>
-    <p>In NFAs, we have a few inherent structural restrictions, as follows:</p>
-    <ol>
-      <li>T = T[s<sub>i</sub>, t] = {s<sub>f<sub>1</sub></sub>, s<sub>f<sub>2</sub></sub>, ..., s<sub>f<sub>n</sub></sub>}, a set of states</li>
-      <li>
-        <ol>
-          <li>This differs from DFAs which only allow a single state per combination of s<sub>s</sub> and t</li>
-        </ol>
-      </li>
-      <li>t &isin; Z, a single symbol in our alphabet</li>
-    </ol>
-    <p><b>The NFA parsing algorithm</b></p>
-    <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by NFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
-    <pre>
+    <div class="section">
+      <h3>Overview</h3>
+      <p>A nondeterministic finite automaton (NFA for short) is another tool that can be used to recognize strings as part of a regular language.</p>
+    </div>
+    <div class="section">
+    <h3>Example of an NFA</h3>
+      <p>The following is an example of an NFA:</p>
+      <img src="assets/examplenfa.png" alt="Example NFA. This NFA container 5 states - s0, s1, s2, s3 and s4. s0 transitions to s1 on input symbol a. s1 transitions to both s2 and s4 on input symbol b. s3 transition to s3 on input symbol c."/>
+      <p>It contains 5 states and 5 state transitions.</p>
+      <p>State s<sub>0</sub> is the initial state, while s<sub>3</sub> and s<sub>4</sub> are accepting states.</p>
+      <p>State s<sub>1</sub> illustrates a construction that is not allowed in a DFA but is allowed in an NFA: a state with multiple transitions for the same symbol.</p>
+      <p>This NFA accepts the language represented by the following regular expression:</p>
+      <p>R = abc &cup; abd<sup>*</sup></p>
+    </div>
+    <div class="section">
+      <h3>Anatomy</h3>
+      <p>In general, an NFA consists of:</p>
+      <ol>
+        <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub></li>
+        <li>
+          <ol>
+            <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
+            <li>Any number of states can be long to the set of final states, S<sub>f</sub></li>
+            <li>
+              <ol>
+                <li>S<sub>f</sub> &sube; S</li>
+              </ol>
+            </li>
+          </ol>
+        </li>
+        <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
+      </ol>
+      <p>In NFAs, we have a few inherent structural restrictions, as follows:</p>
+      <ol>
+        <li>T = T[s<sub>i</sub>, t] = {s<sub>f<sub>1</sub></sub>, s<sub>f<sub>2</sub></sub>, ..., s<sub>f<sub>n</sub></sub>}, a set of states</li>
+        <li>
+          <ol>
+            <li>This differs from DFAs which only allow a single state per combination of s<sub>s</sub> and t</li>
+          </ol>
+        </li>
+        <li>t &isin; Z, a single symbol in our alphabet</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>The NFA parsing algorithm</h3>
+      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by NFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
+      <pre>
 Set S<sub>current</sub> = {s<sub>i</sub>}
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>
@@ -71,105 +78,110 @@ If S<sub>current</sub> contains an accepting state
     Accept
 Otherwise
     Reject
-    </pre>
-    <p>Informally, we are running our NFA algorithm but instead of tracking the next definitive state, we track all possible states that could be reached through the next transition.</p>
-    <p>We reject the language if we end with a set of states at the end of our input that does not contain an accepting state or run out of possible transitions. Note that it's sufficient to find just one successful path through the NFA for it to accept an input string.</p>
-    <p><b>Parsing examples</b></p>
-    <p>For s = abc</p>
-    <table>
-      <tr>
-        <th>States</th>
-        <th>Input symbol</th>
-        <th>Action</th>
-      </tr>
-      <tr>
-        <td>{s<sub>0</sub>}</td>
-        <td>a</td>
-        <td>Transition to {s<sub>1</sub>}</td>
-      </tr>
-      <tr>
-        <td>{s<sub>1</sub>}</td>
-        <td>b</td>
-        <td>Transition to {s<sub>2</sub>, s<sub>4</sub>} (since s<sub>1</sub> has two transition for symbol b)</td>
-      </tr>
-      <tr>
-        <td>{s<sub>2</sub>, s<sub>4</sub>}</td>
-        <td>c</td>
-        <td>Transition to {s<sub>3</sub>} (since s<sub>2</sub> has a transition to s<sub>3</sub> for symbol c, while s<sub>4</sub> has valid transition)</td>
-      </tr>
-      <tr>
-        <td>{s<sub>3</sub>}</td>
-        <td>$ (end of string)</td>
-        <td>Accept (since S<sub>current</sub> contains s<sub>3</sub> which is an accepting state)</td>
-      </tr>
-    </table>
-    <p>For s = ab</p>
-    <table>
-      <tr>
-        <th>States</th>
-        <th>Input symbol</th>
-        <th>Action</th>
-      </tr>
-      <tr>
-        <td>{s<sub>0</sub>}</td>
-        <td>a</td>
-        <td>Transition to {s<sub>1</sub>}</td>
-      </tr>
-      <tr>
-        <td>{s<sub>1</sub>}</td>
-        <td>b</td>
-        <td>Transition to {s<sub>2</sub>, s<sub>4</sub>} (since s<sub>1</sub> has two transition for symbol b)</td>
-      </tr>
-      <tr>
-        <td>{s<sub>2</sub>, s<sub>4</sub>}</td>
-        <td>$ (end of string)</td>
-        <td>Accept (since S<sub>current</sub> contain s<sub>4</sub> which is an accepting state)</td>
-      </tr>
-    </table>
-    <p>For s = abd</p>
-    <table>
-      <tr>
-        <th>States</th>
-        <th>Input symbol</th>
-        <th>Action</th>
-      </tr>
-      <tr>
-        <td>{s<sub>0</sub>}</td>
-        <td>a</td>
-        <td>Transition to {s<sub>1</sub>}</td>
-      </tr>
-      <tr>
-        <td>{s<sub>1</sub>}</td>
-        <td>b</td>
-        <td>Transition to {s<sub>2</sub>, s<sub>4</sub>} (since s<sub>1</sub> has two transition for symbol b)</td>
-      </tr>
-      <tr>
-        <td>{s<sub>2</sub>, s<sub>4</sub>}</td>
-        <td>d</td>
-        <td>Reject (since no transition exists from s<sub>2</sub> or s<sub>4</sub> for symbol d)</td>
-      </tr>
-    </table>
-    <p>For s = a</p>
-    <table>
-      <tr>
-        <th>States</th>
-        <th>Input symbol</th>
-        <th>Action</th>
-      </tr>
-      <tr>
-        <td>{s<sub>0</sub>}</td>
-        <td>a</td>
-        <td>Transition to {s<sub>1</sub>}</td>
-      </tr>
-      <tr>
-        <td>{s<sub>1</sub>}</td>
-        <td>$ (end of string)</td>
-        <td>Reject (since S<sub>current</sub> does not contain an accepting state)</td>
-      </tr>
-    </table>
-    <p><b>Reflection</b></p>
-    <p>An NFA is a less structurally restrictive iteration of a DFA.</p>
-    <p>Despite this, we will later illustrate that the set of languages that can be recognized by these tools are equivalent.</p>
+      </pre>
+      <p>Informally, we are running our NFA algorithm but instead of tracking the next definitive state, we track all possible states that could be reached through the next transition.</p>
+      <p>We reject the language if we end with a set of states at the end of our input that does not contain an accepting state or run out of possible transitions. Note that it's sufficient to find just one successful path through the NFA for it to accept an input string.</p>
+    </div>
+    <div class="section">
+      <h3>Parsing examples</h3>
+      <p>For s = abc</p>
+      <table>
+        <tr>
+          <th>States</th>
+          <th>Input symbol</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>{s<sub>0</sub>}</td>
+          <td>a</td>
+          <td>Transition to {s<sub>1</sub>}</td>
+        </tr>
+        <tr>
+          <td>{s<sub>1</sub>}</td>
+          <td>b</td>
+          <td>Transition to {s<sub>2</sub>, s<sub>4</sub>} (since s<sub>1</sub> has two transition for symbol b)</td>
+        </tr>
+        <tr>
+          <td>{s<sub>2</sub>, s<sub>4</sub>}</td>
+          <td>c</td>
+          <td>Transition to {s<sub>3</sub>} (since s<sub>2</sub> has a transition to s<sub>3</sub> for symbol c, while s<sub>4</sub> has valid transition)</td>
+        </tr>
+        <tr>
+          <td>{s<sub>3</sub>}</td>
+          <td>$ (end of string)</td>
+          <td>Accept (since S<sub>current</sub> contains s<sub>3</sub> which is an accepting state)</td>
+        </tr>
+      </table>
+      <p>For s = ab</p>
+      <table>
+        <tr>
+          <th>States</th>
+          <th>Input symbol</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>{s<sub>0</sub>}</td>
+          <td>a</td>
+          <td>Transition to {s<sub>1</sub>}</td>
+        </tr>
+        <tr>
+          <td>{s<sub>1</sub>}</td>
+          <td>b</td>
+          <td>Transition to {s<sub>2</sub>, s<sub>4</sub>} (since s<sub>1</sub> has two transition for symbol b)</td>
+        </tr>
+        <tr>
+          <td>{s<sub>2</sub>, s<sub>4</sub>}</td>
+          <td>$ (end of string)</td>
+          <td>Accept (since S<sub>current</sub> contain s<sub>4</sub> which is an accepting state)</td>
+        </tr>
+      </table>
+      <p>For s = abd</p>
+      <table>
+        <tr>
+          <th>States</th>
+          <th>Input symbol</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>{s<sub>0</sub>}</td>
+          <td>a</td>
+          <td>Transition to {s<sub>1</sub>}</td>
+        </tr>
+        <tr>
+          <td>{s<sub>1</sub>}</td>
+          <td>b</td>
+          <td>Transition to {s<sub>2</sub>, s<sub>4</sub>} (since s<sub>1</sub> has two transition for symbol   b)</td>
+        </tr>
+        <tr>
+          <td>{s<sub>2</sub>, s<sub>4</sub>}</td>
+          <td>d</td>
+          <td>Reject (since no transition exists from s<sub>2</sub> or s<sub>4</sub> for symbol d)</td>
+        </tr>
+      </table>
+      <p>For s = a</p>
+      <table>
+        <tr>
+          <th>States</th>
+          <th>Input symbol</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>{s<sub>0</sub>}</td>
+          <td>a</td>
+          <td>Transition to {s<sub>1</sub>}</td>
+        </tr>
+        <tr>
+          <td>{s<sub>1</sub>}</td>
+          <td>$ (end of string)</td>
+          <td>Reject (since S<sub>current</sub> does not contain an accepting state)</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Reflection</h3>
+      <p>An NFA is a less structurally restrictive iteration of a DFA.</p>
+      <p>Despite this, we will later illustrate that the set of languages that can be recognized by these tools are equivalent.</p>
+    </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>

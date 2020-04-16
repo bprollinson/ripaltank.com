@@ -15,45 +15,53 @@
       </ul>
     </nav>
     <h2>Complex regular expressions</h2>
-    <p><b>Background</b></p>
-    <p>You've now seen the funamental operators used in building regular expressions. Now let's look at the more complex types of regular expressions that can be built up using those operators.</p>
-    <p><b>Using an operator multiple times</b></p>
-    <p>Operators can be used multiple times in the same expression.</p>
-    <p><i>Examples</i></p>
-    <p>&Sigma; = {a, b, c, d, e}</p>
-    <p>R = a &cup; b &cup; c &cup; d &cup; e</p>
-    <p>This regular expression recognizes the strings a, b, c, d and e.</p>
-    <p>&Sigma; = {a, b, c, d, e}</p>
-    <p>R = abcde</p>
-    <p>This regular expression recognizes the string abcde.</p>
-    <p><i>Note</i></p>
-    <p>While this is also true for the Kleene closure operator, I'll omit an example because, for any regular expression R, R<sup>*<sup>*</sup></sup> = R<sup>*</sup>.
-    <p><b>Using multiple operators</b></p>
-    <p>More complex regular expressions can be built up using multiple operators.</p>
-    <p><i>Examples</i></p>
-    <p>&Sigma; = {a, b, c}</p>
-    <p>R = ab &cup; c<sup>*</sup></p>
-    <p>This regular expression recognizes the strings ab, &epsilon;, c, cc, ccc, ...</p>
-    <p>&Sigma; = {a, b, c}</p>
-    <p>R = a(b &cup; c<sup>*</sup>)</p>
-    <p>This regular expresion recognizes the strings ab, a, ac, acc, accc, ...</p>
-    <p><b>Going deep with parentheses</b></p>
-    <p>Since there is no maximum depth to expressions in parentheses, any order of operations can be applied deep down into regular expressions.</p>
-    <p>Example</p>
-    <p>&Sigma; = {a, b, c, d, e, f}</p>
-    <p>R = a(b &cup; c(d(e &cup; f)<sup>*</sup>)<sup>*</sup>)</p>
-    <p>Some examples of strings recognized by this regular expression:</p>
-    <ol>
-      <li>ab</li>
-      <li>ac</li>
-      <li>acd</li>
-      <li>acde</li>
-      <li>acdf</li>
-      <li>acdee</li>
-      <li>acdef</li>
-      <li>acdeee</li>
-      <li>acdedf</li>
-    </ol>
+    <div class="section">
+      <h3>Background</h3>
+      <p>You've now seen the funamental operators used in building regular expressions. Now let's look at the more complex types of regular expressions that can be built up using those operators.</p>
+    </div>
+    <div class="section">
+      <h3>Using an operator multiple times</h3>
+      <p>Operators can be used multiple times in the same expression.</p>
+      <p><i>Examples</i></p>
+      <p>&Sigma; = {a, b, c, d, e}</p>
+      <p>R = a &cup; b &cup; c &cup; d &cup; e</p>
+      <p>This regular expression recognizes the strings a, b, c, d and e.</p>
+      <p>&Sigma; = {a, b, c, d, e}</p>
+      <p>R = abcde</p>
+      <p>This regular expression recognizes the string abcde.</p>
+      <p><i>Note</i></p>
+      <p>While this is also true for the Kleene closure operator, I'll omit an example because, for any regular expression R, R<sup>*<sup>*</sup></sup> = R<sup>*</sup>.
+    </div>
+    <div class="section">
+      <h3>Using multiple operators</h3>
+      <p>More complex regular expressions can be built up using multiple operators.</p>
+      <p><i>Examples</i></p>
+      <p>&Sigma; = {a, b, c}</p>
+      <p>R = ab &cup; c<sup>*</sup></p>
+      <p>This regular expression recognizes the strings ab, &epsilon;, c, cc, ccc, ...</p>
+      <p>&Sigma; = {a, b, c}</p>
+      <p>R = a(b &cup; c<sup>*</sup>)</p>
+      <p>This regular expresion recognizes the strings ab, a, ac, acc, accc, ...</p>
+    </div>
+    <div class="section">
+      <h3>Going deep with parentheses</h3>
+      <p>Since there is no maximum depth to expressions in parentheses, any order of operations can be applied deep down into regular expressions.</p>
+      <p>Example</p>
+      <p>&Sigma; = {a, b, c, d, e, f}</p>
+      <p>R = a(b &cup; c(d(e &cup; f)<sup>*</sup>)<sup>*</sup>)</p>
+      <p>Some examples of strings recognized by this regular expression:</p>
+      <ol>
+        <li>ab</li>
+        <li>ac</li>
+        <li>acd</li>
+        <li>acde</li>
+        <li>acdf</li>
+        <li>acdee</li>
+        <li>acdef</li>
+        <li>acdeee</li>
+        <li>acdedf</li>
+      </ol>
+    </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>

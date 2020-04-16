@@ -15,48 +15,56 @@
       </ul>
     </nav>
     <h2>Relation to finite languages</h2>
-    <p><b>Background</b></p>
-    <p>We now have a good understanding of finite languages and the basic setup of regular languages via regular expressions.</p>
-    <p>But how do they relate to eachother?</p>
-    <p><b>All finite languages are regular</b></p>
-    <p>Let's say we have a finite language L with the following specification:</p>
-    <p>L = {s<sub>1</sub>, s<sub>2</sub>, ..., s<sub>n</sub>}</p>
-    <p>We can construct a regular expression for this language as follows:</p>
-    <p>R = s<sub>1</sub> &cup; s<sub>2</sub> &cup; ... &cup; s<sub>n</sub></p>
-    <p>This regular expression matches all of the strings in L.</p>
-    <p><b>Special case: The empty language</b></p>
-    <p>In our formulation of regular expressions, we did not explicitly include a representation of the empty language. We should include that here, since that is a valid finite language. We can represent it with a special symbol as follows:</p>
-    <p>R = &oslash;</p>
-    <p>This regular expression never recognizes any string and allows us to reprsent the empty set of strings from the following finite language:</p>
-    <p>L = {}</p>
-    <p><b>Finite-ness of a regular expression</b></p>
-    <p>Any regular expression that does not contain the Kleene closure operator always represents a finite language.</p>
-    <p>The concatenation and union operators, when applied to a finite set of symbols, always results in a finite set of strings. Furthermore, the process of enumerating the strings in the language is fairly straightforward.</p>
-    <p><i>Example</i></p>
-    <p>&Sigma; = {a, b, c, d, e}</p>
-    <pre>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We now have a good understanding of finite languages and the basic setup of regular languages via regular expressions.</p>
+      <p>But how do they relate to eachother?</p>
+    </div>
+    <div class="section">
+      <h3>All finite languages are regular</h3>
+      <p>Let's say we have a finite language L with the following specification:</p>
+      <p>L = {s<sub>1</sub>, s<sub>2</sub>, ..., s<sub>n</sub>}</p>
+      <p>We can construct a regular expression for this language as follows:</p>
+      <p>R = s<sub>1</sub> &cup; s<sub>2</sub> &cup; ... &cup; s<sub>n</sub></p>
+      <p>This regular expression matches all of the strings in L.</p>
+    </div>
+    <div class="section">
+      <h3>Special case: The empty language</h3>
+      <p>In our formulation of regular expressions, we did not explicitly include a representation of the empty language. We should include that here, since that is a valid finite language. We can represent it with a special symbol as follows:</p>
+      <p>R = &oslash;</p>
+      <p>This regular expression never recognizes any string and allows us to reprsent the empty set of strings from the following finite language:</p>
+      <p>L = {}</p>
+    </div>
+    <div class="section">
+    <h3>Finite-ness of a regular expression</h3>
+      <p>Any regular expression that does not contain the Kleene closure operator always represents a finite language.</p>
+      <p>The concatenation and union operators, when applied to a finite set of symbols, always results in a finite set of strings. Furthermore, the process of enumerating the strings in the language is fairly straightforward.</p>
+      <p><i>Example</i></p>
+      <p>&Sigma; = {a, b, c, d, e}</p>
+      <pre>
 R = a(b &cup; c(d &cup; e))
   = a(b &cup; cd &cup; ce)
   = ab &cup; acd &cup; ace
-    </pre>
-    <p>From this, we can determine that L = {ab, acd, ace}.</p>
-    <p>However, the Kleene closure operator is often used to specify infinite languages. Any non-empty inner expression that has the Kleene closure operator applied to it and then optionally concatenated or combined via union with any other expression will result in an infinite language.</p>
-    <p>Practically speaking, any Kleene closure operator on anything other than &epsilon; or (<sup>n</sup>&epsilon;)<sup>n</sup> will result in an expression represeting an infinite language.</p>
-    <p><i>Examples</i></p>
-    <p>&Sigma; = {a, b, c}<p>
-    <p>R = &epsilon;<sup>*</sup>a(b &cup; c)</p>
-    <pre>
+      </pre>
+      <p>From this, we can determine that L = {ab, acd, ace}.</p>
+      <p>However, the Kleene closure operator is often used to specify infinite languages. Any non-empty inner expression that has the Kleene closure operator applied to it and then optionally concatenated or combined via union with any other expression will result in an infinite language.</p>
+      <p>Practically speaking, any Kleene closure operator on anything other than &epsilon; or (<sup>n</sup>&epsilon;)<sup>n</sup> will result in an expression represeting an infinite language.</p>
+      <p><i>Examples</i></p>
+      <p>&Sigma; = {a, b, c}<p>
+      <p>R = &epsilon;<sup>*</sup>a(b &cup; c)</p>
+      <pre>
 R = &epsilon;<sup>n</sup>a(b &cup; c)
   = a(b &cup; c)
   = ab &cup; ac
-    </pre>
-    <p>Clearly, L = {ab, ac}, which is finite.</p>
-    <p>&Sigma; = {a, b}</p>
-    <pre>
+      </pre>
+      <p>Clearly, L = {ab, ac}, which is finite.</p>
+      <p>&Sigma; = {a, b}</p>
+      <pre>
 R = a(b &cup; c<sup>*</sup>)
   = ab &cup; ac<sup>*</sup>
-    </pre>
-    <p>L = {ab, ac, acc, accc, ...}, which is inifite.</p>
+      </pre>
+      <p>L = {ab, ac, acc, accc, ...}, which is inifite.</p>
+    </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
