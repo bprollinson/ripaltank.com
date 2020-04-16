@@ -15,204 +15,220 @@
       </ul>
     </nav>
     <h2>The LL(1) parsing algorithm</h2>
-    <p><b>Background</b></p>
-    <p>We've see what an LL(1) parse table looks like. Now we can solidify a parsing algorithm using the LL(1) parse table.</p>
-    <p><b>Caveat</b></p>
-    <p>For now, we will ignore CFGs with &epsilon; productions to keep this first algorithm construction easier to explain. CFGs with &epsilon; productions will be covered later.</p>
-    <p><b>Setup</b></p>
-    <p>To apply the LL(1) parsing algorithm, we will need the following data structures set up:</p>
-    <p><u>The LL(1) parse table</u></p>
-    <p>As shown in the previous section, we will need a parse table that maps combinations of non-terminal symbols and terminal symbols to a production rule index.</p>
-    <p><u>The input queue</u></p>
-    <p>We place our input string into an input queue, with one input symbol in each slot.</p>
-    <p>The queue looks like:</p>
-    <table border>
-      <tr>
-        <td>(head of queue)</td>
-        <td>&sigma;<sub>1</sub></td>
-        <td>&sigma;<sub>2</sub></td>
-        <td>...</td>
-        <td>&sigma;<sub>2</sub></td>
-      </tr>
-    </table>
-    <p>&sigma;<sub>i</sub> &isin; &Sigma;</p>
-    <p><i>Example</i></p>
-    <p>For s = test:</p>
-    <table border>
-      <tr>
-        <td>(head of queue)</td>
-        <td>t</td>
-        <td>e</td>
-        <td>s</td>
-        <td>t</td>
-      </tr>
-    </table>
-    <p>The operations we need to support on the input queue are:</p>
-    <ol>
-      <li>Initialize a queue with a fixed set of symbols</li>
-      <li>Dequeue - remove and return the element at the head of the queue</li>
-      <li>Check if empty - determine whether the queue is empty</li>
-    </ol>
-    <p><u>The parse stack</u></p>
-    <p>We use a parse stack to store the symbols we are still in the process of handling.</p>
-    <p>The stack looks like:</p>
-    <table border>
-      <tr>
-        <td>sym<sub>1</sub></td>
-        <td>sym<sub>2</sub></td>
-        <td>...</td>
-        <td>sym<sub>n</sub></td>
-        <td>(top of stack)</td>
-      </tr>
-    </table>
-    <p>sym<sub>i</sub> &isin; T &cup; N</p>
-    <p>The operations we need to support on the parse stack are:</p>
-    <ol>
-      <li>Initialize a stack with a fixed set of symbols</li>
-      <li>Push - ad an element to the top of the stack</li>
-      <li>Pop - remove and return the element at the top of the stack</li>
-      <li>Check if empty - determine whether the stack is empty</li>
-    </ol>
-    <p><b>Initialization</b></p>
-    <p>Initialize the input queue with the symbols from the input string.</p>
-    <p>Initialize the parse stack with the grammar's start symbol.</p>
-    <p><b>Input processing</b></p>
-    <p>At each step of our parsing process, we look pop and observe the top symbol from the parse stack.</p>
-    <p>If the top symbol is a terminal:</p>
-    <ol>
-      <li>Dequeue the first terminal in the input queue (t<sub>next</sub>)</li>
-      <li>
-        <ol>
-          <li>If it matches the symbol from the top of the stack, continue parsing</li>
-          <li>If it does not match the symbol from the top of the stack, reject</li>
-        </ol>
-      </li>
-    </ol>
-    <p>If the top symbol is a non-terminal (n<sub>next</sub>):</p>
-    <ol>
-      <li>Look up the parse table entry (a<sub>next</sub>) corresponding to the top symbol from the stack (n<sub>next</sub>) and the first terminal from the input queue (t<sub>next</sub>)</li>
-      <li>
-        <ol>
-          <li>If a<sub>next</sub> = &oslash;, reject</li>
-          <li>Otherwise, look up our next production p<sub>next</sub> = n<sub>next</sub> -> sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub></li>
-          <li>Add sym<sub>next<sub>1</sub></sub>, sym<sub>next<sub>2</sub></sub>, ..., sym<sub>next<sub>n</sub></sub> to the top of the parse stack in reverse order such that sym<sub>next<sub>1</sub></sub> is at the top of the stack</li>
-        </ol>
-      </li>
-    </ol>
-    <p><b>Handing the end of input</b></p>
-    <p>Outside of an input symbol or table lookup mismatch, the following conditions signal and end of processing:</p>
-    <ol>
-      <li>If the input queue and parse stack are both empty at the end of a processing step, accept</li>
-      <li>If the input queue is empty and the parse stack is not empty at the end of a processing step, reject</li>
-      <li>If the input queue is not empty and the parse stack is empty at the end of the processing step, reject</li>
-    </ol>
-    <p><b>Examples</b></p>
-    <p>
-      S &rarr; ab
-    </p>
-    <table border>
-      <tr>
-        <td></td>
-        <td>a</td>
-        <td>b</td>
-      </tr>
-      <tr>
-        <td>S</td>
-        <td>1</td>
-        <td></td>
-      </tr>
-    </table>
-    <p>Parsing input string ab:</p>
-    <table border>
-      <tr>
-        <th>Input queue</th>
-        <th>Parse stack</th>
-        <th>Note</th>
-      </tr>
-      <tr>
-        <td>ab</td>
-        <td>S</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>ab</td>
-        <td>ba</td>
-        <td>Applied rule 1 since S and a correspond to this production in our table</td>
-      </tr>
-      <tr>
-        <td>b</td>
-        <td>b</td>
-        <td>a from input queue mathes a from top of parse stack</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td>b from input queue matches b from top of parse stack</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td></td>
-        <td>Accept, since input queue and parse stack are both empty</td>
-      </tr>
-    </table>
-    <p>Parsing input string a:</p>
-    <table border>
-      <tr>
-        <th>Input queue</th>
-        <th>Parse stack</th>
-        <th>Note</th>
-      </tr>
-      <tr>
-        <td>a</td>
-        <td>S</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>a</td>
-        <td>ba</td>
-        <td>Applied rule 1 since S and a correspond to this production in our table</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>b</td>
-        <td>a from input queue mathes a from top of parse stack</td>
-      </tr>
-      <tr>
-        <td></td>
-        <td>b</td>
-        <td>Reject, since input queue is empty but parse stack is not</td>
-      </tr>
-    </table>
-    <p>Parsing string abc:</p>
-    <table border>
-      <tr>
-        <th>Input queue</th>
-        <th>Parse stack</th>
-        <th>Note</th>
-      </tr>
-      <tr>
-        <td>abc</td>
-        <td>S</td>
-        <td></td>
-      </tr>
-      <tr>
-        <td>abc</td>
-        <td>ba</td>
-        <td>Applied rule 1 since S and a correspond to this production in our table</td>
-      </tr>
-      <tr>
-        <td>bc</td>
-        <td>b</td>
-        <td>a from input queue mathes a from top of parse stack</td>
-      </tr>
-      <tr>
-        <td>c</td>
-        <td></td>
-        <td>Reject, since parse stack is empty but input queue is not</td>
-      </tr>
-    </table>
-    <p><b>Conclusion</b></p>
-    <p>We've now learned the basic rules of LL(1) parsing. Next, we'll be able to look at more complex examples and analyze what it all means.</p>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've see what an LL(1) parse table looks like. Now we can solidify a parsing algorithm using the LL(1) parse table.</p>
+    </div>
+    <div class="section">
+      <h3>Caveat</h3>
+      <p>For now, we will ignore CFGs with &epsilon; productions to keep this first algorithm construction easier to explain. CFGs with &epsilon; productions will be covered later.</p>
+    </div>
+    <div class="section">
+      <h3>Setup</h3>
+      <p>To apply the LL(1) parsing algorithm, we will need the following data structures set up:</p>
+      <p><u>The LL(1) parse table</u></p>
+      <p>As shown in the previous section, we will need a parse table that maps combinations of non-terminal symbols and terminal symbols to a production rule index.</p>
+      <p><u>The input queue</u></p>
+      <p>We place our input string into an input queue, with one input symbol in each slot.</p>
+      <p>The queue looks like:</p>
+      <table border>
+        <tr>
+          <td>(head of queue)</td>
+          <td>&sigma;<sub>1</sub></td>
+          <td>&sigma;<sub>2</sub></td>
+          <td>...</td>
+          <td>&sigma;<sub>2</sub></td>
+        </tr>
+      </table>
+      <p>&sigma;<sub>i</sub> &isin; &Sigma;</p>
+      <p><i>Example</i></p>
+      <p>For s = test:</p>
+      <table border>
+        <tr>
+          <td>(head of queue)</td>
+          <td>t</td>
+          <td>e</td>
+          <td>s</td>
+          <td>t</td>
+        </tr>
+      </table>
+      <p>The operations we need to support on the input queue are:</p>
+      <ol>
+        <li>Initialize a queue with a fixed set of symbols</li>
+        <li>Dequeue - remove and return the element at the head of the queue</li>
+        <li>Check if empty - determine whether the queue is empty</li>
+      </ol>
+      <p><u>The parse stack</u></p>
+      <p>We use a parse stack to store the symbols we are still in the process of handling.</p>
+      <p>The stack looks like:</p>
+      <table border>
+        <tr>
+          <td>sym<sub>1</sub></td>
+          <td>sym<sub>2</sub></td>
+          <td>...</td>
+          <td>sym<sub>n</sub></td>
+          <td>(top of stack)</td>
+        </tr>
+      </table>
+      <p>sym<sub>i</sub> &isin; T &cup; N</p>
+      <p>The operations we need to support on the parse stack are:</p>
+      <ol>
+        <li>Initialize a stack with a fixed set of symbols</li>
+        <li>Push - ad an element to the top of the stack</li>
+        <li>Pop - remove and return the element at the top of the stack</li>
+        <li>Check if empty - determine whether the stack is empty</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>Initialization</h3>
+      <p>Initialize the input queue with the symbols from the input string.</p>
+      <p>Initialize the parse stack with the grammar's start symbol.</p>
+    </div>
+    <div class="section">
+      <h3>Input processing</h3>
+      <p>At each step of our parsing process, we look pop and observe the top symbol from the parse stack.</p>
+      <p>If the top symbol is a terminal:</p>
+      <ol>
+        <li>Dequeue the first terminal in the input queue (t<sub>next</sub>)</li>
+        <li>
+          <ol>
+            <li>If it matches the symbol from the top of the stack, continue parsing</li>
+            <li>If it does not match the symbol from the top of the stack, reject</li>
+          </ol>
+        </li>
+      </ol>
+      <p>If the top symbol is a non-terminal (n<sub>next</sub>):</p>
+      <ol>
+        <li>Look up the parse table entry (a<sub>next</sub>) corresponding to the top symbol from the stack (n<sub>next</sub>) and the first terminal from the input queue (t<sub>next</sub>)</li>
+        <li>
+          <ol>
+            <li>If a<sub>next</sub> = &oslash;, reject</li>
+            <li>Otherwise, look up our next production p<sub>next</sub> = n<sub>next</sub> -> sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub></li>
+            <li>Add sym<sub>next<sub>1</sub></sub>, sym<sub>next<sub>2</sub></sub>, ..., sym<sub>next<sub>n</sub></sub> to the top of the parse stack in reverse order such that sym<sub>next<sub>1</sub></sub> is at the top of the stack</li>
+          </ol>
+        </li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>Handing the end of input</h3>
+      <p>Outside of an input symbol or table lookup mismatch, the following conditions signal and end of processing:</p>
+      <ol>
+        <li>If the input queue and parse stack are both empty at the end of a processing step, accept</li>
+        <li>If the input queue is empty and the parse stack is not empty at the end of a processing step, reject</li>
+        <li>If the input queue is not empty and the parse stack is empty at the end of the processing step, reject</li>
+      </ol>
+    </div>
+    <div class="section">
+    <h3>Examples</h3>
+      <p>
+        S &rarr; ab
+      </p>
+      <table border>
+        <tr>
+          <td></td>
+          <td>a</td>
+          <td>b</td>
+        </tr>
+        <tr>
+          <td>S</td>
+          <td>1</td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Parsing input string ab:</p>
+      <table border>
+        <tr>
+          <th>Input queue</th>
+          <th>Parse stack</th>
+          <th>Note</th>
+        </tr>
+        <tr>
+          <td>ab</td>
+          <td>S</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>ab</td>
+          <td>ba</td>
+          <td>Applied rule 1 since S and a correspond to this production in our table</td>
+        </tr>
+        <tr>
+          <td>b</td>
+          <td>b</td>
+          <td>a from input queue mathes a from top of parse stack</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>b from input queue matches b from top of parse stack</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td>Accept, since input queue and parse stack are both empty</td>
+        </tr>
+      </table>
+      <p>Parsing input string a:</p>
+      <table border>
+        <tr>
+          <th>Input queue</th>
+          <th>Parse stack</th>
+          <th>Note</th>
+        </tr>
+        <tr>
+          <td>a</td>
+          <td>S</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>a</td>
+          <td>ba</td>
+          <td>Applied rule 1 since S and a correspond to this production in our table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>b</td>
+          <td>a from input queue mathes a from top of parse stack</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>b</td>
+          <td>Reject, since input queue is empty but parse stack is not</td>
+        </tr>
+      </table>
+      <p>Parsing string abc:</p>
+      <table border>
+        <tr>
+          <th>Input queue</th>
+          <th>Parse stack</th>
+          <th>Note</th>
+        </tr>
+        <tr>
+          <td>abc</td>
+          <td>S</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>abc</td>
+          <td>ba</td>
+          <td>Applied rule 1 since S and a correspond to this production in our table</td>
+        </tr>
+        <tr>
+          <td>bc</td>
+          <td>b</td>
+          <td>a from input queue mathes a from top of parse stack</td>
+        </tr>
+        <tr>
+          <td>c</td>
+          <td></td>
+          <td>Reject, since parse stack is empty but input queue is not</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've now learned the basic rules of LL(1) parsing. Next, we'll be able to look at more complex examples and analyze what it all means.</p>
+    </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>

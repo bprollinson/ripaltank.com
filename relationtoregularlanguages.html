@@ -15,71 +15,77 @@
       </ul>
     </nav>
     <h2>Relation to regular languages</h2>
-    <p><b>Background</b></p>
-    <p>We now have a good understanding of regular languages and the basic setup of context-free languages via context-free grammars.</p>
-    <p>But how do they relate to eachother?</p>
-    <p><b>All regular languages are context-free</b></p>
-    <p>We can illustrate this by illustrating how we can build up a regular language via its definition through a context-free grammar.</p>
-    <p>To express the language L = &oslash;, we can use the following empty set of grammar rules:</p>
-    <p>&oslash;</p>
-    <p>To express the language L = {&epsilon;}, we can use the following grammar rule:</p>
-    <p>C &rarr; &epsilon;</p>
-    <p>To express the regular language L = {&sigma;}, &sigma; &isin; &Sigma;, we can use the following grammar rule:</p>
-    <p>C &rarr; &sigma;</p>
-    <p>For regular languages R<sub>1</sub> and R<sub>2</sub>, we can construct the regular language L = R<sub>1</sub>R<sub>2</sub> via the following grammar rule:</p>
-    <p>C &rarr; R<sub>1</sub>R<sub>2</sub></p>
-    <p>For regular language R<sub>1</sub> and R<sub>2</sub>, we can construct the regular language L = R<sub>1</sub> &cup; R<sub>2</sub> via the following grammar rules:</p>
-    <p>
-      C &rarr; R<sub>1</sub><br/>
-      C &rarr; R<sub>2</sub>
-    </p>
-    <p>Since we have a choice of whether to product R<sub>1</sub> or R<sub>2</sub> above, we have implemented the union operator.</p>
-    <p>For regular language R<sub>1</sub>, we can construct the regular language L = R<sup>*</sup> via the following grammar rules:</p>
-    <p>
-      C &rarr; R<sub>1</sub>R<br/>
-      C &rarr; &epsilon;
-    </p>
-    <p>Here, we wil use the first production as many times as we have repetitions of R<sub>1</sub>, then terminate our derivation using the second production. Note that the empty string can be recognized by immediately using the second production.</p>
-    <p><b>Regular-ness of a context-free grammar</b></p>
-    <p>In general, determining whether a context-free grammar represents a regular language is a difficult problem to solve.</p>
-    <p>Here, we will look at some examples of context-free grammars that do and do not represent a regular language.</p>
-    <p><i>Examples</i></p>
-    <p>&Sigma; = {a, b, c}</p>
-    <p>
-      S &rarr; ab<br/>
-      S &rarr; cb
-    </p>
-    <p>By inspection, L = {ab, cb}. This language is finite, and hence, regular.</p>
-    <p>&Sigma; = {a, b, c}</p>
-    <p>
-      S &rarr; AB<br/>
-      A &rarr; a<br/>
-      B &rarr; bcB<br/>
-      B &rarr; &epsilon;
-    </p>
-    <p>By inspection, L = {a, abc, abcbc, ...}. It can be expressed by the following regular expression:</p>
-    <p>R = a(bc)<sup>*</sup>.</p>
-    <p>&Sigma; = {a, b}</p>
-    <p>
-      S &rarr; abAab<br/>
-      A &rarr; S<br/>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We now have a good understanding of regular languages and the basic setup of context-free languages via context-free grammars.</p>
+      <p>But how do they relate to eachother?</p>
+    </div>
+    <div class="section">
+      <h3>All regular languages are context-free</h3>
+      <p>We can illustrate this by illustrating how we can build up a regular language via its definition through a context-free grammar.</p>
+      <p>To express the language L = &oslash;, we can use the following empty set of grammar rules:</p>
+      <p>&oslash;</p>
+      <p>To express the language L = {&epsilon;}, we can use the following grammar rule:</p>
+      <p>C &rarr; &epsilon;</p>
+      <p>To express the regular language L = {&sigma;}, &sigma; &isin; &Sigma;, we can use the following grammar rule:</p>
+      <p>C &rarr; &sigma;</p>
+      <p>For regular languages R<sub>1</sub> and R<sub>2</sub>, we can construct the regular language L = R<sub>1</sub>R<sub>2</sub> via the following grammar rule:</p>
+      <p>C &rarr; R<sub>1</sub>R<sub>2</sub></p>
+      <p>For regular language R<sub>1</sub> and R<sub>2</sub>, we can construct the regular language L = R<sub>1</sub> &cup; R<sub>2</sub> via the following grammar rules:</p>
+      <p>
+        C &rarr; R<sub>1</sub><br/>
+        C &rarr; R<sub>2</sub>
+      </p>
+      <p>Since we have a choice of whether to product R<sub>1</sub> or R<sub>2</sub> above, we have implemented the union operator.</p>
+      <p>For regular language R<sub>1</sub>, we can construct the regular language L = R<sup>*</sup> via the following grammar rules:</p>
+      <p>
+        C &rarr; R<sub>1</sub>R<br/>
+        C &rarr; &epsilon;
+      </p>
+      <p>Here, we wil use the first production as many times as we have repetitions of R<sub>1</sub>, then terminate our derivation using the second production. Note that the empty string can be recognized by immediately using the second production.</p>
+    </div>
+    <div class="section">
+      <h3>Regular-ness of a context-free grammar</h3>
+      <p>In general, determining whether a context-free grammar represents a regular language is a difficult problem to solve.</p>
+      <p>Here, we will look at some examples of context-free grammars that do and do not represent a regular language.</p>
+      <p><i>Examples</i></p>
+      <p>&Sigma; = {a, b, c}</p>
+      <p>
+        S &rarr; ab<br/>
+        S &rarr; cb
+      </p>
+      <p>By inspection, L = {ab, cb}. This language is finite, and hence, regular.</p>
+      <p>&Sigma; = {a, b, c}</p>
+      <p>
+        S &rarr; AB<br/>
+        A &rarr; a<br/>
+        B &rarr; bcB<br/>
+        B &rarr; &epsilon;
+      </p>
+      <p>By inspection, L = {a, abc, abcbc, ...}. It can be expressed by the following regular expression:</p>
+      <p>R = a(bc)<sup>*</sup>.</p>
+      <p>&Sigma; = {a, b}</p>
+      <p>
+        S &rarr; abAab<br/>
+        A &rarr; S<br/>
       A &rarr; &sigma;
-    </p>
-    <p>By inspection, L = {abab, abababab, abababababab, ...}. It can be expressed by the following regular expression:</p>
-    <p>R = abab(abab)<sup>*</sup></p>
-    <p>&Sigma; = {a, b}</p>
-    <p>
-      S &rarr; aSb<br/>
-      S &rarr; &sigma;
-    </p>
-    <p>By inspection, L = {&epsilon; ab, aabb, aaabbb, ...}. This language is not regular.</p>
-    <p>&Sigma; = {a, b, c}</p>
-    <p>
-      S &rarr; abCa<br/>
-      C &rarr; c<br/>
-      C &rarr; S
-    </p>
-    <p>By inspection, L = {abca, ababcaa, abababcaaa, ...}. This language is not regular.</p>
+      </p>
+      <p>By inspection, L = {abab, abababab, abababababab, ...}. It can be expressed by the following regular expression:</p>
+      <p>R = abab(abab)<sup>*</sup></p>
+      <p>&Sigma; = {a, b}</p>
+      <p>
+        S &rarr; aSb<br/>
+        S &rarr; &sigma;
+      </p>
+      <p>By inspection, L = {&epsilon; ab, aabb, aaabbb, ...}. This language is not regular.</p>
+      <p>&Sigma; = {a, b, c}</p>
+      <p>
+        S &rarr; abCa<br/>
+        C &rarr; c<br/>
+        C &rarr; S
+      </p>
+      <p>By inspection, L = {abca, ababcaa, abababcaaa, ...}. This language is not regular.</p>
+    </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
     <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
