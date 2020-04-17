@@ -33,20 +33,17 @@
       <h3>Anatomy</h3>
       <p>In general, an &epsilon;-NFA consists of:</p>
       <ol>
-        <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub></li>
-        <li>
+        <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub>
           <ol>
             <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
-            <li>Any number of states can be long to the set of final states, S<sub>f</sub></li>
-            <li>
+            <li>Any number of states can be long to the set of final states, S<sub>f</sub>
               <ol>
                 <li>S<sub>f</sub> &sube; S</li>
               </ol>
             </li>
           </ol>
         </li>
-        <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z &cup; {&epsilon;}</li>
-        <li>
+        <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z &cup; {&epsilon;}
           <ol>
             <li>This differs from NFAs which don't allow &epsilon; as an input symbol for transitions</li>
           </ol>

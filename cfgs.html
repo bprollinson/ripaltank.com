@@ -36,30 +36,26 @@
       </p>
       <p>A context-free grammar consists of four pieces of information:</p>
       <ol>
-        <li>A set of non-terminals N</li>
-        <li>
+        <li>A set of non-terminals N
           <ol>
             <li>A non-terminal is a symbol that can become some other set of symbols through a production</li>
             <li>By convention, we represent a non-terminal with a capital letter</li>
           </ol>
         </li>
-        <li>A set of terminals T</li>
-        <li>
+        <li>A set of terminals T
           <ol>
             <li>Terminals are symbols we are trying to produce from our CFG corresponding to symbols in our input string</li>
             <li>T &subset; &Sigma;, our alphabet</li>
           </ol>
         </li>
-        <li>A set of productions P</li>
-        <li>
+        <li>A set of productions P
           <ol>
             <li>P = {p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>n</sub>}</li>
             <li>p<sub>i</sub> can be expressed as N<sub>i</sub> &rarr; sym<sub>1</sub>, sym<sub>2</sub>, ..., sym<sub>n</sub>, where sym<sub>i</sub> &isin; T &cup; N &cup; &epsilon;</li>
             <li>Here, a production p<sub>i</sub> represents the replacement of a non-terminal with some combinations of terminal and non-terminal symbols</li>
           </ol>
         </li>
-        <li>A start symbol S</li>
-        <li>
+        <li>A start symbol S
           <ol>
             <li>This symbol provides the starting symbol for producing strings within L</li>
           </ol>
