@@ -21,48 +21,57 @@
     </div>
     <div class="section">
       <h3>Definitions</h3>
-      <p>In a leftmost derivation, we always apply a production for the leftmost nonterminal in our sequence of symbols.</p>
-      <p>In a rightmost derivation, we always apply a production for the rightmost terminal in our sequence of symbols.</p>
+      <div class="subsection definition">
+        <p><i>Definition</i></p>
+        <p>In a leftmost derivation, we always apply a production for the leftmost nonterminal in our sequence of symbols.</p>
+      </div>
+      <div class="subsection definition">
+        <p><i>Definition</i></p>
+        <p>In a rightmost derivation, we always apply a production for the rightmost terminal in our sequence of symbols.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Example</h3>
-      <p>Let's say we have the following context-free grammar:</p>
-      <p>
-        IFSTATEMENT &rarr; IF IFBODY ELSE ELSEBODY END<br/>
-        IF &rarr; if (CONDITION) {<br/>
-        CONDITION &rarr; x | y<br/>
-        IFBODY = func1();<br/>
-        ELSE = } else {<br/>
-        ELSEBODY = func2();<br/>
-        END = }
-      </p>
-      <p>&Sigma; = {if, (, ), x, y, func1();, "}", else, "{", func2()}</p>
-      <p>Let's say our input string is:</p>
-      <p>if (x) { func1(); } else { func2() }</p>
-      <p>The leftmost derivation of this string is:</p>
-      <p>
-        IFSTATEMENT<br/>
-        &rarr; IF IFBODY ELSE ELSEBODY END<br/>
-        &rarr; if (CONDITION) { IFBODY ELSE ELSEBODY END<br/>
-        &rarr; if (x) { IFBODY ELSE ELSEBODY END<br/>
-        &rarr; if (x) { func1(); ELSE ELSEBODY END<br/>
-        &rarr; if (x) { func1(); } else { ELSEBODY END<br/>
-        &rarr; if (x) { func1(); } else { func2(); END<br/>
-        &rarr; if (x) { func1(); } else { func2(); }
-      </p>
-      <p>Conversely, the rightmost derivation of this string is:</p>
-      <p>
-        IFSTATEMENT<br/>
-        &rarr; IF IFBODY ELSE ELSEBODY END<br/>
-        &rarr; IF IFBODY ELSE ELSEBODY }<br/>
-        &rarr; IF IFBODY ELSE func2(); }<br/>
-        &rarr; IF IFBODY } else { func2(); }<br/>
-        &rarr; IF func1(); } else { func2(); }<br/>
-        &rarr; if (CONDITION) { func1(); } else { func2(); }<br/>
-        &rarr; if (x) { func1(); } else { func2(); }
-      </p>
-      <p>Now, observe the following parse tree:</p>
-      <img src="assets/ifstatementparsetree.png"/ alt="Parse tree for the string if (x) { func1(); } else { func2() }. IFSTATEMENT is at the top of the parse tree. On the second level, IFSTATEMENT becomes 4 symbols: IF, IFBODY, ELSE, ELSEBODY, END. On the third level, IF becomes 5 symbols: if, (, CONDITION, ), {. On the third level, IFBODY becomes func1();. On the third level, ELSE becomes 3 symbols: }, else, {. On the third level, ELSEBODY becomes func2();. On the third level, END becomes }. On the fourth level, CONDITION becomes x.">
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>Let's say we have the following context-free grammar:</p>
+        <p>
+          IFSTATEMENT &rarr; IF IFBODY ELSE ELSEBODY END<br/>
+          IF &rarr; if (CONDITION) {<br/>
+          CONDITION &rarr; x | y<br/>
+          IFBODY = func1();<br/>
+          ELSE = } else {<br/>
+          ELSEBODY = func2();<br/>
+          END = }
+        </p>
+        <p>&Sigma; = {if, (, ), x, y, func1();, "}", else, "{", func2()}</p>
+        <p>Let's say our input string is:</p>
+        <p>if (x) { func1(); } else { func2() }</p>
+        <p>The leftmost derivation of this string is:</p>
+        <p>
+          IFSTATEMENT<br/>
+          &rarr; IF IFBODY ELSE ELSEBODY END<br/>
+          &rarr; if (CONDITION) { IFBODY ELSE ELSEBODY END<br/>
+          &rarr; if (x) { IFBODY ELSE ELSEBODY END<br/>
+          &rarr; if (x) { func1(); ELSE ELSEBODY END<br/>
+          &rarr; if (x) { func1(); } else { ELSEBODY END<br/>
+          &rarr; if (x) { func1(); } else { func2(); END<br/>
+          &rarr; if (x) { func1(); } else { func2(); }
+        </p>
+        <p>Conversely, the rightmost derivation of this string is:</p>
+        <p>
+          IFSTATEMENT<br/>
+          &rarr; IF IFBODY ELSE ELSEBODY END<br/>
+          &rarr; IF IFBODY ELSE ELSEBODY }<br/>
+          &rarr; IF IFBODY ELSE func2(); }<br/>
+          &rarr; IF IFBODY } else { func2(); }<br/>
+          &rarr; IF func1(); } else { func2(); }<br/>
+          &rarr; if (CONDITION) { func1(); } else { func2(); }<br/>
+          &rarr; if (x) { func1(); } else { func2(); }
+        </p>
+        <p>Now, observe the following parse tree:</p>
+        <img src="assets/ifstatementparsetree.png"/ alt="Parse tree for the string if (x) { func1(); } else { func2() }. IFSTATEMENT is at the top of the parse tree. On the second level, IFSTATEMENT becomes 4 symbols: IF, IFBODY, ELSE, ELSEBODY, END. On the third level, IF becomes 5 symbols: if, (, CONDITION, ), {. On the third level, IFBODY becomes func1();. On the third level, ELSE becomes 3 symbols: }, else, {. On the third level, ELSEBODY becomes func2();. On the third level, END becomes }. On the fourth level, CONDITION becomes x.">
+      </div>
       <p>If we observe the parse tree and compare it to the leftmost and rightmost derivations, we can see that the parse tree conceptually applies. For a leftmost derivation, we can simply read the terminal (leaf) nodes from left to right. For the rightmost derivation, we can read the terminal nodes from right to left.</p>
     </div>
     <div class="section">

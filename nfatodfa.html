@@ -21,19 +21,25 @@
     </div>
     <div class="section">
       <h3>Example</h3>
-      <p>The following NFA contains multiple transitions for the same input symbol from the same state:</p>
-      <img src="assets/examplemultipletransitionssamesymbol.png" alt="NFA with multiple transitions for the same state and symbol. This NFA contains 4 states - s0, s1, s2 and s3. s0 transitions to s1 on input symbol a. s1 transitions to s2 and s3 on input symbol b. s2 is accepting."/>
-      <p>This NFA recognizes the language L = {ab}. When parsing the string ab, after we encounter symbol b in state s<sub>1</sub>, we can choose to transition to state s<sub>2</sub> or s<sub>3</sub>. Since we are only looking for a single path to an accepting state, we would choose to transition to s<sub>2</sub> and accept the string.</p>
-      <p>As a result, this NFA is equivalent to the following DFA:</p>
-      <img src="assets/exampledfareduced.png" alt="Simplified DFA. This DFA contains 3 states - s0, s1 and s2. s0 transitions to s1 on input symbol a. s1 transitions to s2 on input symbol b. s2 is accepting."/>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>The following NFA contains multiple transitions for the same input symbol from the same state:</p>
+        <img src="assets/examplemultipletransitionssamesymbol.png" alt="NFA with multiple transitions for the same state and symbol. This NFA contains 4 states - s0, s1, s2 and s3. s0 transitions to s1 on input symbol a. s1 transitions to s2 and s3 on input symbol b. s2 is accepting."/>
+        <p>This NFA recognizes the language L = {ab}. When parsing the string ab, after we encounter symbol b in state s<sub>1</sub>, we can choose to transition to state s<sub>2</sub> or s<sub>3</sub>. Since we are only looking for a single path to an accepting state, we would choose to transition to s<sub>2</sub> and accept the string.</p>
+        <p>As a result, this NFA is equivalent to the following DFA:</p>
+        <img src="assets/exampledfareduced.png" alt="Simplified DFA. This DFA contains 3 states - s0, s1 and s2. s0 transitions to s1 on input symbol a. s1 transitions to s2 on input symbol b. s2 is accepting."/>
+      </div>
     </div>
     <div class="section">
       <h3>More complex example</h3>
-      <p>The following NFA is a more complex example of an NFA that can be reduced:</p>
-      <img src="assets/examplecomplexmultipletransitionssamesymbol.png" alt="Complex NFA with multiple transitions for the same symbol and state. This NFA contains 6 states - s0 through s5. s0 transitions to s1 on input symbol a. s1 transitions to s0 and s3 on input symbol b. s1 transitions to s2 on input symbol c. s3 transitions to s4 on input symbol a. s4 transitions to s5 on input symbol c. s2 is accepting."/>
-      <p>Here, it's less clear how to reduce this to a DFA.</p>
-      <p>Now, consider the transitions from s<sub>1</sub>	for input symbol b. The possible set of next states is: {s<sub>0</sub>, s<sub>3</sub>}.</p>
-      <p>Since we only need to find a single path for a certain input string to an accepting state, we would continue this process. For example, if the next input symbol is a, the possible set of next states is: {s<sub>1</sub>, s<sub>4</sub>}.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>The following NFA is a more complex example of an NFA that can be reduced:</p>
+        <img src="assets/examplecomplexmultipletransitionssamesymbol.png" alt="Complex NFA with multiple transitions for the same symbol and state. This NFA contains 6 states - s0 through s5. s0 transitions to s1 on input symbol a. s1 transitions to s0 and s3 on input symbol b. s1 transitions to s2 on input symbol c. s3 transitions to s4 on input symbol a. s4 transitions to s5 on input symbol c. s2 is accepting."/>
+        <p>Here, it's less clear how to reduce this to a DFA.</p>
+        <p>Now, consider the transitions from s<sub>1</sub> for input symbol b. The possible set of next states is: {s<sub>0</sub>, s<sub>3</sub>}.</p>
+        <p>Since we only need to find a single path for a certain input string to an accepting state, we would continue this process. For example, if the next input symbol is a, the possible set of next states is: {s<sub>1</sub>, s<sub>4</sub>}.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Reduction process</h3>
@@ -48,11 +54,14 @@
     </div>
     <div class="section">
       <h3>More complex example reduced</h3>
-      <p>Following the instruction from above, our complex NFA can can be reduced to the following DFA:</p>
-      <img src="assets/examplecomplexdfareduced.png" alt="Simplified DFA. This DFA contains 6 states, each of which represents some set of states from the DFA. State with set s0 transitions to state with set s1 on input symbol a. State with set s1 transitions to state with set s2 on input symbol c. State with set s1 transitions to state with set s0, s3 on input symbol b. State with set s0, s3 transitions to state with set s1, s4 on input symbol a. State with set s1, s4 transitions to state with set s2, s5 on input symbol c. All new states containing s2 are accepting."/>
-      <p>Finally, we can re-label the states as follows:</p>
-      <img src="assets/examplecomplexdfareducedrelabelled.png" alt="Simplified DFA relabelled This dfa contains 6 states - s0 through s5. s0 transitions to s1 in input symbol a. s1 transitions to s2 on input symbol c. s1 transitions to s3 on input symbol b. s3 transitions to s4 on input symbol a. s4 transitions to s5 on input symbol c. s2 and s5 are accepting."/>
-      <p>Note that the two states whose state set from the NFA contain s<sub>2</sub> are marked as final statse.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>Following the instruction from above, our complex NFA can can be reduced to the following DFA:</p>
+        <img src="assets/examplecomplexdfareduced.png" alt="Simplified DFA. This DFA contains 6 states, each of which represents some set of states from the DFA. State with set s0 transitions to state with set s1 on input symbol a. State with set s1 transitions to state with set s2 on input symbol c. State with set s1 transitions to state with set s0, s3 on input symbol b. State with set s0, s3 transitions to state with set s1, s4 on input symbol a. State with set s1, s4 transitions to state with set s2, s5 on input symbol c. All new states containing s2 are accepting."/>
+        <p>Finally, we can re-label the states as follows:</p>
+        <img src="assets/examplecomplexdfareducedrelabelled.png" alt="Simplified DFA relabelled This dfa contains 6 states - s0 through s5. s0 transitions to s1 in input symbol a. s1 transitions to s2 on input symbol c. s1 transitions to s3 on input symbol b. s3 transitions to s4 on input symbol a. s4 transitions to s5 on input symbol c. s2 and s5 are accepting."/>
+        <p>Note that the two states whose state set from the NFA contain s<sub>2</sub> are marked as final statse.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Conclustion</h3>

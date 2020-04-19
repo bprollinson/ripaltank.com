@@ -21,19 +21,25 @@
     </div>
     <div class="section">
       <h3>Example of non-regular language</h3>
-      <p>The following language is not regular:</p>
-      <p>L = {a<sup>n</sup>b<sup>n</sup> | n >= 0}</p>
-      <p>To clarify, L = {&epsilon;, ab, aabb, aaabbb, ...}</p>
-      <p>No matter how hard you try, you will not be able to come up with a regular expression or DFA that recognizes it. This language, however, does belong to the class of context-free languages.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>The following language is not regular:</p>
+        <p>L = {a<sup>n</sup>b<sup>n</sup> | n >= 0}</p>
+        <p>To clarify, L = {&epsilon;, ab, aabb, aaabbb, ...}</p>
+        <p>No matter how hard you try, you will not be able to come up with a regular expression or DFA that recognizes it. This language, however, does belong to the class of context-free languages.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Context-free grammar</h3>
       <p>The easiest way to specify a context-free language is via a context-free grammar (CFG).</p>
-      <p>This language can be specified with the following CFG:</p>
-      <p>
-        S &rarr; aSb<br/>
-        S &rarr; &epsilon;
-      </p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>This language can be specified with the following CFG:</p>
+        <p>
+          S &rarr; aSb<br/>
+          S &rarr; &epsilon;
+        </p>
+      </div>
       <p>A context-free grammar consists of four pieces of information:</p>
       <ol>
         <li>A set of non-terminals N
@@ -64,47 +70,53 @@
     </div>
     <div class="section">
       <h3>Re-examining the context-free grammar</h3>
-      <p>
-        S &rarr; aSb<br/>
-        S &rarr; &epsilon;
-      </p>
-      <p>Here, we have two productions.</p>
-      <p>S is our only non-terminal. Our terminals are a, b and &epsilon;. Note that these can be easily read from the productions and are typically not stated explicitly.</p>
-      <p>S is our start symbol. We can determine that by observing the non-terminal on the left-hand side of the first production by convention.</p>
-      <p>Here, we can say that S produces aSb and S produces &epsilon;.</p>
-      <p>We can derive a sample string, aabb, as follows:</p>
-      <p>
-        S<br/>
-        &rarr; aSb (via rule 1)<br/>
-        &rarr; aaSbb (via rule 1)<br/>
-        &rarr; aabb (via rule 2)
-      </p>
-      <p>In the above example, we can say that S derives aabb, so aabb &isin; L. This is symbolized as:</p>
-      <p>S &rarr;<sup>*</sup> aabb</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>
+          S &rarr; aSb<br/>
+          S &rarr; &epsilon;
+        </p>
+        <p>Here, we have two productions.</p>
+        <p>S is our only non-terminal. Our terminals are a, b and &epsilon;. Note that these can be easily read from the productions and are typically not stated explicitly.</p>
+        <p>S is our start symbol. We can determine that by observing the non-terminal on the left-hand side of the first production by convention.</p>
+        <p>Here, we can say that S produces aSb and S produces &epsilon;.</p>
+        <p>We can derive a sample string, aabb, as follows:</p>
+        <p>
+          S<br/>
+          &rarr; aSb (via rule 1)<br/>
+          &rarr; aaSbb (via rule 1)<br/>
+          &rarr; aabb (via rule 2)
+        </p>
+        <p>In the above example, we can say that S derives aabb, so aabb &isin; L. This is symbolized as:</p>
+        <p>S &rarr;<sup>*</sup> aabb</p>
+      </div>
     </div>
     <div class="section">
       <h3>Another example context-free grammar</h3>
-      <p>
-        SENTENCE &rarr; SUBJECT VERB OBJECT<br/>
-        SUBJECT &rarr; John | Jane<br/>
-        VERB &rarr; threw | kicked<br/>
-        OBJECT &rarr; the ball | the puck
-      </p>
-      <p>Note: S &rarr; sym<sub>1</sub> | sym<sub>2</sub> is just short form for:</p>
-      <p>
-        S &rarr; sym<sub>1</sub><br/>
-        S &rarr; sym<sub>1</sub>
-      </p>
-      <p>Here, N = {SENTENCE, SUBJECT, VERB, OBJECT}, T = {John, Jane, threw, kicked, the, ball, puck, .}. SENTENCE is our start symbol.</p>
-      <p>Example derivation:</p>
-      <p>
-        SENTENCE<br/>
-        &rarr; SUBJECT VERB OBJECT (via rule 1)<br/>
-        &rarr; Jane VERB OBJECT (via rule 2)<br/>
-        &rarr; Jane kicked OBJECT (via rule 3)<br/>
-        &rarr; Jane kicked the ball (via rule 3)
-      </p>
-      <p>SENTENCE &rarr;<sup>*</sup> Jane kicked the ball.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>
+          SENTENCE &rarr; SUBJECT VERB OBJECT<br/>
+          SUBJECT &rarr; John | Jane<br/>
+          VERB &rarr; threw | kicked<br/>
+          OBJECT &rarr; the ball | the puck
+        </p>
+        <p>Note: S &rarr; sym<sub>1</sub> | sym<sub>2</sub> is just short form for:</p>
+        <p>
+          S &rarr; sym<sub>1</sub><br/>
+          S &rarr; sym<sub>1</sub>
+        </p>
+        <p>Here, N = {SENTENCE, SUBJECT, VERB, OBJECT}, T = {John, Jane, threw, kicked, the, ball, puck, .}. SENTENCE is our start symbol.</p>
+        <p>Example derivation:</p>
+        <p>
+          SENTENCE<br/>
+          &rarr; SUBJECT VERB OBJECT (via rule 1)<br/>
+          &rarr; Jane VERB OBJECT (via rule 2)<br/>
+          &rarr; Jane kicked OBJECT (via rule 3)<br/>
+          &rarr; Jane kicked the ball (via rule 3)
+        </p>
+        <p>SENTENCE &rarr;<sup>*</sup> Jane kicked the ball.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Context-free languages</h3>

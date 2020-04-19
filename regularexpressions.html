@@ -23,39 +23,51 @@
       <h3>Base symbols</h3>
       <p>Similar to in our definition of a regular language, for any alphabet &Sigma;, we can construct R = &epsilon; as a regular expression.</p>
       <p>Similarly, for an &sigma; &isin; &Sigma;, we can construct R = &sigma; as a regular expression.</p>
-      <p><i>Examples</i></p>
-      <p>&Sigma; = {}</p>
-      <p>R = &epsilon;<p>
-      <p>This regular expression recognizes the empty string &epsilon;.</p>
-      <p>&Sigma; = {a}</p>
-      <p>R = a</p>
-      <p>This regular expression recognizes the string a.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>&Sigma; = {}</p>
+        <p>R = &epsilon;<p>
+        <p>This regular expression recognizes the empty string &epsilon;.</p>
+      </div>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>&Sigma; = {a}</p>
+        <p>R = a</p>
+        <p>This regular expression recognizes the string a.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Concatenation of expressions</h3>
       <p>We want to allow for the inclusion of strings consisting of multiple symbols in our regular language. In order to support this, we want to allow the concatenation (squishing together) of two expressions to create a more complex expression. This is similar to concatenation described in our definition of regular languages.</p>
-      <p><i>Example</i></p>
-      <p>&Sigma; = {a, b}</p>
-      <p>We know that R<sub>1</sub> = {a} and R<sub>2</sub> = {b} are regular expressions.</p>
-      <p>R = R<sub>1</sub>R<sub>2</sub> = ab</p>
-      <p>This regular expression recognizes the string ab.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>&Sigma; = {a, b}</p>
+        <p>We know that R<sub>1</sub> = {a} and R<sub>2</sub> = {b} are regular expressions.</p>
+        <p>R = R<sub>1</sub>R<sub>2</sub> = ab</p>
+        <p>This regular expression recognizes the string ab.</p>
+      </div>
     </div>
     <div class="section">
-    <h3>Union of expressions</h3>
+      <h3>Union of expressions</h3>
       <p>We want to allow for the choice of two expressions in our regular language. In order to support this, we want to allow the union ("or" operation) of two expressions to create a more complex expression.  This is similar to the union operator described in our definition of regular languages</p>
-      <p><i>Example</i></p>
-      <p>&Sigma; = {a, b}</p>
-      <p>We know that R<sub>1</sub> = {a} and R<sub>2</sub> = {b} are regular expressions.</p>
-      <p>R = R<sub>1</sub> &cup; R<sub>2</sub> = a &cup; b</p>
-      <p>This regular expression recognizes the strings a and b.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>&Sigma; = {a, b}</p>
+        <p>We know that R<sub>1</sub> = {a} and R<sub>2</sub> = {b} are regular expressions.</p>
+        <p>R = R<sub>1</sub> &cup; R<sub>2</sub> = a &cup; b</p>
+        <p>This regular expression recognizes the strings a and b.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Kleene closure of an expression</h3>
       <p>We want to allow the repretition of expressions in our regular language. In order to support this, we want to allow the Kleene closure (*) operator to be applied to an expression to create a more complex expression. This is similar to the Kleene closure operator described in our definition of regular languages</p>
-      <p>&Sigma; = {a}</p>
-      <p>We know that R<sub>1</sub> = {a} is a regular expression.</p>
-      <p>R = R<sub>1</sub><sup>*</sup>
-      <p>This regular expression recognizes the strings &epsilon;, a, aa, ..., with no limit on the string length.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>&Sigma; = {a}</p>
+        <p>We know that R<sub>1</sub> = {a} is a regular expression.</p>
+        <p>R = R<sub>1</sub><sup>*</sup>
+        <p>This regular expression recognizes the strings &epsilon;, a, aa, ..., with no limit on the string length.</p>
+      </div>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>

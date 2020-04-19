@@ -79,80 +79,86 @@
     </div>
     <div class="section">
       <h3>Parse table example</h3>
-      <p>&Sigma; = {a, b}</p>
-      <p>
-        S &rarr; a<br/>
-        S &rarr; b
-      </p>
-      <p>Our parse table is:</p>
-      <table border>
-        <tr>
-          <td></td>
-          <td><b>a</b></td>
-          <td><b>b</b></td>
-        </tr>
-        <tr>
-          <td><b>S</b></td>
-          <td>1</td>
-          <td>2</td>
-        </tr>
-      </table>
-      <p>
-        Using this table, if we have non-terminal S and are trying to produce the string a, it indicates that grammar rule 1 should be applied. This leads to a derivation that looks like:
-      </p>
-      <p>
-        S<br/>
-        &rarr; a (via rule 1)
-      </p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>&Sigma; = {a, b}</p>
+        <p>
+          S &rarr; a<br/>
+          S &rarr; b
+        </p>
+        <p>Our parse table is:</p>
+        <table border>
+          <tr>
+            <td></td>
+            <td><b>a</b></td>
+            <td><b>b</b></td>
+          </tr>
+          <tr>
+            <td><b>S</b></td>
+            <td>1</td>
+            <td>2</td>
+          </tr>
+        </table>
+        <p>
+          Using this table, if we have non-terminal S and are trying to produce the string a, it indicates that grammar rule 1 should be applied. This leads to a derivation that looks like:
+        </p>
+        <p>
+          S<br/>
+          &rarr; a (via rule 1)
+        </p>
+      </div>
     </div>
     <div class="section">
       <h3>More complex parse table example</h3>
-      <p>
-        &Sigma; = {a, b}
-      </p>
-      <p>
-        S &rarr; aZ<br/>
-        Z &rarr; B<br/>
-        B &rarr; b
-      </p>
-      <p>
-        Our parse table is:
-      </p>
-      <table border>
-        <tr>
-          <td></td>
-          <td><b>a</b></td>
-          <td><b>b</b></td>
-        </tr>
-        <tr>
-          <td><b>S</b></td>
-          <td>1</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td><b>Z</b></td>
-          <td></td>
-          <td>2</td>
-        </tr>
-        <tr>
-          <td><b>B</b></td>
-          <td></td>
-          <td>3</td>
-        </tr>
-      </table>
-      <p>Using the rules from the above parse table, we can derive the string ab as follows:</p>
-      <p>
-        S<br/>
-        &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
-        &rarr; aB (via rule 2, looking up the table entry for Z and b)<br/>
-        &rarr; ab (via rule 3, looking up the table entry for B and b)
-      </p>
-      <p>Trying to parse the string aa using the same parse table:</p>
-      <p>
-        S<br/>
-        &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
-        reject! (since there is not table entry for Z and a)
-      </p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>
+          &Sigma; = {a, b}
+        </p>
+        <p>
+          S &rarr; aZ<br/>
+          Z &rarr; B<br/>
+          B &rarr; b
+        </p>
+        <p>
+          Our parse table is:
+        </p>
+        <table border>
+          <tr>
+            <td></td>
+            <td><b>a</b></td>
+            <td><b>b</b></td>
+          </tr>
+          <tr>
+            <td><b>S</b></td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td><b>Z</b></td>
+            <td></td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td><b>B</b></td>
+            <td></td>
+            <td>3</td>
+          </tr>
+        </table>
+        <p>Using the rules from the above parse table, we can derive the string ab as follows:</p>
+        <p>
+          S<br/>
+          &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
+          &rarr; aB (via rule 2, looking up the table entry for Z and b)<br/>
+          &rarr; ab (via rule 3, looking up the table entry for B and b)
+        </p>
+        <p>Trying to parse the string aa using the same parse table:</p>
+        <p>
+          S<br/>
+          &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
+          reject! (since there is not table entry for Z and a)
+        </p>
+      </div>
     </div>
     <div class="section">
       <h3>Conclusion</h3>

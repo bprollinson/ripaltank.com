@@ -26,9 +26,9 @@
     <div class="section">
       <h3>Setup</h3>
       <p>To apply the LL(1) parsing algorithm, we will need the following data structures set up:</p>
-      <p><u>The LL(1) parse table</u></p>
+      <p><i>The LL(1) parse table</i></p>
       <p>As shown in the previous section, we will need a parse table that maps combinations of non-terminal symbols and terminal symbols to a production rule index.</p>
-      <p><u>The input queue</u></p>
+      <p><i>The input queue</i></p>
       <p>We place our input string into an input queue, with one input symbol in each slot.</p>
       <p>The queue looks like:</p>
       <table border>
@@ -41,24 +41,26 @@
         </tr>
       </table>
       <p>&sigma;<sub>i</sub> &isin; &Sigma;</p>
-      <p><i>Example</i></p>
-      <p>For s = test:</p>
-      <table border>
-        <tr>
-          <td>(head of queue)</td>
-          <td>t</td>
-          <td>e</td>
-          <td>s</td>
-          <td>t</td>
-        </tr>
-      </table>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>For s = test:</p>
+        <table border>
+          <tr>
+            <td>(head of queue)</td>
+            <td>t</td>
+            <td>e</td>
+            <td>s</td>
+            <td>t</td>
+          </tr>
+        </table>
+      </div>
       <p>The operations we need to support on the input queue are:</p>
       <ol>
         <li>Initialize a queue with a fixed set of symbols</li>
         <li>Dequeue - remove and return the element at the head of the queue</li>
         <li>Check if empty - determine whether the queue is empty</li>
       </ol>
-      <p><u>The parse stack</u></p>
+      <p><i>The parse stack</i></p>
       <p>We use a parse stack to store the symbols we are still in the process of handling.</p>
       <p>The stack looks like:</p>
       <table border>
@@ -135,95 +137,104 @@
           <td></td>
         </tr>
       </table>
-      <p>Parsing input string ab:</p>
-      <table border>
-        <tr>
-          <th>Input queue</th>
-          <th>Parse stack</th>
-          <th>Note</th>
-        </tr>
-        <tr>
-          <td>ab</td>
-          <td>S</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>ab</td>
-          <td>ba</td>
-          <td>Applied rule 1 since S and a correspond to this production in our table</td>
-        </tr>
-        <tr>
-          <td>b</td>
-          <td>b</td>
-          <td>a from input queue mathes a from top of parse stack</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>b from input queue matches b from top of parse stack</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td></td>
-          <td>Accept, since input queue and parse stack are both empty</td>
-        </tr>
-      </table>
-      <p>Parsing input string a:</p>
-      <table border>
-        <tr>
-          <th>Input queue</th>
-          <th>Parse stack</th>
-          <th>Note</th>
-        </tr>
-        <tr>
-          <td>a</td>
-          <td>S</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>a</td>
-          <td>ba</td>
-          <td>Applied rule 1 since S and a correspond to this production in our table</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>b</td>
-          <td>a from input queue mathes a from top of parse stack</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>b</td>
-          <td>Reject, since input queue is empty but parse stack is not</td>
-        </tr>
-      </table>
-      <p>Parsing string abc:</p>
-      <table border>
-        <tr>
-          <th>Input queue</th>
-          <th>Parse stack</th>
-          <th>Note</th>
-        </tr>
-        <tr>
-          <td>abc</td>
-          <td>S</td>
-          <td></td>
-        </tr>
-        <tr>
-          <td>abc</td>
-          <td>ba</td>
-          <td>Applied rule 1 since S and a correspond to this production in our table</td>
-        </tr>
-        <tr>
-          <td>bc</td>
-          <td>b</td>
-          <td>a from input queue mathes a from top of parse stack</td>
-        </tr>
-        <tr>
-          <td>c</td>
-          <td></td>
-          <td>Reject, since parse stack is empty but input queue is not</td>
-        </tr>
-      </table>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>Parsing input string ab:</p>
+        <table border>
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Note</th>
+          </tr>
+          <tr>
+            <td>ab</td>
+            <td>S</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>ab</td>
+            <td>ba</td>
+            <td>Applied rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>b</td>
+            <td>a from input queue mathes a from top of parse stack</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>b from input queue matches b from top of parse stack</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>Accept, since input queue and parse stack are both empty</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>Parsing input string a:</p>
+        <table border>
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Note</th>
+          </tr>
+          <tr>
+            <td>a</td>
+            <td>S</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>a</td>
+            <td>ba</td>
+            <td>Applied rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b</td>
+            <td>a from input queue mathes a from top of parse stack</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>b</td>
+            <td>Reject, since input queue is empty but parse stack is not</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>Parsing string abc:</p>
+        <table border>
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Note</th>
+          </tr>
+          <tr>
+            <td>abc</td>
+            <td>S</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>abc</td>
+            <td>ba</td>
+            <td>Applied rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>bc</td>
+            <td>b</td>
+            <td>a from input queue mathes a from top of parse stack</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td></td>
+            <td>Reject, since parse stack is empty but input queue is not</td>
+          </tr>
+        </table>
+      </div>
     </div>
     <div class="section">
       <h3>Conclusion</h3>

@@ -21,33 +21,39 @@
     </div>
     <div class="section">
       <h3>What is a parse tree?</h3>
-      <p>A parse tree is a structure that illustrates the structure of a string as part of a language. In particular, a parse tree illustrates, in a recursive structure, what a non-terminal symbol produces within a particular string derivation.</p>
+      <div class="subsection definition">
+        <p><i>Definition</i></p>
+        <p>A parse tree is a structure that illustrates the structure of a string as part of a language. In particular, a parse tree illustrates, in a recursive structure, what a non-terminal symbol produces within a particular string derivation.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Example</h3>
-      <p>Let's say we are examining the language specified by the following context-free grammar:</p>
-      <p>
-        SENTENCE &rarr; SUBJECT VERB OBJECT.<br/>
-        SUBJECT &rarr; John | Jane<br/>
-        VERB &rarr; threw | kicked<br/>
-        OBJECT &rarr; DIRECTOBJECT | QUALIFIEDOBJECT<br/>
-        DIRECTOBJECT &rarr; the ball | the puck<br/>
-        QUALIFIEDOBJECT &rarr; the ADJECTIVE ball | the ADJECTIVE puck<br/>
-        ADJECTIVE &rarr; big | heavy
-      </p>
-      <p>Example derivation:</p>
-      <p>
-        SENTENCE<br/>
-        &rarr; SUBJECT VERB OBJECT. (via rule 1)<br/>
-        &rarr; John VERB OBJECT. (via rule 2)<br/>
-        &rarr; John threw OBJECT. (via rule 3)<br/>
-        &rarr; John threw QUALIFIEDOBJECT. (via rule 4)<br/>
-        &rarr; John threw the ADJECTIVE puck. (via rule 6)<br/>
-        &rarr; John threw the heavy puck. (via rule 7)
-      </p>
-      <p>Based on this, we know that the sentence "John threw the heavy puck." is part of our language. But what does it mean?</p>
-      <p>The following parse tree represents our string derivation:</p>
-      <img src="assets/parsetreeexample1.png" alt="Parse tree for the string 'John threw the heavy puck.' SENTENCE is at the top of the parse tree. On the second level, SENTENCE becomes 4 symbols: SUBJECT, VERB, OBJECT and PERIOD. On the third level, SUBJECT becomes John, VERB becomes threw and OBJECT becomes QUALIFIEDOBJECT. On the fourth level, QUALIFIEDOBJECT becomes 3 symbols: the, ADJECTIVE and puck. On the fifth level, ADJECTIVE becomes heavy."/>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>Let's say we are examining the language specified by the following context-free grammar:</p>
+        <p>
+          SENTENCE &rarr; SUBJECT VERB OBJECT.<br/>
+          SUBJECT &rarr; John | Jane<br/>
+          VERB &rarr; threw | kicked<br/>
+          OBJECT &rarr; DIRECTOBJECT | QUALIFIEDOBJECT<br/>
+          DIRECTOBJECT &rarr; the ball | the puck<br/>
+          QUALIFIEDOBJECT &rarr; the ADJECTIVE ball | the ADJECTIVE puck<br/>
+          ADJECTIVE &rarr; big | heavy
+        </p>
+        <p>Example derivation:</p>
+        <p>
+          SENTENCE<br/>
+          &rarr; SUBJECT VERB OBJECT. (via rule 1)<br/>
+          &rarr; John VERB OBJECT. (via rule 2)<br/>
+          &rarr; John threw OBJECT. (via rule 3)<br/>
+          &rarr; John threw QUALIFIEDOBJECT. (via rule 4)<br/>
+          &rarr; John threw the ADJECTIVE puck. (via rule 6)<br/>
+          &rarr; John threw the heavy puck. (via rule 7)
+        </p>
+        <p>Based on this, we know that the sentence "John threw the heavy puck." is part of our language. But what does it mean?</p>
+        <p>The following parse tree represents our string derivation:</p>
+        <img src="assets/parsetreeexample1.png" alt="Parse tree for the string 'John threw the heavy puck.' SENTENCE is at the top of the parse tree. On the second level, SENTENCE becomes 4 symbols: SUBJECT, VERB, OBJECT and PERIOD. On the third level, SUBJECT becomes John, VERB becomes threw and OBJECT becomes QUALIFIEDOBJECT. On the fourth level, QUALIFIEDOBJECT becomes 3 symbols: the, ADJECTIVE and puck. On the fifth level, ADJECTIVE becomes heavy."/>
+      </div>
       <p>We can learn the following from seeing a parse tree for a string (and not requiring any other information):</p>
       <ol>
         <li>We know that our string is part of our language from the presence of the parse tree</li>
@@ -68,26 +74,29 @@
     </div>
     <div class="section">
       <h3>Removing string ambiguity with a parse tree</h3>
-      <p>Let's say we have the following context-free grammar:</p>
-      <p>
-        S &rarr; aSb<br/>
-        S &rarr; aS<br/>
-        S &rarr; &epsilon;
-      </p>
-      <p>By inspection, it's not to hard to understand that this CFG specifies the following language:</p>
-      <p>L = {a<sup>n + k</sup>b<sup>n</sup> | n, k >= 0}</p>
-      <p>Informally, this language contains the empty string, plus some number of as following by some number of bs where there are at least as many as as bs.</p>
-      <p>Deriving a string:</p>
-      <p>
-        S<br/>
-        &rarr; aSb (via rule 1)<br/>
-        &rarr; aaSbb (via rule 1)<br/>
-        &rarr; aaaSbb (via rule 2)<br/>
-        &rarr; aaabb (via rule 3)
-      </p>
-      <p>From this derivation, we know that aaabb &isin; L. The corresponding parse tree is:</p>
-      <img src="assets/parsetreeexample2.png" alt="Parse tree for the string 'aaabb'. S is as the top of the parse tree. On the second and third levels, S becomes 3 symbols: a, S and b. On the fourth level, S becomes 2 symbols: a and S. On the fifth level, S becomes &epsilon;."/>
-      <p>From this parse tree, we can tell that, in our derivation, we chose to introduce the unbalanced "a" symbol deep within the structure of our derivation. It can use used, in this example, to remove ambiguity from the meaning of our input string.</p>
+      <div class="subsection example">
+        <p><i>Example</i></p>
+        <p>Let's say we have the following context-free grammar:</p>
+        <p>
+          S &rarr; aSb<br/>
+          S &rarr; aS<br/>
+          S &rarr; &epsilon;
+        </p>
+        <p>By inspection, it's not to hard to understand that this CFG specifies the following language:</p>
+        <p>L = {a<sup>n + k</sup>b<sup>n</sup> | n, k >= 0}</p>
+        <p>Informally, this language contains the empty string, plus some number of as following by some number of bs where there are at least as many as as bs.</p>
+        <p>Deriving a string:</p>
+        <p>
+          S<br/>
+          &rarr; aSb (via rule 1)<br/>
+          &rarr; aaSbb (via rule 1)<br/>
+          &rarr; aaaSbb (via rule 2)<br/>
+          &rarr; aaabb (via rule 3)
+        </p>
+        <p>From this derivation, we know that aaabb &isin; L. The corresponding parse tree is:</p>
+        <img src="assets/parsetreeexample2.png" alt="Parse tree for the string 'aaabb'. S is as the top of the parse tree. On the second and third levels, S becomes 3 symbols: a, S and b. On the fourth level, S becomes 2 symbols: a and S. On the fifth level, S becomes &epsilon;."/>
+        <p>From this parse tree, we can tell that, in our derivation, we chose to introduce the unbalanced "a" symbol deep within the structure of our derivation. It can use used, in this example, to remove ambiguity from the meaning of our input string.</p>
+      </div>
     </div>
     <div class="section">
       <h3>Conclusion</h3>
