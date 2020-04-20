@@ -22,7 +22,7 @@
     <div class="section">
       <h3>Removing &epsilon; transitions</h3>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>Observe the following &epsilon;-NFA:</p>
         <img src="assets/exampleepsilonbeforecharactertransition.png" alt="&epsilon;-NFA with epsilon transition before character transition. This &epsilon;-NFA contains 3 states - s0, s1 and s2. s0 transitions to s1 on input symbol &epsilon; s1 transitions to s2 on input symbol a. s2 is accepting."/>
         <p>This recognizes the string "a". Because the &epsilon; transition doesn't consume an input symbol, it can be simplified to the following:</p>
@@ -35,7 +35,7 @@
     <div class="section">
       <h3>Making states accepting</h3>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>Observe the following &epsilon;-NFA:</p>
         <img src="assets/exampleepsilonbeforefinalstate.png" alt="&epsilon;-NFA with epsilon transition before accepting state. This &epsilon;-NFA contains 3 states - s0, s1 and s2. s0 transitions to s1 on input symbol a. s1 transitions to s2 on input symbol &epsilon;. s2 is accepting."/>
         <p>This recognizes the string "a". Because the &epsilon; transition doesn't consume an input symbol, it can be simplified to the following:</p>
@@ -52,7 +52,7 @@
     <div class="section">
       <h3>More complex example</h3>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <img src="assets/exampleepsilonnfatoreduce.png" alt="Complex &epsilon;-NFA with multiple epsilon transitions leading to character transitions and accepting states. This &epsilon;-NFA contains 7 states - s0 through s6. s0 transitions to s1 on input symbol a. s1 transitions to s2 and s4 on input symbol &epsilon; s2 transitions to s3 on input symbol b. s4 transitions to s5 on input symbol c. s3 and s5 transition to s6 on input symbol &epsilon; s6 is accepting."/>
         <p>Using the same rules as above, this can be reduced into the following NFA (which happens to, by chance, also be a DFA):</p>
         <img src="assets/examplenfareduced.png" alt="Simplified NFA. This NFA contains 4 states - s0, s1, s2 and s3. s0 transitions to s1 on input sybmol a. s1 transitions to s2 on input symbol b. s1 transitions to s3 on input symbol c. s2 and s3 are accepting."/>

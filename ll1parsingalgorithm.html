@@ -26,9 +26,9 @@
     <div class="section">
       <h3>Setup</h3>
       <p>To apply the LL(1) parsing algorithm, we will need the following data structures set up:</p>
-      <p><i>The LL(1) parse table</i></p>
+      <p><em>The LL(1) parse table</em></p>
       <p>As shown in the previous section, we will need a parse table that maps combinations of non-terminal symbols and terminal symbols to a production rule index.</p>
-      <p><i>The input queue</i></p>
+      <p><em>The input queue</em></p>
       <p>We place our input string into an input queue, with one input symbol in each slot.</p>
       <p>The queue looks like:</p>
       <table border>
@@ -42,7 +42,7 @@
       </table>
       <p>&sigma;<sub>i</sub> &isin; &Sigma;</p>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>For s = test:</p>
         <table border>
           <tr>
@@ -60,7 +60,7 @@
         <li>Dequeue - remove and return the element at the head of the queue</li>
         <li>Check if empty - determine whether the queue is empty</li>
       </ol>
-      <p><i>The parse stack</i></p>
+      <p><em>The parse stack</em></p>
       <p>We use a parse stack to store the symbols we are still in the process of handling.</p>
       <p>The stack looks like:</p>
       <table border>
@@ -138,7 +138,7 @@
         </tr>
       </table>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>Parsing input string ab:</p>
         <table border>
           <tr>
@@ -174,7 +174,7 @@
         </table>
       </div>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>Parsing input string a:</p>
         <table border>
           <tr>
@@ -205,7 +205,7 @@
         </table>
       </div>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>Parsing string abc:</p>
         <table border>
           <tr>

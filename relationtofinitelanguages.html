@@ -40,7 +40,7 @@
         <p>Any regular expression that does not contain the Kleene closure operator always represents a finite language.</p>
         <p>The concatenation and union operators, when applied to a finite set of symbols, always results in a finite set of strings. Furthermore, the process of enumerating the strings in the language is fairly straightforward.</p>
         <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c, d, e}</p>
         <pre>
 R = a(b &cup; c(d &cup; e))
@@ -52,7 +52,7 @@ R = a(b &cup; c(d &cup; e))
       <p>However, the Kleene closure operator is often used to specify infinite languages. Any non-empty inner expression that has the Kleene closure operator applied to it and then optionally concatenated or combined via union with any other expression will result in an infinite language.</p>
       <p>Practically speaking, any Kleene closure operator on anything other than &epsilon; or (<sup>n</sup>&epsilon;)<sup>n</sup> will result in an expression represeting an infinite language.</p>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c}<p>
         <p>R = &epsilon;<sup>*</sup>a(b &cup; c)</p>
         <pre>
@@ -63,7 +63,7 @@ R = &epsilon;<sup>n</sup>a(b &cup; c)
         <p>Clearly, L = {ab, ac}, which is finite.</p>
       </div>
       <div class="subsection example">
-        <p><i>Example</i></p>
+        <p><em>Example</em></p>
         <p>&Sigma; = {a, b}</p>
         <pre>
 R = a(b &cup; c<sup>*</sup>)
