@@ -58,8 +58,7 @@
     <div class="section">
       <h3>The NFA parsing algorithm</h3>
       <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by NFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
-      <pre>
-Set S<sub>current</sub> = {s<sub>i</sub>}
+      <div class="code">Set S<sub>current</sub> = {s<sub>i</sub>}
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>
     S<sub>next</sub> = {}
@@ -74,8 +73,7 @@ End for
 If S<sub>current</sub> contains an accepting state
     Accept
 Otherwise
-    Reject
-      </pre>
+    Reject</div>
       <p>Informally, we are running our NFA algorithm but instead of tracking the next definitive state, we track all possible states that could be reached through the next transition.</p>
       <p>We reject the language if we end with a set of states at the end of our input that does not contain an accepting state or run out of possible transitions. Note that it's sufficient to find just one successful path through the NFA for it to accept an input string.</p>
     </div>

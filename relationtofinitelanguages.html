@@ -42,11 +42,9 @@
         <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c, d, e}</p>
-        <pre>
-R = a(b &cup; c(d &cup; e))
+        <div class="code">R = a(b &cup; c(d &cup; e))
   = a(b &cup; cd &cup; ce)
-  = ab &cup; acd &cup; ace
-        </pre>
+  = ab &cup; acd &cup; ace</div>
         <p>From this, we can determine that L = {ab, acd, ace}.</p>
       </div>
       <p>However, the Kleene closure operator is often used to specify infinite languages. Any non-empty inner expression that has the Kleene closure operator applied to it and then optionally concatenated or combined via union with any other expression will result in an infinite language.</p>
@@ -55,20 +53,16 @@ R = a(b &cup; c(d &cup; e))
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c}<p>
         <p>R = &epsilon;<sup>*</sup>a(b &cup; c)</p>
-        <pre>
-R = &epsilon;<sup>n</sup>a(b &cup; c)
+        <div class="code">R = &epsilon;<sup>n</sup>a(b &cup; c)
   = a(b &cup; c)
-  = ab &cup; ac
-        </pre>
+  = ab &cup; ac</div>
         <p>Clearly, L = {ab, ac}, which is finite.</p>
       </div>
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b}</p>
-        <pre>
-R = a(b &cup; c<sup>*</sup>)
-  = ab &cup; ac<sup>*</sup>
-        </pre>
+        <div class="code">R = a(b &cup; c<sup>*</sup>)
+  = ab &cup; ac<sup>*</sup></div>
         <p>L = {ab, ac, acc, accc, ...}, which is inifite.</p>
       </div>
     </div>
