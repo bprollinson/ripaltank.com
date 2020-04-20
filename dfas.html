@@ -53,8 +53,7 @@
     <div class="section">
       <h3>The DFA parsing algorithm</h3>
       <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by DFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
-      <pre>
-Set s<sub>current</sub> = s<sub>i</sub>
+      <div class="code">Set s<sub>current</sub> = s<sub>i</sub>
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>
     If T[s<sub>current</sub>, symbol] does not exist
@@ -64,8 +63,7 @@ End for
 If s<sub>current</sub> is accepting
     Accept
 Otherwise
-    Reject
-      </pre>
+    Reject</div>
       <p>Informally, we begin with our initial state, and transition to subsequent states for each symbol in the input.</p>
       <p>We reject the language if we end on a non-accepting state at the end of our input or attempt an invalid transition. We accept if an accepting state is reached at end of input.</p>
     </div>

@@ -21,3 +21,8 @@ body {
 .example {
   border: 1px solid black;
 }
+.code {
+  white-space: pre-wrap;
+  font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
+  font-size: 14px;
+}
