@@ -29,3 +29,9 @@ body {
 table {
   text-align: left;
 }
+table.parsetable tr:first-child {
+  font-weight: bold;
+}
+table.parsetable td:first-child {
+  font-weight: bold;
+}
