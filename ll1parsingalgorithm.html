@@ -91,8 +91,7 @@
       <p>At each step of our parsing process, we look pop and observe the top symbol from the parse stack.</p>
       <p>If the top symbol is a terminal:</p>
       <ol>
-        <li>Dequeue the first terminal in the input queue (t<sub>next</sub>)</li>
-        <li>
+        <li>Dequeue the first terminal in the input queue (t<sub>next</sub>)
           <ol>
             <li>If it matches the symbol from the top of the stack, continue parsing</li>
             <li>If it does not match the symbol from the top of the stack, reject</li>
@@ -101,8 +100,7 @@
       </ol>
       <p>If the top symbol is a non-terminal (n<sub>next</sub>):</p>
       <ol>
-        <li>Look up the parse table entry (a<sub>next</sub>) corresponding to the top symbol from the stack (n<sub>next</sub>) and the first terminal from the input queue (t<sub>next</sub>)</li>
-        <li>
+        <li>Look up the parse table entry (a<sub>next</sub>) corresponding to the top symbol from the stack (n<sub>next</sub>) and the first terminal from the input queue (t<sub>next</sub>)
           <ol>
             <li>If a<sub>next</sub> = &oslash;, reject</li>
             <li>Otherwise, look up our next production p<sub>next</sub> = n<sub>next</sub> &rarr; sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub></li>
