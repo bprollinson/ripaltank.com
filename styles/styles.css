@@ -47,3 +47,10 @@ table.stackorqueue {
 table.stackorqueue td {
   border: 1px solid #888888;
 }
+table.parsetrace {
+  border: 1px solid #888888;
+  border-radius: 4px;
+}
+table.parsetrace td {
+  border: 1px solid #BBBBBB;
+}
