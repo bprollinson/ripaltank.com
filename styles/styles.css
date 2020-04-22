@@ -29,6 +29,13 @@ body {
 table {
   text-align: left;
 }
+table.comparisontable {
+  border: 1px solid black;
+  border-radius: 4px;
+}
+table.comparisontable td {
+  border: 1px solid #888888;
+}
 table.parsetable {
   border: 1px solid black;
 }
