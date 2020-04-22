@@ -41,3 +41,9 @@ table.parsetable tr:first-child {
 table.parsetable td:first-child {
   font-weight: bold;
 }
+table.stackorqueue {
+  border: 1px solid black;
+}
+table.stackorqueue td {
+  border: 1px solid #888888;
+}
