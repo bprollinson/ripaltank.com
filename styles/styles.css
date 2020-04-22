@@ -29,6 +29,12 @@ body {
 table {
   text-align: left;
 }
+table.parsetable {
+  border: 1px solid black;
+}
+table.parsetable td {
+  border: 1px solid #888888;
+}
 table.parsetable tr:first-child {
   font-weight: bold;
 }
