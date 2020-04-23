@@ -24,7 +24,7 @@ body {
 .code {
   white-space: pre-wrap;
   font-family: Courier New,Courier,Lucida Sans Typewriter,Lucida Typewriter,monospace;
-  font-size: 14px;
+  font-size: 0.875em;
 }
 table {
   text-align: left;
