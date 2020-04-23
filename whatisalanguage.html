@@ -57,7 +57,7 @@
         <p><em>Example</em></p>
         <p>&Sigma; = {0, 1, 2}</p>
         <p>S = {&epsilon;, 0, 1, 2, 00, 01, 02, 10, 11, 12, 20, 21, 22, 000, 001, ...}</p>
-        <p>This is the set of "ternary" numbers, including the empty string.</p>
+        <p>This is the set of ternary numbers, including the empty string.</p>
       </div>
       <div class="subsection definition">
         <p><em>Definition</em></p>
@@ -68,13 +68,13 @@
     </div>
     <div class="section">
       <h3>Language</h3>
-      <p>We've defined the set of possible strings in a language, but which will we consider valid as part of a language definition?</p>
+      <p>We've defined the set of possible strings over an alphabet, but which will we consider valid as part of a language definition?</p>
       <p>Although it's possible that a language includes all possible strings over its its alphabet, this is usually not the case.</p>
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {0, 1, 2}</p>
         <p>S = {&epsilon;, 0, 1, 2, 00, 01, 02, 10, 11, 12, 20, 21, 22, 000, 001, ...}</p>
-        <p>Let's say we want to allow all ternary strings, but we want a unique numerical representation for each value. Hence, we want to exclude strings with leading zeros before a nonzero digit as we ll as the empty string.</p>
+        <p>Let's say we want to allow all ternary strings, but we want a unique numerical representation for each value. Hence, we want to exclude strings with leading zeros before a nonzero digit as well as the empty string.</p>
         <p>Let's use L to represent our language.</p>
         <p>L = {&epsilon;, 0, 1, 2, 10, 11, 12, 20, 21, 22, ...}</p>
         <p>Here, 10 &isin; L but 010 &notin; L.</p>
@@ -83,20 +83,20 @@
         <p><em>Example</em></p>
         <p>&Sigma; = {a, ripe, banana}</p>
         <p>S = {a, ripe, banana, a a, a ripe, a banana, ripe a, ...}</p>
-        <p>Let's say we want to allow only valid English phrases from this alphabet.</p>
+        <p>Let's say we want to allow only valid English phrases from this alphabet in our language.</p>
         <p>L = {a ripe banana}</p>
       </div>
       <p>These languages are a strict subset of &Sigma;<sup>*</sup> because not all strings are included.</p>
       <div class="subsection definition">
         <p><em>Definition</em></p>
-        <p>Let L represent a language.</p>
+        <p>Let L represent a language defined over alphabet &Sigma;.</p>
         <p>L &isin; &Sigma;<sup>*</sup></p>
       </div>
     </div>
     <div class="section">
       <h3>Summary</h3>
       <p>A language can be defined as a subset of strings defined over an alphabet.</p>
-      <p>Although a language can allow all such strings, in most practical examples, the language is a strict suset of such strings.</p>
+      <p>Although a language can allow all such strings, in most practical examples, the language is a strict subset of such strings.</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>

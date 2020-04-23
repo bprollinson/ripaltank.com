@@ -51,7 +51,7 @@
     </div>
     <div class="section">
       <h3>Kleene closure</h3>
-      <p>Similarly, we can construct a larger machine to recognize the kleene closure of any smaller group as follows:</p>
+      <p>Similarly, we can construct a larger machine to recognize the Kleene closure of any smaller group as follows:</p>
       <img src="assets/thompsonkleeneclosure.png" alt="Kleene closure of an &epsilon;-NFA state group. An existing state group with start state s0 and end state s1 is augmented into a new state group. &epsilon; transitions are added to connect those two states in both directions."/>
       <p>Here, to recognize &epsilon; we make the &epsilon; transition. To recognize some positive number of repetitions of something the inner tate group recognizes, we can progress through the inner group and then the backward via the opposite &epsilon; transition as many times is needed.</p>
     </div>
@@ -64,7 +64,7 @@
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>The following &epsilon;-NFA recognizes the language corresponding to the expression R = ab &cup; c<sup>*</sup>:</p>
-        <img src="assets/thompsonexample.png" alt="&epsilon-NFA that recognizes ab &cup; c*. This &epsilon;-NFA contains a start state with &epsilon; transitions to two state groups. In the top state group, we have two state groups, each with two states, connected with an &epsilon-transition. Within each sub-group, the two states are connected by a transition for the symbols a and b respectively. In the bottom state group, we have the two-state kleene closure construction for the symbol c. Both main state groups have an &epsilon; transition to a common accpting state."/>
+        <img src="assets/thompsonexample.png" alt="&epsilon-NFA that recognizes ab &cup; c*. This &epsilon;-NFA contains a start state with &epsilon; transitions to two state groups. In the top state group, we have two state groups, each with two states, connected with an &epsilon-transition. Within each sub-group, the two states are connected by a transition for the symbols a and b respectively. In the bottom state group, we have the two-state Kleene closure construction for the symbol c. Both main state groups have an &epsilon; transition to a common accpting state."/>
       </div>
     </div>
     <hr/>
