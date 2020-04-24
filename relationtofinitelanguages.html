@@ -31,10 +31,9 @@
     </div>
     <div class="section">
       <h3>Special case: The empty language</h3>
-      <p>In our formulation of regular expressions, we did not explicitly include a representation of the empty language. We should include that here, since that is a valid finite language. We can represent it with a special symbol as follows:</p>
+      <p>We know that the following regular expression:</p>
       <p>R = &oslash;</p>
-      <p>This regular expression never recognizes any string and allows us to reprsent the empty set of strings from the following finite language:</p>
-      <p>L = {}</p>
+      <p>matches the empty language. This language is both regular and finite because it contains a fixed number of strings.</p>
     </div>
     <div class="section">
       <h3>Finite-ness of a regular expression</h3>
@@ -43,7 +42,7 @@
         <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c, d, e}</p>
-        <div class="code">R = a(b &cup; c(d &cup; e))
+        <div class="derivation">R = a(b &cup; c(d &cup; e))
   = a(b &cup; cd &cup; ce)
   = ab &cup; acd &cup; ace</div>
         <p>From this, we can determine that L = {ab, acd, ace}.</p>
@@ -53,8 +52,7 @@
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c}<p>
-        <p>R = &epsilon;<sup>*</sup>a(b &cup; c)</p>
-        <div class="code">R = &epsilon;<sup>n</sup>a(b &cup; c)
+        <div class="derivation">R = &epsilon;<sup>*</sup>a(b &cup; c)
   = a(b &cup; c)
   = ab &cup; ac</div>
         <p>Clearly, L = {ab, ac}, which is finite.</p>
@@ -62,9 +60,9 @@
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b}</p>
-        <div class="code">R = a(b &cup; c<sup>*</sup>)
+        <div class="derivation">R = a(b &cup; c<sup>*</sup>)
   = ab &cup; ac<sup>*</sup></div>
-        <p>L = {ab, ac, acc, accc, ...}, which is inifite.</p>
+        <p>L = {ab, a, ac, acc, accc, ...}, which is inifite.</p>
       </div>
     </div>
     <hr/>

@@ -26,7 +26,7 @@
       <img src="assets/exampleepsilonnfa.png" alt="Example &epsilon;-NFA. This &epsilon;-NFA containers 6 states - s0, s1, s2, s3, s4 and s5. s0 transitions to s1 on input string a. s1 transitions to s2 and s4 on input symbol &epsilon; s2 transitions to s3 on input symbol b. s4 transitions to s5 on input symbol b."/>
       <p>It contains 6 states and 5 state transitions.</p>
       <p>State s<sub>0</sub> is the initial state, while s<sub>3</sub> and s<sub>5</sub> are accepting states.</p>
-      <p>State s<sub>1</sub> illustrates a construction that is not allowed in an NFA but is allowed in an &epsilon;-NFA: transitions with &epsilon; as input.</p>
+      <p>State s<sub>1</sub> illustrates a construction that is not allowed in an NFA but is allowed in an &epsilon;-NFA: transitions with &epsilon; as input. These &epsilon; transitions do not consume an input symbol.</p>
       <p>This &epsilon;-NFA accepts the language represented by the following regular expression:</p>
       <p>a(b &cup; c)</p>
     </div>
@@ -37,30 +37,30 @@
         <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub>
           <ol>
             <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
-            <li>Any number of states can be long to the set of final states, S<sub>f</sub>
+            <li>Any number of states can belong to the set of final states, S<sub>f</sub>
               <ol>
                 <li>S<sub>f</sub> &sube; S</li>
               </ol>
             </li>
           </ol>
         </li>
-        <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z &cup; {&epsilon;}
+        <li>A set of transitions, T, between states, consisting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z &cup; {&epsilon;}
           <ol>
             <li>This differs from NFAs which don't allow &epsilon; as an input symbol for transitions</li>
           </ol>
         </li>
       </ol>
-      <p>In &epsilon;-NFAs, we have a few inherent structural restrictions, as follows:</p>
+      <p>In an &epsilon;-NFA, we have essentially no inherent structural restrictions, with the following key notes about its construction:</p>
       <ol>
         <li>T = T[s<sub>i</sub>, t] = {s<sub>f<sub>1</sub></sub>, s<sub>f<sub>2</sub></sub>, ..., s<sub>f<sub>n</sub></sub>}, a set of states</li>
-        <li>t &isin; Z, a single symbol in our alphabet</li>
+        <li>t &isin; Z &cup; {&epsilon;}, a single symbol in our alphabet or the empty symbol</li>
       </ol>
     </div>
     <div class="section">
       <h3>The &epsilon;-NFA parsing algorithm</h3>
-      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by &epsilon;-NFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p>
+      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by &epsilon;-NFA with states S, transitions T[s<sub>i</sub>, t], initial state s<sub>i</sub>:</p>
       <div class="code">Set S<sub>current</sub> = {s<sub>i</sub>}
-While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon; transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>current</sub> such that s &notin; S
+While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon; transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>current</sub> such that s<sub>&epsilon;<sub>next</sub></sub> &notin; S<sub>current</sub>
     Add s<sub>&epsilon;<sub>next</sub></sub> to S<sub>current</sub>
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>
@@ -69,7 +69,7 @@ For i = 1 to n
         s<sub>next</sub> = T[s<sub>current</sub>, symbol]
         If s<sub>next</sub> exists
             Add s<sub>next</sub> to S<sub>next</sub>
-        While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon; transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>next</sub> such that s &notin; S
+        While some state s<sub>&epsilon;<sub>next</sub></sub> is reachable through &epsilon; transition from some state s<sub>&epsilon;<sub>current</sub></sub> in S<sub>next</sub> such that s<sub>&epsilon;<sub>next</sub></sub> &notin; S<sub>current</sub>
             Add s<sub>&epsilon;<sub>next</sub></sub> to S<sub>next</sub>
     If S<sub>next</sub> is empty
         Reject
@@ -79,7 +79,7 @@ If S<sub>current</sub> contains an accepting state
     Accept
 Otherwise
     Reject</div>
-      <p>Informally, we perform the NFA parsing algorithm but in addition, whenever a state is added to a set we are considering, we also add all states reachable directly or directly through &epsilon; transitions from it.</p>
+      <p>Informally, we perform the NFA parsing algorithm but in addition, whenever a state is added to a set we are considering, we also add all states reachable directly or indirectly through &epsilon; transitions from it.</p>
       <p>Note that this parsing algorithm is becoming somewhat complicated and is not often used in practice. We will later show how to reduce &epsilon;-NFAs into NFAs and then DFAs to simplify the parsing algorithm.</p>
     </div>
     <div class="section">

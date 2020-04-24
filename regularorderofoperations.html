@@ -18,34 +18,7 @@
     <h2>Order of operations in regular expressions</h2>
     <div class="section">
       <h3>Background</h3>
-      <p>Now that we're exploring the operators of Kleene closure, concatenation and union over regular expressions, we should define the order of precedence of these operators. This is important in order to illustrate a singular meaning for any regular expression.</p>
-    </div>
-    <div class="section">
-      <h3>Kleene closure vs. concatenation</h3>
-      <p><em>Example</em></p>
-      <p>&Sigma; = {a, b}</p>
-      <p>R = ab<sup>*</sup></p>
-      <p>Without specifying operator precedence, this could be interpretated as (using parentheses to denote higher precedence):</p>
-      <ol>
-        <li>a(b<sup>*</sup>) OR</li>
-        <li>(ab)<sup>*</sup></li>
-      </ol>
-      <p>By convention, we state that the first interpretation is correct.</p>
-      <p>As a result, our regular expression describes the strings</p>
-      <ol>
-        <li>a</li>
-        <li>ab</li>
-        <li>abb</li>
-        <li>...</li>
-      </ol>
-      <p>but not</p>
-      <ol>
-        <li>&epsilon;</li>
-        <li>abab</li>
-        <li>ababab</li>
-        <li>...</li>
-      </ol>
-      <p>Note that the string ab would be described by either interpretation.</p>
+      <p>Now that we're exploring the operators of concatenation, union and Kleene closure over regular expressions, we should define the order of precedence of these operators. This is important in order to illustrate a singular meaning for any regular expression.</p>
     </div>
     <div class="section">
       <h3>Concatenation vs union</h3>
@@ -58,7 +31,7 @@
           <li>(ab) &cup; c OR</li>
           <li>a(b &cup; c)</li>
         </ol>
-        <p>By convention, we state that the first interpretation is correct.</p>
+        <p>By convention, we state that the first interpretation is correct. The concatention operator has higher precedence than the union operator.</p>
         <p>As a result, our regular expression describes the strings</p>
         <ol>
           <li>ab</li>
@@ -72,8 +45,72 @@
       </div>
     </div>
     <div class="section">
+      <h3>Concatenation vs. Kleene closure</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>&Sigma; = {a, b}</p>
+        <p>R = ab<sup>*</sup></p>
+        <p>Without specifying operator precedence, this could be interpretated as (using parentheses to denote higher precedence):</p>
+        <ol>
+          <li>a(b<sup>*</sup>) OR</li>
+          <li>(ab)<sup>*</sup></li>
+        </ol>
+        <p>By convention, we state that the first interpretation is correct. The Kleene closure operator has higher precedence than the concatenation operator.</p>
+        <p>As a result, our regular expression describes the strings</p>
+        <ol>
+          <li>a</li>
+          <li>ab</li>
+          <li>abb</li>
+          <li>...</li>
+        </ol>
+        <p>but not</p>
+        <ol>
+          <li>&epsilon;</li>
+          <li>abab</li>
+          <li>ababab</li>
+          <li>...</li>
+        </ol>
+        <p>Note that the string ab would be described by either interpretation.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Union vs. Kleene closure</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>&Sigma; = {a, b}</p>
+        <p>R = a &cup; b<sup>*</sup></p>
+        <p>Without specifying operator precedence, this could be interpretated as (using parentheses to denote higher precedence):</p>
+        <ol>
+          <li>a &cup; (b<sup>*</sup>) OR</li>
+          <li>(a &cup; b)<sup>*</sup></li>
+        </ol>
+        <p>By convention, we state that the first interpretation is correct. The Kleene closure operator has higher precedence than the union operator.</p>
+        <p>As a result, our regular expression describes the strings</p>
+        <ol>
+          <li>a</li>
+          <li>ab</li>
+          <li>abb</li>
+          <li>...</li>
+        </ol>
+        <p>but not</p>
+        <ol>
+          <li>&epsilon;</li>
+          <li>abab</li>
+          <li>ababab</li>
+          <li>...</li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
       <h3>Parentheses</h3>
-      <p>A matching par of parentheses can be used, as shown in interpretations above, to enforce a certain order of precedence when the default precedence rules don't suffice.</p>
+      <p>A matching pair of parentheses can be used, as shown in interpretations above, to enforce a certain order of precedence when the default precedence rules don't suffice.</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>&Sigma; = {a, b, c}</p>
+        <p>R = a(b &cup; c)</p>
+        <p>This regular expression matches the language:</p>
+        <p>L = {ab, ac}</p>
+      </div>
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b}</p>
@@ -83,10 +120,10 @@
       </div>
       <div class="subsection example">
         <p><em>Example</em></p>
-        <p>&Sigma; = {a, b, c}</p>
-        <p>R = a(b &cup; c)</p>
+        <p>&Sigma; = {a, b}</p>
+        <p>R = (a &cup; b)<sup>*</sup></p>
         <p>This regular expression matches the language:</p>
-        <p>L = {ab, ac}</p>
+        <p>L = {&epsilon;, a, b, aa, ab, ba, ...}</p>
       </div>
     </div>
     <hr/>

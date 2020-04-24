@@ -36,16 +36,16 @@
         <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub>
           <ol>
             <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
-            <li>Any number of states can be long to the set of final states, S<sub>f</sub>
+            <li>Any number of states can belong to the set of final states, S<sub>f</sub>
               <ol>
                 <li>S<sub>f</sub> &sube; S</li>
               </ol>
             </li>
           </ol>
         </li>
-        <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
+        <li>A set of transitions, T, between states, consisting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
       </ol>
-      <p>In DFAs, we have a few inherent structural restrictions, as follows:</p>
+      <p>In a DFA, we have a few inherent structural restrictions, as follows:</p>
       <ol>
         <li>T = T[s<sub>i</sub>, t] = s<sub>f</sub>, a singular state</li>
         <li>t &isin; Z, a single symbol in our alphabet</li>
@@ -53,7 +53,7 @@
     </div>
     <div class="section">
       <h3>The DFA parsing algorithm</h3>
-      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by DFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
+      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by DFA with states S, transitions T[s<sub>i</sub>, t], initial state s<sub>i</sub>:</p> 
       <div class="code">Set s<sub>current</sub> = s<sub>i</sub>
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>

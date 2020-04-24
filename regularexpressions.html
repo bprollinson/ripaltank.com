@@ -66,9 +66,16 @@
         <p><em>Example</em></p>
         <p>&Sigma; = {a}</p>
         <p>We know that R<sub>1</sub> = {a} is a regular expression.</p>
-        <p>R = R<sub>1</sub><sup>*</sup>
+        <p>R = R<sub>1</sub><sup>*</sup> = a<sup>*</sup>
         <p>This regular expression recognizes the strings &epsilon;, a, aa, ..., with no limit on the string length.</p>
       </div>
+    </div>
+    <div class="section">
+      <h3>Special case: The empty language</h3>
+      <p>We should include a representation of the empty language, since that is a valid regular language as described in our definition. We can represent it with a special symbol as follows:</p>
+      <p>R = &oslash;</p>
+      <p>This regular expression never recognizes any string and allows us to reprsent the empty set of strings which corresponds to the language:</p>
+      <p>L = {}</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>

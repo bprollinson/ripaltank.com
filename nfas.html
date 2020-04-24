@@ -37,16 +37,16 @@
         <li>A set of states, S, typically labelled s<sub>0</sub> through s<sub>n - 1</sub>
           <ol>
             <li>One state is the initial state, s<sub>i</sub> - typically s<sub>0</sub> by convention</li>
-            <li>Any number of states can be long to the set of final states, S<sub>f</sub>
+            <li>Any number of states can belong to the set of final states, S<sub>f</sub>
               <ol>
                 <li>S<sub>f</sub> &sube; S</li>
               </ol>
             </li>
           </ol>
         </li>
-        <li>A set of transitions, T, between states, consting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
+        <li>A set of transitions, T, between states, consisting of a start state s<sub>s</sub> &isin; S, an end state s<sub>f</sub> &isin; S and a transition symbol t &isin; Z</li>
       </ol>
-      <p>In NFAs, we have a few inherent structural restrictions, as follows:</p>
+      <p>In an NFA, we have a few inherent structural restrictions, as follows:</p>
       <ol>
         <li>T = T[s<sub>i</sub>, t] = {s<sub>f<sub>1</sub></sub>, s<sub>f<sub>2</sub></sub>, ..., s<sub>f<sub>n</sub></sub>}, a set of states
           <ol>
@@ -58,7 +58,7 @@
     </div>
     <div class="section">
       <h3>The NFA parsing algorithm</h3>
-      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by NFA with states S, transitions T[s<sub>i</sub>, t], initial start s<sub>i</sub>:</p> 
+      <p>To determine whether s = {&sigma;<sub>1</sub>&sigma;<sub>2</sub>...&sigma;<sub>n</sub>} belongs to the language recognized by NFA with states S, transitions T[s<sub>i</sub>, t], initial state s<sub>i</sub>:</p> 
       <div class="code">Set S<sub>current</sub> = {s<sub>i</sub>}
 For i = 1 to n
     symbol = &sigma;<sub>i</sub>
@@ -102,7 +102,7 @@ Otherwise
           <tr>
             <td>{s<sub>2</sub>, s<sub>4</sub>}</td>
             <td>c</td>
-            <td>Transition to {s<sub>3</sub>} (since s<sub>2</sub> has a transition to s<sub>3</sub> for symbol c, while s<sub>4</sub> has valid transition)</td>
+            <td>Transition to {s<sub>3</sub>} (since s<sub>2</sub> has a transition to s<sub>3</sub> for symbol c, while s<sub>4</sub> has no valid transition for c)</td>
           </tr>
           <tr>
             <td>{s<sub>3</sub>}</td>

@@ -15,10 +15,10 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
-    <h2>Complex regular expressions</h2>
+    <h2>Examples of complex regular expressions</h2>
     <div class="section">
       <h3>Background</h3>
-      <p>You've now seen the funamental operators used in building regular expressions. Now let's look at the more complex types of regular expressions that can be built up using those operators.</p>
+      <p>You've now seen the fundamental operators used in building regular expressions. Now let's look at the more complex types of regular expressions that can be built up using those operators.</p>
     </div>
     <div class="section">
       <h3>Using an operator multiple times</h3>
@@ -27,7 +27,14 @@
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c, d, e}</p>
         <p>R = a &cup; b &cup; c &cup; d &cup; e</p>
-        <p>This regular expression recognizes the strings a, b, c, d and e.</p>
+        <p>This regular expression recognizes the strings:</p>
+        <ol>
+          <li>a</li>
+          <li>b</li>
+          <li>c</li>
+          <li>d</li>
+          <li>e</li>
+        </ol>
       </div>
       <div class="subsection example">
         <p><em>Example</em></p>
@@ -45,13 +52,29 @@
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c}</p>
         <p>R = ab &cup; c<sup>*</sup></p>
-        <p>This regular expression recognizes the strings ab, &epsilon;, c, cc, ccc, ...</p>
+        <p>This regular expression recognizes the strings:</p>
+        <ol>
+          <li>ab</li>
+          <li>&epsilon;</li>
+          <li>c</li>
+          <li>cc</li>
+          <li>ccc</li>
+          <li>...</li>
+        </ol>
       </div>
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c}</p>
         <p>R = a(b &cup; c<sup>*</sup>)</p>
-        <p>This regular expresion recognizes the strings ab, a, ac, acc, accc, ...</p>
+        <p>This regular expresion recognizes the strings:</p>
+        <ol>
+          <li>ab</li>
+          <li>a</li>
+          <li>ac</li>
+          <li>acc</li>
+          <li>accc</li>
+          <li>...</li>
+        </ol>
       </div>
     </div>
     <div class="section">
@@ -61,7 +84,7 @@
         <p><em>Example</em></p>
         <p>&Sigma; = {a, b, c, d, e, f}</p>
         <p>R = a(b &cup; c(d(e &cup; f)<sup>*</sup>)<sup>*</sup>)</p>
-        <p>Some examples of strings recognized by this regular expression:</p>
+        <p>This regular expression recognizes the strings:</p>
         <ol>
           <li>ab</li>
           <li>ac</li>
@@ -71,8 +94,11 @@
           <li>acdee</li>
           <li>acdef</li>
           <li>acdeee</li>
-          <li>acdedf</li>
+          <li>acdede</li>
+          <li>...</li>
         </ol>
+        <p><em>Note</em></p>
+        <p>Not every string has been enumerated here. The above examples simply illustrate some of the strings that belong to the specified language.</p>
       </div>
     </div>
     <hr/>
