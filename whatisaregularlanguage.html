@@ -25,7 +25,7 @@
       <h3>Language set operators</h3>
       <p>To discuss regular languages, we need to first define the following set operators:</p>
       <ol>
-        <li>If R<sub>1</sub> = {s<sub>1,1</sub>, s<sub>1,2</sub>, ...} and R<sub>2</sub> = {s<sub>2,1</sub>, s<sub>2,2</sub>, ...} then R = R<sub>1</sub>R<sub>1</sub>R<sub>2</sub> = {s<sub>1,1</sub>s<sub>2,1</sub>, s<sub>1,2</sub>s<sub>2,1</sub>, s<sub>1,1</sub>s<sub>2,2</sub>, ...}
+        <li>If R<sub>1</sub> = {s<sub>1,1</sub>, s<sub>1,2</sub>, ...} and R<sub>2</sub> = {s<sub>2,1</sub>, s<sub>2,2</sub>, ...} then R = R<sub>1</sub>R<sub>2</sub> = {s<sub>1,1</sub>s<sub>2,1</sub>, s<sub>1,2</sub>s<sub>2,1</sub>, s<sub>1,1</sub>s<sub>2,2</sub>, ...}
           <ol>
             <li>Informally, the concatenation of two sets involves squishing together the a combination of one element from each set in the provided order of operands</li>
           </ol>
@@ -35,7 +35,7 @@
             <li>Informally, the union of two sets involves including any element in either set</li>
           </ol>
         </li>
-        <li>If R<sub>1</sub> = {s<sub>1</sub>, s<sub>2</sub>, ...}  then R = R<sup>*</sup> = {&epsilon;, s<sub>1</sub>, s<sub>2</sub>, s<sub>1</sub>s<sub>1</sub>, s<sub>1</sub>s<sub>2</sub>, s<sub>2</sub>s<sub>1</sub>, s<sub>2</sub>s<sub>2</sub>, s<sub>1</sub>s<sub>1</sub>s<sub>1</sub>, ...}
+        <li>If R<sub>1</sub> = {s<sub>1</sub>, s<sub>2</sub>, ...}  then R = R<sub>1</sub><sup>*</sup> = {&epsilon;, s<sub>1</sub>, s<sub>2</sub>, s<sub>1</sub>s<sub>1</sub>, s<sub>1</sub>s<sub>2</sub>, s<sub>2</sub>s<sub>1</sub>, s<sub>2</sub>s<sub>2</sub>, s<sub>1</sub>s<sub>1</sub>s<sub>1</sub>, ...}
           <ol>
             <li>Informally, the Kleene closure of a set involves starting with &epsilon; and concatenating any element of that set any number of times</li>
           </ol>
@@ -49,11 +49,11 @@
         <p>For any alphabet &Sigma;:</p>
         <ol>
           <li>The empty language, L = {}, is regular</li>
-          <li>The language containing the empty string, L = {&epsilon;} is regular</li>
-          <li>For any &sigma; &isin; &Sigma;, the language containing a fixed single-symbol string L = {&sigma;} is regular</li>
-          <li>For any two regular languages R<sub>1</sub> and R<sub>2</sub>, R<sub>1</sub>R<sub>2</sub> is regular</li>
-          <li>For any two regular languages R<sub>1</sub> and R<sub>2</sub>, R<sub>1</sub> &cup; R<sub>2</sub> is regular</li>
-          <li>For any regular language R<sub>1</sub>, R<sub>1</sub><sup>*</sup> is regular</li>
+          <li>The language containing the empty string, L = {&epsilon;}, is regular</li>
+          <li>For any &sigma; &isin; &Sigma;, the language containing a fixed single-symbol string, L = {&sigma;}, is regular</li>
+          <li>For any two regular languages R<sub>1</sub> and R<sub>2</sub>, the concatenation of those languages, L = R<sub>1</sub>R<sub>2</sub>, is regular</li>
+          <li>For any two regular languages R<sub>1</sub> and R<sub>2</sub>, the union of those languages, L = R<sub>1</sub> &cup; R<sub>2</sub>, is regular</li>
+          <li>For any regular language R<sub>1</sub>, the Kleene closure of that language, L = R<sub>1</sub><sup>*</sup>, is regular</li>
         </ol>
       </div>
     </div>
