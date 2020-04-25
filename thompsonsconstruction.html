@@ -22,7 +22,7 @@
     </div>
     <div class="section">
       <h3>Introduction</h3>
-      <p>Thompsons' construction solves two problems with relation to recognizing regular languages specified by a regular expression:</p>
+      <p>Thompson's construction accomplished two goals which are helpful in recognizing regular languages specified by a regular expression:</p>
       <ol>
         <li>It proves that a state machine that recognizes the language exists AND</li>
         <li>It illustrates the process for constructing the machine</li>
@@ -39,25 +39,25 @@
       <h3>Concatenation</h3>
       <p>To represent the concatention of two smaller state machines, we need to first model a smaller machine abstractly, as follows:</p>
       <img src="assets/thompsonstategroup.png" alt="&epsilon;-NFA state group. This state group contains at least two states, s0 and s1, with potentially more states and transitions between then. s1 is accepting."/>
-      <p>The smaller state machines can be thought of "state groups" - a collection of states with a start state and an end state. We can create a larger state group recognizing the concatenation of the languages from two smaller groups as follows:</p>
+      <p>The smaller state machines can be thought of as <em>state groups</em> - a collection of states with a start state and an end state. We can create a larger state group recognizing the concatenation of the languages from two smaller groups as follows:</p>
       <img src="assets/thompsonconcatenation.png" alt="Concatenation of &epsilon;-NFA state groups. Two existing state groups - one with start state s0 and end state s1 and one with start state s2 and end state s3 - are combined into a new state group with state state s0 and end state s3. An &epsilon; transition connects s2 to s3 to connect the end of the first state group with the start of the second state group. s3 is accepting."/>
-      <p>This new state group combines the state machines from the two existing groups via an epsilon transition. This allows the concatenation of languages to be recognizes without needing to process any additional input symbols. We also set the final state of the second group to be the only accepting state so that a partial match is not recognized.</p>
+      <p>This new state group combines the state machines from the two existing groups via an epsilon transition. This allows the concatenation of languages to be recognized without needing to process any additional input symbols. We also set the final state of the second group to be the only accepting state so that a partial match is not recognized.</p>
     </div>
     <div class="section">
       <h3>Union</h3>
-      <p>To represent the union of two smaller state machines, we can combine them as follows:</p>
+      <p>To represent the union of two smaller state groups, we can combine them as follows:</p>
       <img src="assets/thompsonunion.png" alt="Union of &epsilon;-NFA state groups. Two existing state groups - one with start state s1 and end state s2 and one with start state s3 and end state s4 - are combined into a new state group. A new start state s0 has &epsilon; transitions to s1 and s3, while s2 and s4 have &epsilon; transitions to a new accepting end state s5."/>
       <p>Here, an &epsilon; transition can be made to the machine for either part of the union and back out to a final accepting state. Hence, if either smaller state machine would have accepted, this larger machine will accept.</p>
     </div>
     <div class="section">
       <h3>Kleene closure</h3>
-      <p>Similarly, we can construct a larger machine to recognize the Kleene closure of any smaller group as follows:</p>
+      <p>Similarly, we can construct a larger machine to recognize the Kleene closure of any smaller state group as follows:</p>
       <img src="assets/thompsonkleeneclosure.png" alt="Kleene closure of an &epsilon;-NFA state group. An existing state group with start state s0 and end state s1 is augmented into a new state group. &epsilon; transitions are added to connect those two states in both directions."/>
-      <p>Here, to recognize &epsilon; we make the &epsilon; transition. To recognize some positive number of repetitions of something the inner tate group recognizes, we can progress through the inner group and then the backward via the opposite &epsilon; transition as many times is needed.</p>
+      <p>Here, to recognize &epsilon;, we make the &epsilon; transition. To recognize some positive number of repetitions of something the inner state group recognizes, we can progress through the inner group and then the backward via the opposite &epsilon; transition as many times is needed.</p>
     </div>
     <div class="section">
       <h3>Summary</h3>
-      <p>By using these constructions, we can build an &epsilon;-NFA from any regular expression and recognize its language.</p>
+      <p>By using these constructions, we can build an &epsilon;-NFA from any regular expression and recognize the language it specifies.</p>
     </div>
     <div class="section">
       <h3>Example</h3>
