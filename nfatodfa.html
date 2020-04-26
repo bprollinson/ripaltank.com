@@ -18,7 +18,7 @@
     <h2>Converting an NFA to a DFA</h2>
     <div class="section">
       <h3>Background</h3>
-      <p>We've seen the process of converting and &epsilon;-NFA to an NFA. This process will be extremely helpful in converting regular expressions into a state machine that's easy to use. However, NFAs may still have multiple transitions for the same input symbol from the same state, which makes the recognition process difficult. In this section, we'll demonstrate how to convert an NFA into a DFA in order to provide a simpler recognition mechanism.</p>
+      <p>We've seen the process of converting and &epsilon;-NFA to an NFA. This process will be extremely helpful in converting regular expressions into a state machine that's easy to use. However, NFAs may still have multiple transitions for the same input symbol from the same state, which can still make the recognition process difficult. In this section, we'll demonstrate how to convert an NFA into a DFA in order to provide a simpler recognition mechanism.</p>
     </div>
     <div class="section">
       <h3>Example</h3>
@@ -35,38 +35,45 @@
       <h3>More complex example</h3>
       <div class="subsection example">
         <p><em>Example</em></p>
-        <p>The following NFA is a more complex example of an NFA that can be reduced:</p>
+        <p>The following is an example of an NFA that is significantly more complex:</p>
         <img src="assets/examplecomplexmultipletransitionssamesymbol.png" alt="Complex NFA with multiple transitions for the same symbol and state. This NFA contains 6 states - s0 through s5. s0 transitions to s1 on input symbol a. s1 transitions to s0 and s3 on input symbol b. s1 transitions to s2 on input symbol c. s3 transitions to s4 on input symbol a. s4 transitions to s5 on input symbol c. s2 is accepting."/>
         <p>Here, it's less clear how to reduce this to a DFA.</p>
         <p>Now, consider the transitions from s<sub>1</sub> for input symbol b. The possible set of next states is: {s<sub>0</sub>, s<sub>3</sub>}.</p>
-        <p>Since we only need to find a single path for a certain input string to an accepting state, we would continue this process. For example, if the next input symbol is a, the possible set of next states is: {s<sub>1</sub>, s<sub>4</sub>}.</p>
+        <p>Since we only need to find a single path for a certain input string to an accepting state, we would continue the process of considering the set of all possible next states as we iterate through the input string.</p>
+        <p>For example, if we process input characters a then b, our possible set of states is {s<sub>0</sub>, s<sub>3</sub>}. On subsequent input symbol a, the next set of possible states is: {s<sub>1</sub>, s<sub>4</sub>}.</p>
       </div>
     </div>
     <div class="section">
       <h3>Reduction process</h3>
-      <p>To outline the reduction process, for our set of states S, we must consider consider the power set of S.</p>
-      <p>We know that S = {s<sub>0</sub>, s<sub>1</sub>, ..., s<sub>n - 1</sub>}.</p>
-      <p>P(S) = {{}, {s<sub>0</sub>}, ..., {s<sub>n - 1</sub>}, {s<sub>0</sub>, s<sub>1</sub>}, {s<sub>0</sub>, s<sub>2</sub>}, ..., {s<sub>n - 2</sub>, s<sub>n - 1</sub>}, {s<sub>0</sub>, s<sub>1</sub>, s<sub>2</sub>}, ..., {s<sub>1</sub>, s<sub>2</sub>, ..., s<sub>n - 1</sub>}}</p>
+      <p>To outline the reduction process, for our set of states S, we must consider the power set of S.</p>
+      <div class="subsection definition">
+        <p><em>Defintion</em></p>
+        <p>Given our set of states</p>
+        <p>S = {s<sub>0</sub>, s<sub>1</sub>, ..., s<sub>n - 1</sub>}</p>
+        <p>The power set of S is defined as:</p>
+        <p>P(S) = {{}, {s<sub>0</sub>}, ..., {s<sub>n - 1</sub>}, {s<sub>0</sub>, s<sub>1</sub>}, {s<sub>0</sub>, s<sub>2</sub>}, ..., {s<sub>n - 2</sub>, s<sub>n - 1</sub>}, {s<sub>0</sub>, s<sub>1</sub>, s<sub>2</sub>}, ..., {s<sub>1</sub>, s<sub>2</sub>, ..., s<sub>n - 1</sub>}}</p>
+      </div>
       <p>Informally, the power set of S is the set containg all possible subsets of S.</p>
-      <p>Since, as illustated above, we need to consider combinations of possible states, we will construct a new set of states in our DFA which maps to some combination of states from our DFA, which is some element of the power set of (S).</p>
-      <p>Our DFA's start state corresponds to the element {s<sub>0</sub>} from P(S).</p>
-      <p>Then, for each input symbol corresponding to a transition in any state from NFA, we create a new DFA state corresponding to the set of all states reachable from that symbol (or reuse the DFA state corresponding to that combination if one exists) and add the corresponding transition.</p>
-      <p>We set our new DFA state to accepting if at least on corresponding NFA is accepting.</p>
+      <p>Since, as illustated above, we need to consider combinations of possible states, we will construct a new set of states in our DFA which maps to some combination of states from our DFA. Specifically, these combinations map to some element of the power set of S, P(S).</p>
+      <p>Our DFA's start state corresponds to the element {s<sub>0</sub>} from P(S), since this is where our parsing process starts.</p>
+      <p>Next, we must consider the process of working through the NFA to add additional states to our DFA.</p>
+      <p>We will consider a DFA state which represents some set of states from the original NFA. For each input symbol corresponding to a transition from any of the original DFA states, track all states from the DFA that would be transitioned to for that input symbol. Then, we create a new DFA state corresponding to that set of NFA states (or reuse the DFA state corresponding to that combination if one exists). Then, we can add a transition to it from the previous state.</p>
+      <p>We set our new DFA state to accepting if at least one of the NFA states it was derived from is accepting.</p>
     </div>
     <div class="section">
       <h3>More complex example reduced</h3>
       <div class="subsection example">
         <p><em>Example</em></p>
-        <p>Following the instruction from above, our complex NFA can can be reduced to the following DFA:</p>
+        <p>Following the instructions above, our complex NFA can can be reduced to the following DFA:</p>
         <img src="assets/examplecomplexdfareduced.png" alt="Simplified DFA. This DFA contains 6 states, each of which represents some set of states from the DFA. State with set s0 transitions to state with set s1 on input symbol a. State with set s1 transitions to state with set s2 on input symbol c. State with set s1 transitions to state with set s0, s3 on input symbol b. State with set s0, s3 transitions to state with set s1, s4 on input symbol a. State with set s1, s4 transitions to state with set s2, s5 on input symbol c. All new states containing s2 are accepting."/>
         <p>Finally, we can re-label the states as follows:</p>
         <img src="assets/examplecomplexdfareducedrelabelled.png" alt="Simplified DFA relabelled This dfa contains 6 states - s0 through s5. s0 transitions to s1 in input symbol a. s1 transitions to s2 on input symbol c. s1 transitions to s3 on input symbol b. s3 transitions to s4 on input symbol a. s4 transitions to s5 on input symbol c. s2 and s5 are accepting."/>
-        <p>Note that the two states whose state set from the NFA contain s<sub>2</sub> are marked as final statse.</p>
+        <p>Note that the two states whose state set from the NFA contain s<sub>2</sub> are marked as final states.</p>
       </div>
     </div>
     <div class="section">
-      <h3>Conclustion</h3>
-      <p>In conclusion, we now have a process to convert an NFA to a DFA. Using Thompons's construction along with the &epsilon;-NFA to NFA conversion process, we can now convert regular expressions in to NFAs for recognition.</p>
+      <h3>Conclusion</h3>
+      <p>In conclusion, we now have a process to convert an NFA to a DFA. Using Thompsons's construction along with the &epsilon;-NFA to NFA conversion process, we can now convert regular expressions into NFAs for straightforward recognition.</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>

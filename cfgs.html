@@ -21,13 +21,13 @@
       <p>We've learned methods for recognizing regular languanges. However, not all languages are regular. In this section, we will introduce a more complex class of languages: context-free languages.</p>
     </div>
     <div class="section">
-      <h3>Example of non-regular language</h3>
+      <h3>Non-regular language example</h3>
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>The following language is not regular:</p>
         <p>L = {a<sup>n</sup>b<sup>n</sup> | n >= 0}</p>
         <p>To clarify, L = {&epsilon;, ab, aabb, aaabbb, ...}</p>
-        <p>No matter how hard you try, you will not be able to come up with a regular expression or DFA that recognizes it. This language, however, does belong to the class of context-free languages.</p>
+        <p>No matter how hard you try, you will not be able to come up with a regular expression that specifies it or DFA that recognizes it. This language, however, does belong to the class of context-free languages.</p>
       </div>
     </div>
     <div class="section">
@@ -43,28 +43,28 @@
       </div>
       <p>A context-free grammar consists of four pieces of information:</p>
       <ol>
-        <li>A set of non-terminals N
+        <li>A set of non-terminals, N
           <ol>
             <li>A non-terminal is a symbol that can become some other set of symbols through a production</li>
             <li>By convention, we represent a non-terminal with a capital letter</li>
           </ol>
         </li>
-        <li>A set of terminals T
+        <li>A set of terminals, T
           <ol>
             <li>Terminals are symbols we are trying to produce from our CFG corresponding to symbols in our input string</li>
             <li>T &subset; &Sigma;, our alphabet</li>
           </ol>
         </li>
-        <li>A set of productions P
+        <li>A set of productions, P
           <ol>
             <li>P = {p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>n</sub>}</li>
-            <li>p<sub>i</sub> can be expressed as N<sub>i</sub> &rarr; sym<sub>1</sub>, sym<sub>2</sub>, ..., sym<sub>n</sub>, where sym<sub>i</sub> &isin; T &cup; N &cup; &epsilon;</li>
-            <li>Here, a production p<sub>i</sub> represents the replacement of a non-terminal with some combinations of terminal and non-terminal symbols</li>
+            <li>p<sub>i</sub> can be expressed as N<sub>i</sub> &rarr; sym<sub>i<sub>1</sub></sub>, sym<sub>i<sub>2</sub></sub>, ..., sym<sub>i<sub>n</sub></sub>, where sym<sub>i<sub>j</sub></sub> &isin; T &cup; N &cup; &epsilon;</li>
+            <li>Here, a production p<sub>i</sub> represents the replacement of a non-terminal with some combination of terminal and non-terminal symbols</li>
           </ol>
         </li>
-        <li>A start symbol S
+        <li>A start symbol, S
           <ol>
-            <li>This symbol provides the starting symbol for producing strings within L</li>
+            <li>This symbol provides the starting symbol for producing strings within our language L</li>
           </ol>
         </li>
       </ol>
@@ -78,16 +78,14 @@
           S &rarr; &epsilon;
         </p>
         <p>Here, we have two productions.</p>
-        <p>S is our only non-terminal. Our terminals are a, b and &epsilon;. Note that these can be easily read from the productions and are typically not stated explicitly.</p>
-        <p>S is our start symbol. We can determine that by observing the non-terminal on the left-hand side of the first production by convention.</p>
+        <p>S is our only non-terminal. Our terminals are a, b. Note that these can be easily read from the productions and are typically not stated explicitly. Also note that &epsilon; is not a terminal and is a special symbol.</p>
+        <p>S is our start symbol. We can determine that by observing the non-terminal on the left-hand side of the first production as per the usual convention.</p>
         <p>Here, we can say that S produces aSb and S produces &epsilon;.</p>
         <p>We can derive a sample string, aabb, as follows:</p>
-        <p>
-          S<br/>
-          &rarr; aSb (via rule 1)<br/>
-          &rarr; aaSbb (via rule 1)<br/>
-          &rarr; aabb (via rule 2)
-        </p>
+        <div class="derivation">S
+&rarr; aSb (via rule 1)
+&rarr; aaSbb (via rule 1)
+&rarr; aabb (via rule 2)</div>
         <p>In the above example, we can say that S derives aabb, so aabb &isin; L. This is symbolized as:</p>
         <p>S &rarr;<sup>*</sup> aabb</p>
       </div>
@@ -97,7 +95,7 @@
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>
-          SENTENCE &rarr; SUBJECT VERB OBJECT<br/>
+          SENTENCE &rarr; SUBJECT VERB OBJECT.<br/>
           SUBJECT &rarr; John | Jane<br/>
           VERB &rarr; threw | kicked<br/>
           OBJECT &rarr; the ball | the puck
@@ -105,17 +103,15 @@
         <p>Note: S &rarr; sym<sub>1</sub> | sym<sub>2</sub> is just short form for:</p>
         <p>
           S &rarr; sym<sub>1</sub><br/>
-          S &rarr; sym<sub>1</sub>
+          S &rarr; sym<sub>2</sub>
         </p>
         <p>Here, N = {SENTENCE, SUBJECT, VERB, OBJECT}, T = {John, Jane, threw, kicked, the, ball, puck, .}. SENTENCE is our start symbol.</p>
         <p>Example derivation:</p>
-        <p>
-          SENTENCE<br/>
-          &rarr; SUBJECT VERB OBJECT (via rule 1)<br/>
-          &rarr; Jane VERB OBJECT (via rule 2)<br/>
-          &rarr; Jane kicked OBJECT (via rule 3)<br/>
-          &rarr; Jane kicked the ball (via rule 3)
-        </p>
+        <div class="derivation">SENTENCE
+&rarr; SUBJECT VERB OBJECT. (via rule 1)
+&rarr; Jane VERB OBJECT. (via rule 2)
+&rarr; Jane kicked OBJECT. (via rule 3)
+&rarr; Jane kicked the ball. (via rule 3)</div>
         <p>SENTENCE &rarr;<sup>*</sup> Jane kicked the ball.</p>
       </div>
     </div>
