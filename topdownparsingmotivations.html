@@ -39,18 +39,16 @@
           E &rarr; e
         </p>
         <p>The following derivation of the string abcde corresponds to a top-down parsing procedure:</p>
-        <p>
-          S<br/>
-          &rarr; ACD (via rule 1)<br/>
-          &rarr; abCD (via rule 2)<br/>
-          &rarr; abcD (via rule 4)<br/>
-          &rarr; abcdE (via rule 5)<br/>
-          &rarr; abcde (via rule 6)
-        </p>
+        <div class="derivation">S
+&rarr; ACD (via rule 1)
+&rarr; abCD (via rule 2)
+&rarr; abcD (via rule 4)
+&rarr; abcdE (via rule 5)
+&rarr; abcde (via rule 6)</div>
       </div>
     </div>
     <div class="section">
-      <h3>Intuitive explanation</h3>
+      <h3>Production choice</h3>
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>When we have produced ACD and are looking to expand the non-terminal A, we have two possible rules that could be applied:</p>
@@ -73,12 +71,10 @@
           B &rarr; cc 
         </p>
         <p>Let's derive the string acc:</p>
-        <p>
-          S<br/>
-          &rarr; AB (via rule 1)<br/>
-          aB (via rule 2)<br/>
-          acc (via rule 4)
-        </p>
+        <div class="derivation">S
+&rarr; AB (via rule 1)
+&rarr; aB (via rule 2)
+&rarr; acc (via rule 4)</div>
         <p>Here, we apply rule 4 rather than rule 3 for our final production because the remaining input that has not yet been produced (cc) better matches that production.</p>
       </div>
     </div>
@@ -89,21 +85,19 @@
         <p>&Sigma; = {x, y, z}</p>
         <p>
           S &rarr; AZ<br/>
-          A &rarr; B<br/>
-          A &rarr; C<br/>
-          B &rarr; x<br/>
-          C &rarr; y<br/>
+          A &rarr; X<br/>
+          A &rarr; Y<br/>
+          X &rarr; x<br/>
+          Y &rarr; y<br/>
           Z &rarr; z
         </p>
         <p>Let's derive the string yz:</p>
-        <p>
-          S<br/>
-          &rarr; AZ (via rule 1)<br/>
-          &rarr; CZ (via rule 3)<br/>
-          &rarr; yZ (via rule 5)<br/>
-          &rarr; yz (via rule 6)
-        </p>
-        <p>When we have produced AZ and are looking to expand the non-terminal A, we choose rule 3 because C &rarr;<sup>*</sup> y. This line of thinking can be used for even longer non-terminal chains.</p>
+        <div class="derivation">S
+&rarr; AZ (via rule 1)
+&rarr; YZ (via rule 3)
+&rarr; yZ (via rule 5)
+&rarr; yz (via rule 6)</div>
+        <p>When we have produced AZ and are looking to expand the non-terminal A, we choose rule 3 because Y &rarr;<sup>*</sup> y. This line of thinking can be used for even longer non-terminal chains.</p>
       </div>
     </div>
     <div class="section">
@@ -116,45 +110,42 @@
           A &rarr; ab
         </p>
         <p>Let's say we have the input string aa and we try to derive it using this grammar:</p>
-        <p>
-          S<br/>
-          &rarr; A (via rule 1)<br/>
-          &rarr; ab (via rule 2)
-        </p>
+        <div class="derivation">S
+&rarr; A (via rule 1)
+&rarr; ab (via rule 2)</div>
         <p>Here, we chose to apply rule 1 because it looks like rule 2 subequently procudes the a symbol we need. However, it causes a mismatch later in the string. The above is not a valid derivation of aa, which is in fact not part of the specified language.</p>
       </div>
     </div>
     <div class="section">
       <h3>Ambiguity</h3>
         <div class="subsection example">
-        <p><em>Example</em></p>
-        <p>&Sigma; = {a, b}</p>
-        <p>
-          S &rarr; aa<br/>
-          S &rarr; ab
-        </p>
-        <p>Let's derive the string ab:</p>
-        <p>
-          S<br/>
-          &rarr; ab (via rule 2)
-        </p>
-        <p>Here, we choose to apply rule 2 because although the first input character (a) would be matched in either case, the second input character (b) would only be matched via rule 2. As shown here, sometimes we need to look more than one symbol ahead to decide how to produce our input string via context-free grammar rules.</p>
-        <p>&Sigma; {a}</p>
-        <p>
-          S &rarr; a<br/>
-          S &rarr; a
-        </p>
-        <p>Let's say we have the input string a and we try to derive it using this grammar:</p>
-        <p>
-          S<br/>
-          a (via rule ?)
-        </p>
-        <p>Even though a is clearly in our language, it's not clear which production rule should be used. As a result of this, it's not clear what the input string means in this language provided by the CFG. This grammar is ambiguous.</p>
+          <p><em>Example</em></p>
+          <p>&Sigma; = {a, b}</p>
+          <p>
+            S &rarr; aa<br/>
+            S &rarr; ab
+          </p>
+          <p>Let's derive the string ab:</p>
+          <div class="derivation">S
+&rarr; ab (via rule 2)</div>
+          <p>Here, we choose to apply rule 2 because although the first input character (a) would be matched in either case, the second input character (b) would only be matched via rule 2. As shown here, sometimes we need to look more than one symbol ahead to decide how to derive our input string via context-free grammar rules.</p>
+        </div>
+        <div class="subsection example">
+          <p><em>Example</em></p>
+          <p>&Sigma; {a}</p>
+          <p>
+            S &rarr; a<br/>
+            S &rarr; a
+          </p>
+          <p>Let's say we have the input string a and we try to derive it using this grammar:</p>
+          <div class="derivation">S
+&rarr; a (via rule ?)</div>
+          <p>Even though a is clearly in our language, it's not clear which production rule should be used. As a result of this, it's not clear what the input string means in this language provided by the CFG. This grammar is ambiguous.</p>
       </div>
     </div>
     <div class="section">
       <h3>Conclusion</h3>
-      <p>Hopefully, this page introduced you to some of the motivations of digging deeper into the details of top-down parsing algorithms. Specific information on these algorithms will be provided subsequently.</p>
+      <p>Hopefully, this page introduced you to some of the motivations for digging deeper into the details of top-down parsing algorithms. Specific information on these algorithms will be provided subsequently.</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>

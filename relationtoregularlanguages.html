@@ -23,27 +23,27 @@
     </div>
     <div class="section">
       <h3>All regular languages are context-free</h3>
-      <p>We can illustrate this by illustrating how we can build up a regular language via its definition through a context-free grammar.</p>
+      <p>We can illustrate this by illustrating how we can build up the specification for a regular language via its definition through a context-free grammar.</p>
       <p>To express the language L = {}, we can use the following empty set of grammar rules:</p>
       <p>&oslash; = {}</p>
       <p>To express the language L = {&epsilon;}, we can use the following grammar rule:</p>
-      <p>C &rarr; &epsilon;</p>
-      <p>To express the regular language L = {&sigma;}, &sigma; &isin; &Sigma;, we can use the following grammar rule:</p>
-      <p>C &rarr; &sigma;</p>
+      <p>S &rarr; &epsilon;</p>
+      <p>To express the regular language L = {&sigma;} | &sigma; &isin; &Sigma;, we can use the following grammar rule:</p>
+      <p>S &rarr; &sigma;</p>
       <p>For regular languages R<sub>1</sub> and R<sub>2</sub>, we can construct the regular language L = R<sub>1</sub>R<sub>2</sub> via the following grammar rule:</p>
-      <p>C &rarr; R<sub>1</sub>R<sub>2</sub></p>
+      <p>S &rarr; R<sub>1</sub>R<sub>2</sub></p>
       <p>For regular language R<sub>1</sub> and R<sub>2</sub>, we can construct the regular language L = R<sub>1</sub> &cup; R<sub>2</sub> via the following grammar rules:</p>
       <p>
-        C &rarr; R<sub>1</sub><br/>
-        C &rarr; R<sub>2</sub>
+        S &rarr; R<sub>1</sub><br/>
+        S &rarr; R<sub>2</sub>
       </p>
       <p>Since we have a choice of whether to product R<sub>1</sub> or R<sub>2</sub> above, we have implemented the union operator.</p>
       <p>For regular language R<sub>1</sub>, we can construct the regular language L = R<sup>*</sup> via the following grammar rules:</p>
       <p>
-        C &rarr; R<sub>1</sub>R<br/>
-        C &rarr; &epsilon;
+        S &rarr; R<sub>1</sub>S<br/>
+        S &rarr; &epsilon;
       </p>
-      <p>Here, we wil use the first production as many times as we have repetitions of R<sub>1</sub>, then terminate our derivation using the second production. Note that the empty string can be recognized by immediately using the second production.</p>
+      <p>Here, we wil use the first production as many times as we have repetitions of R<sub>1</sub>, then terminate our derivation using the second production. Note that the empty string can be derived by immediately using the second production.</p>
     </div>
     <div class="section">
       <h3>Regular-ness of a context-free grammar</h3>
@@ -76,7 +76,7 @@
         <p>
           S &rarr; abAab<br/>
           A &rarr; S<br/>
-          A &rarr; &sigma;
+          A &rarr; &epsilon;
         </p>
         <p>By inspection, L = {abab, abababab, abababababab, ...}. It can be expressed by the following regular expression:</p>
         <p>R = abab(abab)<sup>*</sup></p>
@@ -86,9 +86,9 @@
         <p>&Sigma; = {a, b}</p>
         <p>
           S &rarr; aSb<br/>
-          S &rarr; &sigma;
+          S &rarr; &epsilon;
         </p>
-        <p>By inspection, L = {&epsilon; ab, aabb, aaabbb, ...}. This language is not regular.</p>
+        <p>By inspection, L = {&epsilon;, ab, aabb, aaabbb, ...}. This language is not regular.</p>
       </div>
       <div class="subsection example">
         <p><em>Example</em></p>
@@ -100,6 +100,10 @@
         </p>
         <p>By inspection, L = {abca, ababcaa, abababcaaa, ...}. This language is not regular.</p>
       </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>In conclusion, all regular languages are context-free but not all context-free languages are regular. Determining whether a context-free language is regular is not straightforward.</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
