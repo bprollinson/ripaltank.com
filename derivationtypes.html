@@ -45,43 +45,41 @@
           ELSEBODY = func2();<br/>
           END = }
         </p>
-        <p>&Sigma; = {if, (, ), x, y, func1();, "}", else, "{", func2()}</p>
+        <p>&Sigma; = {if, (, ), x, y, func1();, "}", else, "{", func2();}</p>
         <p>Let's say our input string is:</p>
-        <p>if (x) { func1(); } else { func2() }</p>
+        <p>if (x) { func1(); } else { func2(); }</p>
         <p>The leftmost derivation of this string is:</p>
-        <p>
-          IFSTATEMENT<br/>
-          &rarr; IF IFBODY ELSE ELSEBODY END<br/>
-          &rarr; if (CONDITION) { IFBODY ELSE ELSEBODY END<br/>
-          &rarr; if (x) { IFBODY ELSE ELSEBODY END<br/>
-          &rarr; if (x) { func1(); ELSE ELSEBODY END<br/>
-          &rarr; if (x) { func1(); } else { ELSEBODY END<br/>
-          &rarr; if (x) { func1(); } else { func2(); END<br/>
-          &rarr; if (x) { func1(); } else { func2(); }
-        </p>
+        <div class="derivation">IFSTATEMENT
+&rarr; IF IFBODY ELSE ELSEBODY END
+&rarr; if (CONDITION) { IFBODY ELSE ELSEBODY END
+&rarr; if (x) { IFBODY ELSE ELSEBODY END
+&rarr; if (x) { func1(); ELSE ELSEBODY END
+&rarr; if (x) { func1(); } else { ELSEBODY END
+&rarr; if (x) { func1(); } else { func2(); END
+&rarr; if (x) { func1(); } else { func2(); }</div>
         <p>Conversely, the rightmost derivation of this string is:</p>
-        <p>
-          IFSTATEMENT<br/>
-          &rarr; IF IFBODY ELSE ELSEBODY END<br/>
-          &rarr; IF IFBODY ELSE ELSEBODY }<br/>
-          &rarr; IF IFBODY ELSE func2(); }<br/>
-          &rarr; IF IFBODY } else { func2(); }<br/>
-          &rarr; IF func1(); } else { func2(); }<br/>
-          &rarr; if (CONDITION) { func1(); } else { func2(); }<br/>
-          &rarr; if (x) { func1(); } else { func2(); }
-        </p>
+        <div class="derivation">IFSTATEMENT
+&rarr; IF IFBODY ELSE ELSEBODY END
+&rarr; IF IFBODY ELSE ELSEBODY }
+&rarr; IF IFBODY ELSE func2(); }
+&rarr; IF IFBODY } else { func2(); }
+&rarr; IF func1(); } else { func2(); }
+&rarr; if (CONDITION) { func1(); } else { func2(); }
+&rarr; if (x) { func1(); } else { func2(); }</div>
         <p>Now, observe the following parse tree:</p>
         <img src="assets/ifstatementparsetree.png"/ alt="Parse tree for the string if (x) { func1(); } else { func2() }. IFSTATEMENT is at the top of the parse tree. On the second level, IFSTATEMENT becomes 4 symbols: IF, IFBODY, ELSE, ELSEBODY, END. On the third level, IF becomes 5 symbols: if, (, CONDITION, ), {. On the third level, IFBODY becomes func1();. On the third level, ELSE becomes 3 symbols: }, else, {. On the third level, ELSEBODY becomes func2();. On the third level, END becomes }. On the fourth level, CONDITION becomes x.">
       </div>
-      <p>If we observe the parse tree and compare it to the leftmost and rightmost derivations, we can see that the parse tree conceptually applies. For a leftmost derivation, we can simply read the terminal (leaf) nodes from left to right. For the rightmost derivation, we can read the terminal nodes from right to left.</p>
+      <p>If we observe the parse tree and compare it to the leftmost and rightmost derivations, we can see that the tree simultaneously illustrates both derivations.</p>
+      <p>To see the leftmost derivation within the tree structure, we can read the terminal (leaf) nodes from left to right and observe the parent nodes that represent the corresponding productions. In this case, we always apply the production needed to derive the leftmost terminal node that has not yet been derived.</p>
+      <p>For the rightmost derivation, we can apply this process in the opposite direction.</p>
     </div>
     <div class="section">
       <h3>Conclusion</h3>
-      <p>A parse tree is a good representation of a string derivation regardless of our choice of derivation, which does not impact the contextual meaning of our input string.</p>
+      <p>A parse tree is a good representation of a string derivation regardless of our choice of derivation. While a parse tree indicates the contextual meaning of our input string, our choice of derivation type corresponding to a parse tree does not.</p>
     </div>
     <div class="section">
       <h3>Relevance</h3>
-      <p>Certain types of parsers produce leftmost derivation while some produce the rightmost derivation. Understanding derivation types is helpful in understanding exactly how these types of parsers work.</p>
+      <p>Certain types of parsers produce the leftmost derivation of valid strings while others produce the rightmost derivation. Understanding derivation types is helpful in understanding exactly how these different types of parsers work.</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
