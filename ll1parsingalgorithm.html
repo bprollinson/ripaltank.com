@@ -44,7 +44,9 @@
       <p>&sigma;<sub>i</sub> &isin; &Sigma;</p>
       <div class="subsection example">
         <p><em>Example</em></p>
-        <p>For s = test:</p>
+        <p>&Sigma; = {e, s, t}</p>
+        <p>s = test</p>
+        <p>Our queue looks like:</p>
         <table class="stackorqueue">
           <tr>
             <td>(head of queue)</td>
@@ -66,18 +68,18 @@
       <p>The stack looks like:</p>
       <table class="stackorqueue">
         <tr>
+          <td>(top of stack)</td>
           <td>sym<sub>1</sub></td>
           <td>sym<sub>2</sub></td>
           <td>...</td>
           <td>sym<sub>n</sub></td>
-          <td>(top of stack)</td>
         </tr>
       </table>
       <p>sym<sub>i</sub> &isin; T &cup; N</p>
       <p>The operations we need to support on the parse stack are:</p>
       <ol>
         <li>Initialize a stack with a fixed set of symbols</li>
-        <li>Push - ad an element to the top of the stack</li>
+        <li>Push - add an element to the top of the stack</li>
         <li>Pop - remove and return the element at the top of the stack</li>
         <li>Check if empty - determine whether the stack is empty</li>
       </ol>
@@ -89,12 +91,12 @@
     </div>
     <div class="section">
       <h3>Input processing</h3>
-      <p>At each step of our parsing process, we look pop and observe the top symbol from the parse stack.</p>
+      <p>At each step of our parsing process, we pop and observe the top symbol from the parse stack.</p>
       <p>If the top symbol is a terminal:</p>
       <ol>
         <li>Dequeue the first terminal in the input queue (t<sub>next</sub>)
           <ol>
-            <li>If it matches the symbol from the top of the stack, continue parsing</li>
+            <li>If it matches the symbol from the top of the stack, continue parsing, discarding both symbols</li>
             <li>If it does not match the symbol from the top of the stack, reject</li>
           </ol>
         </li>
@@ -143,27 +145,22 @@
           <tr>
             <th>Input queue</th>
             <th>Parse stack</th>
-            <th>Note</th>
+            <th>Action</th>
           </tr>
           <tr>
             <td>ab</td>
             <td>S</td>
-            <td></td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
           </tr>
           <tr>
             <td>ab</td>
-            <td>ba</td>
-            <td>Applied rule 1 since S and a correspond to this production in our table</td>
+            <td>ab</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
           </tr>
           <tr>
             <td>b</td>
             <td>b</td>
-            <td>a from input queue mathes a from top of parse stack</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td></td>
-            <td>b from input queue matches b from top of parse stack</td>
+            <td>Remove b from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
           </tr>
           <tr>
             <td></td>
@@ -174,27 +171,64 @@
       </div>
       <div class="subsection example">
         <p><em>Example</em></p>
+        <p>Parsing input string b:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>S</td>
+            <td>Reject, since S and b correspond to &oslash; in our table</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Parsing input string aa:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>aa</td>
+            <td>S</td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>aa</td>
+            <td>ab</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>a</td>
+            <td>b</td>
+            <td>Reject, since the symbol from the head of the input queue (a) doesn't match the symbol from the top of the parse stack (b)</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
         <p>Parsing input string a:</p>
         <table class="parsetrace">
           <tr>
             <th>Input queue</th>
             <th>Parse stack</th>
-            <th>Note</th>
+            <th>Action</th>
           </tr>
           <tr>
             <td>a</td>
             <td>S</td>
-            <td></td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
           </tr>
           <tr>
             <td>a</td>
-            <td>ba</td>
-            <td>Applied rule 1 since S and a correspond to this production in our table</td>
-          </tr>
-          <tr>
-            <td></td>
-            <td>b</td>
-            <td>a from input queue mathes a from top of parse stack</td>
+            <td>ab</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
           </tr>
           <tr>
             <td></td>
@@ -215,17 +249,17 @@
           <tr>
             <td>abc</td>
             <td>S</td>
-            <td></td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
           </tr>
           <tr>
             <td>abc</td>
-            <td>ba</td>
-            <td>Applied rule 1 since S and a correspond to this production in our table</td>
+            <td>ab</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
           </tr>
           <tr>
             <td>bc</td>
             <td>b</td>
-            <td>a from input queue mathes a from top of parse stack</td>
+            <td>Remove b from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
           </tr>
           <tr>
             <td>c</td>

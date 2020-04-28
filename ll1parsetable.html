@@ -18,7 +18,7 @@
     <h2>The LL(1) parse table</h2>
     <div class="section">
       <h3>Background</h3>
-      <p>We've now see context-free grammar and the motivation for developing a top-down parsing algorithm. In this section, we will introduce the simplest top-down parsing algorithm using an LL(1) parser.</p>
+      <p>We've now seen context-free grammars and the motivation for developing a top-down parsing algorithm. In this section, we will introduce the simplest top-down parsing algorithm using an LL(1) parser.</p>
     </div>
     <div class="section">
       <h3>Anatomy of an LL(1) parse table</h3>
@@ -60,7 +60,8 @@
           <td>a<sub>n<sub>n</sub>,t<sub>n</sub></sub></td>
         </tr>
       </table>
-      <p>Here, t<sub>i</sub> &isin; &Sigma; &cup; $. a<sub>n<sub>i</sub>,t<sub>j</sub></sub> &isin; I &cup; &oslash;.</p>
+      <p>Here, t<sub>i</sub> &isin; &Sigma; &cup; $. a<sub>n<sub>i</sub>,t<sub>j</sub></sub> &isin; A &cup; &oslash;.</p>
+      <p>A = {apply<sub>1</sub>, apply<sub>2</sub>, ..., apply<sub>n</sub>}, representing the set of all possible applications of some production P<sub>i</sub> from our grammar.</p>
       <p>$ is a special "end of string" symbol that will be explained later. &oslash; here is not the empty set, but instead a null element.</p>
     </div>
     <div class="section">
@@ -70,12 +71,12 @@
     </div>
     <div class="section">
       <h3>The fundamental answer</h3>
-      <p>Let's represent our non-terminal to expand as n<sub>next</sub> and the next input symbol as t<sub>next</sub>. Our next parse action a<sub>next</sub> can be found by simply looking up the table entry corresponding to n<sub>next</sub> and t<sub>next</sub>.We can represent this as:</p>
+      <p>Let's represent our non-terminal to expand as n<sub>next</sub> and the next input symbol as t<sub>next</sub> - taken from the beginning of s<sub>remaining</sub>. Our next parse action a<sub>next</sub> can be found by simply looking up the table entry corresponding to n<sub>next</sub> and t<sub>next</sub>.We can represent this as:</p>
       <p>a<sub>next</sub> = a<sub>n<sub>next</sub>,t<sub>next</sub></sub></p>
       <p>The result can be interpreted as:</p>
       <ol>
         <li>Reject the input string entirely if a<sub>next</sub> = &oslash;</li>
-        <li>Apply the production rule with index specified by a<sub>next</sub> if a<sub>next</sub> &isin; I</li>
+        <li>Apply the action of applying the production specified by a<sub>next</sub> if a<sub>next</sub> &isin; A</li>
       </ol>
     </div>
     <div class="section">
@@ -103,10 +104,9 @@
         <p>
           Using this table, if we have non-terminal S and are trying to produce the string a, it indicates that grammar rule 1 should be applied. This leads to a derivation that looks like:
         </p>
-        <p>
-          S<br/>
-          &rarr; a (via rule 1)
-        </p>
+        <div class="derivation">S
+&rarr; a (via rule 1)</div>
+        <p>Conceptually, we know that we need to start with nonterminal S and end with string a. In order to make the correct choice of production, we use the parse table which has encoded information about which production rule to apply to our nonterminal symbol S to produce that next terminal symbol a.</p>
       </div>
     </div>
     <div class="section">
@@ -147,18 +147,16 @@
           </tr>
         </table>
         <p>Using the rules from the above parse table, we can derive the string ab as follows:</p>
-        <p>
-          S<br/>
-          &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
-          &rarr; aB (via rule 2, looking up the table entry for Z and b)<br/>
-          &rarr; ab (via rule 3, looking up the table entry for B and b)
-        </p>
+        <div class="derivation">S
+&rarr; aZ (via rule 1, looking up the table entry for S and a)
+&rarr; aB (via rule 2, looking up the table entry for Z and b)
+&rarr; ab (via rule 3, looking up the table entry for B and b)</div>
         <p>Trying to parse the string aa using the same parse table:</p>
-        <p>
-          S<br/>
-          &rarr; aZ (via rule 1, looking up the table entry for S and a)<br/>
-          reject! (since there is not table entry for Z and a)
-        </p>
+        <div class="derivation">S
+&rarr; aZ (via rule 1, looking up the table entry for S and a)
+reject! (since there is not table entry for Z and a)
+        </div>
+        <p>The idea here is the same as in our simpler example. Note that we are always looking to choose a production to apply to the leftmost remaining nonterminal symbol.</p>
       </div>
     </div>
     <div class="section">
