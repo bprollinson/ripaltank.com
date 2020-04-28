@@ -18,17 +18,17 @@
     <h2>The LL(1) parsing algorithm</h2>
     <div class="section">
       <h3>Background</h3>
-      <p>We've see what an LL(1) parse table looks like. Now we can solidify a parsing algorithm using the LL(1) parse table.</p>
+      <p>We've seen what an LL(1) parse table looks like. Now we can solidify a parsing algorithm using an LL(1) parse table.</p>
     </div>
     <div class="section">
       <h3>Caveat</h3>
-      <p>For now, we will ignore CFGs with &epsilon; productions to keep this first algorithm construction easier to explain. CFGs with &epsilon; productions will be covered later.</p>
+      <p>For now, we will ignore CFGs with &epsilon; productions to keep the setup of this algorithm easier to explain. CFGs with &epsilon; productions will be covered later.</p>
     </div>
     <div class="section">
       <h3>Setup</h3>
       <p>To apply the LL(1) parsing algorithm, we will need the following data structures set up:</p>
       <p><em>The LL(1) parse table</em></p>
-      <p>As shown in the previous section, we will need a parse table that maps combinations of non-terminal symbols and terminal symbols to a production rule index.</p>
+      <p>As shown in the previous section, we will need a parse table that maps combinations of non-terminal symbols and terminal symbols to the application of a production rule.</p>
       <p><em>The input queue</em></p>
       <p>We place our input string into an input queue, with one input symbol in each slot.</p>
       <p>The queue looks like:</p>
@@ -270,8 +270,13 @@
       </div>
     </div>
     <div class="section">
+      <h3>Intuitive explanation</h3>
+      <p>When applying the LL(1) parsing algorithm, we are making a selection of a production rule to apply based on the next terminal from the input string and the next nonterminal from the parse stack.</p>
+      <p>In general, we need the string produced by replacing nonterminals with terminals to match the input string exactly for a parse to be successful. Although an LL(1) parse table is a powerful tool, it is not always powerful enough to parse all context-free languages correctly.</p>
+    </div>
+    <div class="section">
       <h3>Conclusion</h3>
-      <p>We've now learned the basic rules of LL(1) parsing. Next, we'll be able to look at more complex examples and analyze what it all means.</p>
+      <p>We've now learned the basic rules of LL(1) parsing. Next, we will look at how to interpret the results.</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
