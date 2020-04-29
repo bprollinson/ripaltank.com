@@ -68,11 +68,11 @@
     <div class="section">
       <h3>The fundamental question</h3>
       <p>The funamental question an LL(1) parse table attempts to answer is:</p>
-      <p>Given a non-terminal n &isin; N and remaining unprocessed input string s<sub>remaining</sub>, which production should we apply to n?</p>
+      <p>Given a nonterminal n &isin; N and remaining unprocessed input string s<sub>remaining</sub>, which production should we apply to n?</p>
     </div>
     <div class="section">
       <h3>The fundamental answer</h3>
-      <p>Let's represent our non-terminal to expand as n<sub>next</sub> and the next input symbol as t<sub>next</sub> - taken from the beginning of s<sub>remaining</sub>. Our next parse action a<sub>next</sub> can be found by simply looking up the table entry corresponding to n<sub>next</sub> and t<sub>next</sub>.We can represent this as:</p>
+      <p>Let's represent our nonterminal to expand as n<sub>next</sub> and the next input symbol as t<sub>next</sub> - taken from the beginning of s<sub>remaining</sub>. Our next parse action a<sub>next</sub> can be found by simply looking up the table entry corresponding to n<sub>next</sub> and t<sub>next</sub>.We can represent this as:</p>
       <p>a<sub>next</sub> = a<sub>n<sub>next</sub>,t<sub>next</sub></sub></p>
       <p>The result can be interpreted as:</p>
       <ol>
@@ -104,7 +104,7 @@
         </table>
         <p><em>Note</em></p>
         <p>In our table, we use numbers as a short-form notation. In particular, a number i in the table represents an action of apply<sub>i</sub>.</p>
-        <p>Using this table, if we have non-terminal S and are trying to produce the string a, it indicates that grammar rule 1 should be applied. This leads to a derivation that looks like:</p>
+        <p>Using this table, if we have nonterminal S and are trying to produce the string a, it indicates that grammar rule 1 should be applied. This leads to a derivation that looks like:</p>
         <div class="derivation">S
 &rarr; a (via rule 1)</div>
         <p>Conceptually, we know that we need to start with nonterminal S and end with string a. In order to make the correct choice of production, we use the parse table which has encoded information about which production rule to apply to our nonterminal symbol S to produce that next terminal symbol a.</p>

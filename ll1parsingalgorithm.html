@@ -28,7 +28,7 @@
       <h3>Setup</h3>
       <p>To apply the LL(1) parsing algorithm, we will need the following data structures set up:</p>
       <p><em>The LL(1) parse table</em></p>
-      <p>As shown in the previous section, we will need a parse table that maps combinations of non-terminal symbols and terminal symbols to the application of a production rule.</p>
+      <p>As shown in the previous section, we will need a parse table that maps combinations of nonterminal symbols and terminal symbols to the application of a production rule.</p>
       <p><em>The input queue</em></p>
       <p>We place our input string into an input queue, with one input symbol in each slot.</p>
       <p>The queue looks like:</p>
@@ -101,7 +101,7 @@
           </ol>
         </li>
       </ol>
-      <p>If the top symbol is a non-terminal (n<sub>next</sub>):</p>
+      <p>If the top symbol is a nonterminal (n<sub>next</sub>):</p>
       <ol>
         <li>Look up the parse table entry (a<sub>next</sub>) corresponding to the top symbol from the stack (n<sub>next</sub>) and the first terminal from the input queue (t<sub>next</sub>)
           <ol>
