@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Basic LL(1) parser construction</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We now understand the construction of first sets from a context-free grammar. Now, we can illustrate how to construct an LL(1) parse table using these first sets.</p>
+    </div>
+    <div class="section">
+      <h3>Extending our concept of the first set</h3>
+      <p>In order to outline our table construction algorithm, we must first slightly extend our concept of first sets.</p>
+      <p>Let's say we have context-free grammar G with productions P = {p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>n</sub>}.</p>
+      <p>We will define a specialized first set of production p<sub>i</sub>, FIRSTPROD(i), that captures the set of terminal symbols that can be the first derived starting with the specified production.</p>
+      <p>Specifically:</p>
+      <ol>
+        <li>If p<sub>i</sub> is of the form N<sub>i</sub> &rarr; T sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> for some terminal T
+          <ol>
+            <li>then T &isin; FIRSTPROD(i)</li>
+          </ol>
+        </li>
+        <li>If p<sub>i</sub> is of the form N<sub>i</sub> &rarr; N<sub>first</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> and T &isin; FIRST(N<sub>first</sub>) for terminal T
+          <ol>
+            <li>then T &isin; FIRSTPROD(i)</li>
+          </ol>
+        </li>
+      </ol>
+      <p><em>Example</em></p>
+      <p>
+        S &rarr; a<br/>
+        S &rarr; b<br/>
+        S &rarr; C<br/>
+        C &rarr; c<br/>
+        C &rarr; D<br/>
+        C &rarr; E<br/>
+        D &rarr; d<br/>
+        E &rarr; e
+      </p>
+      <p>p<sub>4</sub> = C &rarr; c</p>
+      <p>From this, we can simply derive FIRSTPROD(4) = {c}.</p>
+      <p>p<sub>5</sub> = C &rarr; D</p>
+      <p>We can calculate FIRST(D) as {d}. From this, we can determine that FIRSTPROD(5) = {d}. Note that this does not include all terminals from FIRST(C) - only those reachable starting with production 5.</p>
+    </div>
+    <div class="section">
+      <h3>Algorithm</h3>
+      <p>This section illustrates the algorithm for constructing an LL(1) parse table.</p>
+      <p><em>Note</em></p>
+      <p>The algorithm outlined here is designed to work for CFGs with no &epsilon; productions. The handling of such productions will be outlined in a later section.</p>
+      <p><em>Algorithm</em></p>
+      <p>First, we want to initialize our parse table PT as an empty table with:</p>
+      <ol>
+        <li>One row for each nonterminal that appears in the CFG</li>
+        <li>One column for each terminal that appears in the CFG
+          <ol>
+            <li>Later on, we will also be adding a column for $, the end of string symbol, though it's not required yet</li>
+          </ol>
+        </li>
+      </ol>
+      <p>Then, we can populate the table as follows from our grammar G:</p>
+      <div class="code">For each production p<sub>i</sub> = N &rarr; sym<sub>1</sub>, sym<sub>2</sub>, ..., sym<sub>n</sub> in G
+    For each terminal T &isin; FIRSTPROD(i)
+        If PT<sub>N,T</sub> is already set
+            Fail, as the grammar is not LL(1)
+        Set PT<sub>N,T</sub> = i</div>
+      <p>By running through this process, we can construct the relevant LL(1) parse table and subsequently use it in our parser. Note that we are still using i as a short-form for apply<sub>i</sub> in our description of the parse table entries.</p>
+    </div>
+    <div class="section">
+      <h3>Parse table construction example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B d<br/>
+          A &rarr; D d<br/>
+          B &rarr; b<br/>
+          D &rarr; d<br/>
+          D &rarr; e
+        </p>
+        <p>We can start by calculating our first sets as follows:</p>
+        <ol>
+          <li>FIRST(S) = {b, d, e}</li>
+          <li>FIRST(A) = {b, d, e}</li>
+          <li>FIRST(B) = {b}</li>
+          <li>FIRST(D) = {d, e}</li>
+        </ol>
+        <p>Then, we can calculate the first sets for productions as follows:</p>
+        <ol>
+          <li>FIRSTPROD(1) = FIRST(A) = {b, d, e}</li>
+          <li>FIRSTPROD(2) = FIRST(B) = {b}</li>
+          <li>FIRSTPROD(3) = FIRST(D) = {d, e}</li>
+          <li>FIRSTPROD(4) = {b}</li>
+          <li>FIRSTPROD(5) = {d}</li>
+          <li>FIRSTPROD(6) = {e}</li>
+        </ol>
+        <p>From this information, we can simply fill in the parse table as follows:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>b</td>
+            <td>d</td>
+            <td>e</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+            <td>3</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>4</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>D</td>
+            <td></td>
+            <td>5</td>
+            <td>6</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <p><em>Example</em></p>
+      <div class="subsection example">
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; ab<br/>
+          S &rarr; a
+        </p>
+        <p>Note how both productions' right-hand side starts with the terminal a.</p>
+        <p>Constructing the parse table, we end up with:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1/2</td>
+          </tr>
+        </table>
+        <p>From this table, we clearly have a conflict. If the next nonterminal is S and our next input symbol is a, it's not clear whether we take the action of apply<sub>1</sub> or apply<sub>2</sub>.</p>
+        <p>Due to this ambiguity, we know that the provided grammar is not LL(1). As a result, we would not be able to construct an LL(1) parser for it. Note that the 1/2 notation is simply used to illustrate the conflict - this parse table is not valid.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>Now, we have the tools to construct an LL(1) parse table for any LL(1) grammar that does not contain the symbol &epsilon;. Next, we will introduce the underlying concepts needed to handle &epsilon; transitions.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
