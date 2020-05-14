@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>First sets</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've now seen the LL(1) parsing algorithm - in particular, the use of an LL(1) parse table in recognizing a string as part of a context-free language. In order to explore the process of construction these tables, we must first cover the underlying concept of first sets.</p>
+    </div>
+    <div class="section">
+      <h3>Motivation</h3>
+      <p>Observe the following CFG and corresponding LL(1) parse table:</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; AD<br/>
+          A &rarr; ac<br/>
+          A &rarr; bc<br/>
+          D &rarr; d
+        </p>
+        <p>Our parse table is:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+            <td>b</td>
+            <td>c</td>
+            <td>d</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+            <td>1</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+            <td>3</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>D</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>4</td>
+          </tr>
+        </table>
+        <p>A few observations from the table above:</p>
+        <ol>
+          <li>Observing the productions for the nonterminal A
+            <ol>
+              <li>We choose production 2 or 3 based on whether we encounter the terminal a or b</li>
+            </ol>
+          </li>
+          <li>No table entry appears for nonterminal c
+            <ol>
+              <li>When considering a single lookahead symbol, the productions for nonterminal A produce the terminal c as a side-effect of matching the next sybol of a or b</li>
+            </ol>
+          </li>
+          <li>For nonterminal S, we apply the first production for terminal a or b
+            <ol>
+              <li>This is done in preparation for applying production 2 or 3 for subsequent nonterminal A</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+      <p>Takeaways:</p>
+      <ol>
+        <li>When deciding which production to apply to a nonterminal symbol, we can use the first symbols on the right-hand side of its productions to help decide which one to apply
+          <ol>
+            <li>If we have a production starting with a terminal, we want to apply it if it matches the next input symbol</li>
+            <li>If we have a production starting with a nonterminal, we want to dig deeper into what starting terminals it can lead to through some set of productions</li>
+          </ol>
+        </li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>First sets</h3>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will define FIRST(N) as a function that maps a nonterminal symbol to a set of terminal symbols in relation to a context-free grammar G.</p>
+        <p>We can build up our definition of FIRST(N) as follows:</p>
+        <ol>
+          <li>If G has a production in the form: N &rarr; T sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> for some terminal T
+            <ol>
+              <li>then T &isin; FIRST(N)</li>
+            </ol>
+          </li>
+          <li>If G has a production in the form: N &rarr; N<sub>first</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> and T &isin; FIRST(N<sub>first</sub>) for some terminal T
+            <ol>
+              <li>then T &isin; FIRST(N)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Handling terminals</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; a B<br/>
+          B &rarr; b C<br/>
+          C &rarr; c
+        </p>
+        <p>Here:</p>
+        <ol>
+          <li>FIRST(S) = {a}</li>
+          <li>FIRST(B) = {b}</li>
+          <li>FIRST(C) = {c}</li>
+        </ol>
+        <p>In this example, all productions start with a nonterminal, so we are only concerned with looking at the direct productions for each nonterminal symbol.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Handling nonterminals</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; a B<br/>
+          A &rarr; B<br/>
+          B &rarr; b C<br/>
+          B &rarr; C<br/>
+          C &rarr; c
+        </p>
+        <p>Here:</p>
+        <ol>
+          <li>FIRST(C) = {c}
+            <ol>
+              <li>c is derived directly from the production C &rarr; c</li>
+            </ol>
+          </li>
+          <li>FIRST(B) = {b, c}
+            <ol>
+              <li>b is derived directly from the production B &rarr; b C</li>
+              <li>c is derived indirectly from the production B &rarr; C, since c &isin; FIRST(C)</li>
+            </ol>
+          </li>
+          <li>FIRST(A) = {a, b, c}
+            <ol>
+              <li>a is derived directly from the production A &rarr; a B</li>
+              <li>b is derived indirectly from the production A &rarr; B, since b &isin; FIRST(B)</li>
+              <li>c is derived indirectly from the production A &rarr; B, since c &isin; FIRST(B)</li>
+            </ol>
+          </li>
+          <li>FIRST(S) = {a, b, c}
+            <ol>
+              <li>a is derived indirectly from the production S &rarr; A, since a &isin; FIRST(A)</li>
+              <li>b is derived indirectly from the production S &rarr; A, since b &isin; FIRST(A)</li>
+              <li>c is derived indirectly from the production S &rarr; A, since c &isin; FIRST(A)</li>
+            </ol>
+          </li>
+        </ol>
+        <p>Here, we have illustrated how we can derive first sets indirectly through productions whose right-hand side starts with a nonterminal.</p>
+        <p><em>Node</em></p>
+        <p>c &isin; FIRST(S) because S &rarr;<sup>*</sup> c. This simplified notation for a string derivation can be used to further understand and express first sets in this context.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Getting loopy</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; S
+        </p>
+        <p>Here, FIRST(S) = FIRST(A) = {}.</p>
+        <p>Because we don't have any productions starting with a terminal on the right-hand side, we have no first sets to extend through our productions starting with a nonterminal.</p>
+        <p>In this example, it's also worth noting that a production cycle does not break our calculation - it simply adds no further information once it has been fully explored.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Branching out</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; aB<br/>
+          B &rarr; bD<br/>
+          B &rarr; CD<br/>
+          B &rarr; D<br/>
+          C &rarr; c<br/>
+          D &rarr; d<br/>
+          D &rarr; S
+        </p>
+        <p>We can start building up our first sets directly via produced terminals as follows:</p>
+        <ol>
+          <li>a &isin; FIRST(S) from the production S &rarr; aB</li>
+          <li>b &isin; FIRST(B) from the production B &rarr; bD</li>
+          <li>c &isin; FIRST(C) from the production C &rarr; c</li>
+          <li>d &isin; FIRST(D) from the production D &rarr; d</li>
+        </ol>
+        <p>Then, we can extend our first sets via nonterminals:</p>
+        <ol>
+          <li>a &isin; FIRST(D)
+            <ol>
+              <li>since a &isin; FIRST(S) and D &rarr; S</li>
+            </ol>
+          </li>
+          <li>c &isin; FIRST(B)
+            <ol>
+              <li>since c &isin; FIRST(C) and B &rarr; CD</li>
+            </ol>
+          </li>
+          <li>a, d &isin; FIRST(B)
+            <ol>
+              <li>since a, d &isin; FIRST(D) and B &rarr; D</li>
+            </ol>
+          </li>
+        </ol>
+        <p>Combining these results, we have:</p>
+        <ol>
+          <li>FIRST(S) = {a}</li>
+          <li>FIRST(B) = {a, b, c, d}</li>
+          <li>FIRST(C) = {c}</li>
+          <li>FIRST(D) = {a, d}</li>
+        </ol>
+        <p>Notice how we followed all branches and nonterminal chains to reach our final result.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>In this section, we illustrated how to calculate the first sets for nonterminals in a context-free grammar. In the next section, we will show how to convert this information into an LL(1) parse table.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
