@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LL(1) &epsilon; motivations</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the process for constructing and using LL(1) parse tables. However, we haven't considered the handling of &epsilon; productions. This section will present some background and motivations for the handling of such transitions.</p>
+    </div>
+    <div class="section">
+      <h3>Looking ahead</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following CFG:<br/>
+        <p>
+          S &rarr; AB<br/>
+          A &rarr; a<br/>
+          A &rarr; &epsilon;<br/>
+          B &rarr; b
+        </p>
+        <p>If we were to follow the LL(1) table construction algorithm as understood so far, we would end up with:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+            <td>b</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td></td>
+            <td>4</td>
+          </tr>
+        </table>
+        <p>However, if we were to parse the the string b, this table would not be sufficient, even when just considering the start symbol S. Our ideal derivation would be:</p>
+        <div class="derivation">S
+&rarr; AB (via rule 1)
+&rarr; &epsilon;B (via rule 3)
+&rarr; B (since &epsilon; represents an empty set of symbols)
+&rarr; b (via rule 4)</div>
+        <p>When we have start symbol S at the top of the parse stack and the symbol b at the start of the input queue, we should know to apply rule 1 by looking at this single symbol b.</p>
+        <p>Similarly, when we have symbol A at the top of the parse stack and the symbol b at the start of the input queue, we should know to apply rule 3 by looking at the single symbol b.</p>
+        <p>In fact, the following augmented parse table can be illustrated to correctly represent the specified language:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+            <td>b</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td></td>
+            <td>4</td>
+          </tr>
+        </table>
+        <p>This is a good illustration that the specified CFG is LL(1), since we never use more than one symbol of lookahead with this parse table.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Embracing the end</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following CFG:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C<br/>
+          C &rarr; &epsilon;
+        </p>
+        <p>If we were to attempt to construct an LL(1) parse table for the above grammar using the rules we've learned so far, we would have no way to add any table entries. This happens here because FIRST(S) = FIRST(A) = FIRST(B) = FIRST(C) = {}.</p>
+        <p>However, we have a straightforward of derivation of the empty string &epsilon; as follows:</p>
+        <div class="derivation">S
+&rarr; A
+&rarr; B
+&rarr; C
+&rarr; &epsilon;</div>
+        <p>If we categorize the end of string as a symbol that can be used as a lookahead (denoted as $ below), we can construct the following parse table for this language:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>$</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td>4</td>
+          </tr>
+        </table>
+        <p>This is a good illustration that the specified CFG is LL(1), since we never use more than one symbol of lookahead (here, always $) with this parse table.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>From the constructions above, it can be illustrated that we should be able to handle &epsilon; transitions in the construction of LL(1) parse tables. Next, we will go over some underlying constructions needed to do so.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
