@@ -95,17 +95,17 @@
       <h3>First sets</h3>
       <div class="subsection definition">
         <p><em>Definition</em></p>
-        <p>We will define FIRST(N) as a function that maps a nonterminal symbol to a set of terminal symbols in relation to a context-free grammar G.</p>
-        <p>We can build up our definition of FIRST(N) as follows:</p>
+        <p>We will define FIRST(n) as a function that maps a nonterminal symbol to a set of terminal symbols in relation to a context-free grammar G.</p>
+        <p>We can build up our definition of FIRST(n) as follows:</p>
         <ol>
-          <li>If G has a production in the form: N &rarr; T sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> for some terminal T
+          <li>If G has a production in the form: n &rarr; t sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> | t &isin; T
             <ol>
-              <li>then T &isin; FIRST(N)</li>
+              <li>then t &isin; FIRST(n)</li>
             </ol>
           </li>
-          <li>If G has a production in the form: N &rarr; N<sub>first</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> and T &isin; FIRST(N<sub>first</sub>) for some terminal T
+          <li>If G has a production in the form: n &rarr; n<sub>first</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> | t &isin; FIRST(n<sub>first</sub>)
             <ol>
-              <li>then T &isin; FIRST(N)</li>
+              <li>then t &isin; FIRST(n)</li>
             </ol>
           </li>
         </ol>
@@ -170,7 +170,7 @@
           </li>
         </ol>
         <p>Here, we have illustrated how we can derive first sets indirectly through productions whose right-hand side starts with a nonterminal.</p>
-        <p><em>Node</em></p>
+        <p><em>Note</em></p>
         <p>c &isin; FIRST(S) because S &rarr;<sup>*</sup> c. This simplified notation for a string derivation can be used to further understand and express first sets in this context.</p>
       </div>
     </div>

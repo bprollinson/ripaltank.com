@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Follow sets</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the need to look forward through epsilon productions to obtain the information needed to construct an LL(1) parse table. This section will outline the main underlying concepts needed to do this.</p>
+    </div>
+    <div class="section">
+      <h3>First sets and nullability</h3>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>For context-free grammar G, if we have a production in the form:</p>
+        <p>
+          N &rarr; &epsilon;
+        </p>
+        <p>then &epsilon; &isin; FIRST(N). This is an extension of our earlier definition of first sets.</p>
+        <p>We say that N is nullable. This can be formulated as:</p>
+        <p>NULLABLE(N) = true</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>The fundamental question</h3>
+      <p>Given a nonterminal symbol n within grammar G, which set of symbols (FOLLOW(n)) can be produced directly following n?</p>
+      <p>Here, the elements of FOLLOW(n) belong to the set T &cup; {&epsilon;}.</p>
+    </div>
+    <div class="section">
+      <h3>Handling the start symbol</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; a
+        </p>
+        <p>what can follow nonterminal S?</p>
+        <p>FOLLOW(S) = {$}</p>
+        <p>This is true because, once the start symbol has been handled, we should be at the end of the input string.</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will build up the definition for FOLLOW(n), the follow set of a nonterminal n. We can start with the following rule:</p>
+        <ol>
+          <li>If G has start symbol S &isin; N
+            <ol>
+              <li>then $ &isin; FOLLOW(S)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Trailing terminals</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; A b<br/>
+          S &rarr; A c<br/>
+          A &rarr; a
+        </p>
+        <p>what can follow the nonterminal A?</p>
+        <p>From the production S &rarr; A b, we can see that the terminal b can follow A. Similarly, from the production S &rarr; A c, we can see that the terminal c can follow A.</p>
+        <p>FOLLOW(A) = {b, c}</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will further build up the definition for FOLLOW(n) as follows:</p>
+        <ol>
+          <li>If G has a production in the form n' &rarr; n t | n' &isin; N, t &isin; T
+            <ol>
+              <li>then t &isin; FOLLOW(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Trailing nonterminals</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; A B<br/>
+          A &rarr; a<br/>
+          B &rarr; b<br/>
+          B &rarr; c
+        </p>
+        <p>what can follow the nonterminal A?</p>
+        <p>Since the nonterminal B always follows A and B derives the strings b and c, we can easily determine the follow set.</p>
+        <p>FOLLOW(A) = {b, c}</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will further build up the definition for FOLLOW(n) as follows:</p>
+        <ol>
+          <li>If G has a production in the form n' &rarr; n n<sub>2</sub> | n', n<sub>2</sub> &isin; N, t &isin; T, t &isin; FIRST(n<sub>2</sub>)
+            <ol>
+              <li>then t &isin; FOLLOW(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Passing through &epsilon;</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; A B C d<br/>
+          A &rarr; A<br/>
+          B &rarr; &epsilon;<br/>
+          C &rarr; &epsilon;
+        </p>
+        <p>what can follow the nonterminal A?</p>
+        <p>From the production S &rarr; A B C d, it would appear that we should include elements from FIRST(B) in our follow set. However, there are no terminals in FIRST(B), and subsequently, in FIRST(C).</p>
+        <p>Since NULLABLE(B) and NULLABLE(C), we can bypass these expressions and include the subsequent terminal d.</p>
+        <p>FOLLOW(A) = {d}</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will further build up the definition for FOLLOW(n) as follows:</p>
+        <ol>
+          <li>If G has a production in the form n' &rarr; n n<sub>2</sub> n<sub>3</sub> ... n<sub>n</sub> t | n', n<sub>2</sub>, n<sub>3</sub>, ..., n<sub>n</sub> &isin; N, NULLABLE(n<sub>2</sub>), NULLABLE(n<sub>3</sub>), ..., NULLABLE(n<sub>n</sub>), t &isin; T
+            <ol>
+              <li>then t &isin; FOLLOW(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; A B C D<br/>
+          A &rarr; A<br/>
+          B &rarr; &epsilon;<br/>
+          C &rarr; &epsilon;<br/>
+          D &rarr; d
+        </p>
+        <p>what can follow the nonterminal A?</p>
+        <p>Similar to in our last example, there are no terminals in FIRST(B), and subsequently, in FIRST(C).</p>
+        <p>Since NULLABLE(B) and NULLABLE(C), we can bypass these expressions and include terminals from FIRST(D).</p>
+        <p>FOLLOW(A) = {d}</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will further build up the definition for FOLLOW(n) as follows:</p>
+        <ol>
+          <li>If G has a production in the form n' &rarr; n n<sub>2</sub> n<sub>3</sub> ... n<sub>n</sub> | n', n<sub>2</sub>, n<sub>3</sub>, ..., n<sub>n</sub> &isin; N, NULLABLE(n<sub>2</sub>), NULLABLE(n<sub>3</sub>), ..., NULLABLE(n<sub>n - 1</sub>), t &isin; T, t &isin; FIRST(n<sub>n</sub>)
+            <ol>
+              <li>then t &isin; FOLLOW(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Parental inheritance</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          A &rarr; B a<br/>
+          B &rarr; C<br/>
+          C &rarr; c
+        </p>
+        <p>what can follow nonternal C?</p>
+        <p>Observe the following two derivations starting with the start symbol S:</p>
+        <div class="derivation">S
+&rarr; A
+&rarr; B
+&rarr; C
+&rarr; c</div>
+        <br/>
+        <div class="derivation">S
+&rarr; A
+&rarr; B a
+&rarr; C a
+&rarr; c a</div>
+         <p>From this, we can see that FOLLOW(C) = {$, a}.</p>
+         <p>In particular, the nonterminal C inherits the follow sets from the nonterminals that derive it.</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will further build up the definition for FOLLOW(n) as follows:</p>
+        <ol>
+          <li>If G has a production in the form n' &rarr; sym<sub>1</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> n | sym &isin; FOLLOW(n')
+            <ol>
+              <li>then sym &isin; FOLLOW(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Parental inheritance through &epsilon;</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; A<br/>
+          S &rarr; A a<br/>
+          A &rarr; B C D<br/>
+          B &rarr; b<br/>
+          C &rarr; &epsilon;<br/>
+          D &rarr; &epsilon;
+        </p>
+        <p>what can follow nonterminal B?</p>
+        <p>Observe the following two derivations starting with the start symbol S:</p>
+        <div class="derivation">S
+&rarr; A
+&rarr; B C D
+&rarr; B &epsilon; &epsilon;
+&rarr; b &epsilon; &epsilon;
+&rarr; b</div>
+        <br/>
+        <div class="derivation">S
+&rarr; A a
+&rarr; B C D a
+&rarr; B &epsilon; &epsilon; a
+&rarr; b &epsilon; &epsilon; a
+&rarr; b a</div>
+        <p>From this, we can see that follow A = {$, a}.</p>
+        <p>In particular, the nonterminal C inherets the end of string follow symbol from its more direct derivation as well as the terminal follow symbol from its parent .</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will further build up the definition for FOLLOW(n) as follows:</p>
+        <ol>
+          <li>If G has a production in the form n' &rarr; sym<sub>1</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> n n<sub>2</sub> n<sub>3</sub> ... n<sub>n</sub> | n', n<sub>2</sub> ... n<sub>n</sub> &isin; N, NULLABLE(n<sub>2</sub>), NULLABLE(n<sub>3</sub>) ... NULLABLE(n<sub>n</sub>), sym &isin; FOLLOW(n')
+            <ol>
+              <li>then sym &isin; FOLLOW(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>Now, we've explored the definition of the follow set. Next, we will look at using it in LL(1) parse table construction.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
