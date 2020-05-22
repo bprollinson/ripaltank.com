@@ -27,14 +27,14 @@
       <p>We will define a specialized first set of production p<sub>i</sub>, FIRSTPROD(i), that captures the set of terminal symbols that can be the first derived starting with the specified production.</p>
       <p>Specifically:</p>
       <ol>
-        <li>If p<sub>i</sub> is of the form N<sub>i</sub> &rarr; T sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> for some terminal T
+        <li>If p<sub>i</sub> is of the form N<sub>i</sub> &rarr; T sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> for some terminal t
           <ol>
-            <li>then T &isin; FIRSTPROD(i)</li>
+            <li>then t &isin; FIRSTPROD(i)</li>
           </ol>
         </li>
-        <li>If p<sub>i</sub> is of the form N<sub>i</sub> &rarr; N<sub>first</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> and T &isin; FIRST(N<sub>first</sub>) for terminal T
+        <li>If p<sub>i</sub> is of the form N<sub>i</sub> &rarr; N<sub>first</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> and T &isin; FIRST(N<sub>first</sub>) for terminal t
           <ol>
-            <li>then T &isin; FIRSTPROD(i)</li>
+            <li>then t &isin; FIRSTPROD(i)</li>
           </ol>
         </li>
       </ol>
@@ -70,11 +70,11 @@
         </li>
       </ol>
       <p>Then, we can populate the table as follows from our grammar G:</p>
-      <div class="code">For each production p<sub>i</sub> = N &rarr; sym<sub>1</sub>, sym<sub>2</sub>, ..., sym<sub>n</sub> in G
-    For each terminal T &isin; FIRSTPROD(i)
-        If PT<sub>N,T</sub> is already set
+      <div class="code">For each production p<sub>i</sub> = n &rarr; sym<sub>1</sub>, sym<sub>2</sub>, ..., sym<sub>n</sub> in G
+    For each terminal t &isin; FIRSTPROD(i)
+        If PT<sub>n,t</sub> is already set
             Fail, as the grammar is not LL(1)
-        Set PT<sub>N,T</sub> = i</div>
+        Set PT<sub>n,t</sub> = i</div>
       <p>By running through this process, we can construct the relevant LL(1) parse table and subsequently use it in our parser. Note that we are still using i as a short-form for apply<sub>i</sub> in our description of the parse table entries.</p>
     </div>
     <div class="section">

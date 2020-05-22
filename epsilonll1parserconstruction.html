@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>&epsilon; handling in LL(1) parser construction</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We now have a basic understanding of how to construct an LL(1) parser as well as a good understanding of the calculations for first and follow sets. In this section, we will outline the process for handling &epsilon; transitions in LL(1) parse table construction.</p>
+    </div>
+    <div class="section">
+      <h3>Motivating examples</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A B<br/>
+          A &rarr; &epsilon;<br/>
+          B &rarr; b
+        </p>
+        <p>Using our LL(1) parse table construction rules as outlined so far, our parse table would be:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>b</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>3</td>
+          </tr>
+        </table>
+        <p>Clearly, we have a problem here because the productions S &rarr; A B and A &rarr; &epsilon; are not captured anywhere in the parse table.</p>
+        <p>Further examining the grammar, when observing the production S &rarr; A B, we know to apply that production followed by the production A &rarr; &epsilon; if the first symbol in our input queue is b. This can be captured with the following parse table which includes additional entries to handle this:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>b</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>3</td>
+          </tr>
+        </table>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C<br/>
+          C &rarr; &epsilon;
+        </p>
+        <p>Using our LL(1) parse table construction rules as outlined so far, we would have an empty parse table. However, this grammar is LL(1) and can be recognized using the following parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>$</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td>4</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Epsilon handling in first sets</h3>
+      <p>Further observing the grammar:</p>
+      <p>
+        S &rarr; A B<br/>
+        A &rarr; &epsilon;<br/>
+        B &rarr; b
+      </p>
+      <p>we would like our definition of FIRST(n) to be extended such that it handles &epsilon; transitions correctly.</p>
+      <p>For the production S &rarr; A B, we would like to further define FIRST(n) in such a way that FIRST(S) = {b}, since b would be our lookahead for nonterminal S when processing input string b.</p>
+      <p>Specifically, our definition of FIRST(n) should be smart enough to pass through nullable nonterminals to find the next real symbol for inclusing in our parse table.</p>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <ol>
+          <li>If G has a production in the form: n &rarr; n<sub>1</sub> n<sub>2</sub> n<sub>3</sub> ... n<sub>n</sub> t sym<sub>1</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> | n<sub>1</sub>, n<sub>2</sub> ... n<sub>n</sub> &isin; N, NULLABLE(n<sub>1</sub>), NULLABLE(n<sub>2</sub>), NULLABLE(n<sub>3</sub>), ..., NULLABLE(n<sub>n</sub>), t &isin; T
+            <ol>
+              <li>then t &isin; FIRST(n)</li>
+            </ol>
+          </li>
+          <li>If G has a production in the form: n &rarr; n<sub>1</sub> n<sub>2</sub> n<sub>3</sub> ... n<sub>n</sub> n<sub>first</sub> sym<sub>1</sub> sym<sub>2</sub> sym<sub>3</sub> ... sym<sub>n</sub> | n<sub>1</sub>, n<sub>2</sub> ... n<sub>n</sub> &isin; N, NULLABLE(n<sub>1</sub>), NULLABLE(n<sub>2</sub>), NULLABLE(n<sub>3</sub>), ..., NULLABLE(n<sub>n</sub>), t &isin; FIRST(n<sub>first</sub>), t &isin; T
+            <ol>
+              <li>then t &isin; FIRST(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+      <p>Applying this logic to the production S &rarr; A B, we can further fill in our parse table as follows:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>$</td>
+        </tr>
+        <tr>
+          <td>S</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>3</td>
+        </tr>
+      </table>
+      <p>Observing the production A &rarr; &epsilon;, it's clear that no terminal first set elements can be obtained from this production, since it contains no terminals. Hence, we state that FIRST(A) = {&epsilon;}. Contrasting this with the production S &rarr; A B, we know that we only want the first set of a nonterminal to include &epsilon; if all elements in one of its productions contains only nullable nonterminals.</p>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <ol>
+          <li>If G has a production in the form: n &rarr; n<sub>1</sub> n<sub>2</sub> n<sub>3</sub> ... n<sub>n</sub> | n<sub>1</sub>, n<sub>2</sub> ... n<sub>n</sub> &isin; N, NULLABLE(n<sub>1</sub>), NULLABLE(n<sub>2</sub>), NULLABLE(n<sub>3</sub>), ..., NULLABLE(n<sub>n</sub>)
+            <ol>
+              <li>then t &epsilon; FIRST(n)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Using the follow set</h3>
+      <p>How can we handle the production A &rarr; &epsilon;? If we have the input symbol b at the beginning of our input queue, we know it's safe to use the production A &rarr; &epsilon; since B &rarr; b.</p>
+      <p>The rule for this can be formalized as follows:</p>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <ol>
+          <li>If p<sub>i</sub> is of the form n<sub>1</sub> n<sub>2</sub> n<sub>3</sub> ... n<sub>n</sub> | n<sub>1</sub>, n<sub>2</sub> ... n<sub>n</sub> &isin; N, NULLABLE(n<sub>1</sub>), NULLABLE(n<sub>2</sub>), NULLABLE(n<sub>3</sub>), ..., NULLABLE(n<sub>n</sub>)
+            <ol>
+              <li>then &epsilon; &isin; FIRSTPROD(i)</li>
+            </ol>
+          </li>
+        </ol>
+      </div>
+      <p>We can use this to further extend the construction of our LL(1) parse table. In particular, we can find nullable productions and use the left-hand nonterminal's follow set to anticipate when to apply an epsilon production.</p>
+      <div class="code">For each production p<sub>i</sub> = n &rarr; sym<sub>1</sub>, sym<sub>2</sub>, ..., sym<sub>n</sub> in G
+    For each terminal t &isin; FIRSTPROD(i)
+        If PT<sub>n,t</sub> is already set
+            Fail, as the grammar is not LL(1)
+        Set PT<sub>n,t</sub> = i
+    If &epsilon; &isin; FIRSTPROD(i)
+        For each terminal t &isin; FOLLOW(n)
+            If PT<sub>n,t</sub> is already set
+              Fail, as the grammar is not LL(1)
+            Set PT<sub>n,t</sub> = i</div>
+      <p>In our first grammar, FOLLOW(A) = {b}, so we can apply the production A &rarr; &epsilon; if the next input symbol is b. Using this rule, we arrive at our final parse table:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>b</td>
+        </tr>
+        <tr>
+          <td>S</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>3</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Null string example</h3>
+      <p>Applying this updated algorithm to the following grammar:</p>
+      <p>
+        S &rarr; A<br/>
+        A &rarr; B<br/>
+        B &rarr; C<br/>
+        C &rarr; &epsilon;
+      </p>
+      <p>note that FOLLOW(S) = FOLLOW(A) = FOLLOW(B) = FOLLOW(C).</p>
+      <p>This results in the following parse table:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>$</td>
+        </tr>
+        <tr>
+          <td>S</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>2</td>
+        </tr>
+        <tr>
+          <td>B</td>
+          <td>3</td>
+        </tr>
+        <tr>
+          <td>C</td>
+          <td>4</td>
+        </tr>
+      </table>
+      <p>In a subsequent section, we will illustrate the correct process for handling end-of-string actions within the parsing process. For now, note conceptually that, when the end of string is reached, the production chain S &rarr; A &rarr; B &rarr; C &rarr; &epsilon; will occur based on the corresponding $ table entries.</p>
+    </div>
+    <div class="section">
+      <h3>Follow set conflicts</h3>
+      <p>Much like when using the first set (more specifically, FIRSTPROD) to construct a parse table, the usage of the follow set can result in a conflict if the grammar is not LL(1).</p>
+      <p>The following grammar:</p>
+      <p>
+        S &rarr; A b<br/>
+        S &rarr; b<br/>
+        A &rarr; &epsilon;
+      </p>
+      <p>results in the following parse table:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>b</td>
+        </tr>
+        <tr>
+          <td>S</td>
+          <td>1/2</td>
+        </tr>
+        <tr>
+          <td>A</td>
+          <td>3</td>
+        </tr>
+      </table>
+      <p>This occurs because, for nonterminal S and next input symbol b, it's not clear which of the two following derivations should be used:</p>
+      <div class="derivation">S
+&rarr; A b
+&rarr; &epsilon; b
+&rarr; b</div>
+      <br/>
+      <div class="derivation">S
+&rarr; b</div>
+      <p>This is an example of a first / follow conflict, since FIRST(S) and FOLLOW(A) both result in the same production.</p>      
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>Now, we've illustrated how to construct parse tables for all LL(1) grammars, including those with &epsilon; transitions. Next, we will illustrate some final details on applying the LL(1) parsing algorithm when encountering the end of string symbol.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
