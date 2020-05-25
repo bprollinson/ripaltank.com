@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Handling end-of-string productions</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've learned how to construct LL(1) parse tables for context-free grammars containing epsilon productions. This section will introduce the parsing techniques needed to handle these parse table additions.</p>
+    </div>
+    <div class="section">
+      <h3>Example grammar and parse table</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>The following grammar</p>
+        <p>
+          S &rarr; a B<br/>
+          B &rarr; C<br/>
+          C &rarr; &epsilon;
+        </p>
+        <p>has the following corresponding parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+            <td>$</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td></td>
+            <td>2</td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td></td>
+            <td>3</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Example parse</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Parsing input string a:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>a$</td>
+            <td>S</td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>a$</td>
+            <td>aB</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>$</td>
+            <td>B</td>
+            <td>Apply rule 2 since B and $ correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>$</td>
+            <td>C</td>
+            <td>Apply rule 3 since C and $ correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>$</td>
+            <td></td>
+            <td>Accept, since $ is at head of input queue and parse stack is empty</td>
+          </tr>
+        </table>
+        <p>A few notes about the parsing procedure here:</p>
+        <ol>
+          <li>Adding the end of string symbol $ to the end of the input queue allows us to apply &epsilon; productions when there are no more terminal nodes to process</li>
+          <li>Since the input queue always starts with $ at the end, we accept when this symbol is encountered and the parse stack is empty</li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Additional parsing rules</h3>
+      <p>First, in order to handle applying all of the necessary productions, we will change the nonterminal processing rule to:</p>
+      <p>If the top symbol is a nonterminal (n<sub>next</sub>):</p>
+      <ol>
+        <li>Look up the parse table entry (a<sub>next</sub>) corresponding to the top symbol from the stack (n<sub>next</sub>) and the first symbol (terminal or $) from the input queue (sym<sub>next</sub>)
+          <ol>
+            <li>If a<sub>next</sub> = &oslash;, reject</li>
+            <li>Otherwise, look up our next production p<sub>next</sub> = n<sub>next</sub> &rarr; sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub></li>
+            <li>Add sym<sub>next<sub>1</sub></sub>, sym<sub>next<sub>2</sub></sub>, ..., sym<sub>next<sub>n</sub></sub> to the top of the parse stack in reverse order such that sym<sub>next<sub>1</sub></sub> is at the top of the stack</li>
+          </ol>
+        </li>
+      </ol>
+      <p>Here, we've simply allowed the use of the symbol $ as a lookup in our parse table. Note that the rule used for removing terminals from the input queue is unchanged.</p>
+      <p>In addition to this, since we allow productions to still occur when the end of the input string has been encountered, we need to change the accept / reject conditions to the following:</p>
+      <ol>
+        <li>If $ is at the head of the input queue and parse stack is empty at the end of a processing step, accept</li>
+        <li>If $ is at the head of the input queue and a terminal is at the top of the parse stack at the end of a processing step, reject</li>
+        <li>If $ is not at the head of the input queue and the parse stack is empty at the end of the processing step, reject</li>
+      </ol>
+      <p>Note that, as before, parsing can also fail upon not finding a parse table entry.</p>
+    </div>
+    <div class="section">
+      <h3>Another successful parse example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; A B C<br/>
+          A &rarr; a<br/>
+          A &rarr; &epsilon;<br/>
+          B &rarr; b<br/>
+          C &rarr; c<br/>
+          C &rarr; &epsilon;
+        </p>
+        <p>has the following parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+            <td>b</td>
+            <td>c</td>
+            <td>$</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+            <td>1</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>A</td>
+            <td>2</td>
+            <td>3</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>B</td>
+            <td></td>
+            <td>4</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>C</td>
+            <td></td>
+            <td></td>
+            <td>5</td>
+            <td>6</td>
+          </tr>
+        </table>
+        <p>Parsing the input string abc:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>abc$</td>
+            <td>S</td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>abc$</td>
+            <td>ABC</td>
+            <td>Apply rule 2 since A and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>abc$</td>
+            <td>aBC</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>bc$</td>
+            <td>BC</td>
+            <td>Apply rule 4 since B and b correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>bc$</td>
+            <td>bC</td>
+            <td>Remove b from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>c$</td>
+            <td>C</td>
+            <td>Apply rule 5 since C and c correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>c$</td>
+            <td>c</td>
+            <td>Remove c from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>$</td>
+            <td></td>
+            <td>Accept, since $ is at head of input queue and parse stack is empty</td>
+          </tr>
+        </table>
+        <p>Parsing input string b:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>b$</td>
+            <td>S</td>
+            <td>Apply rule 1 since S and b correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>b$</td>
+            <td>ABC</td>
+            <td>Apply rule 3 since A and b correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>b$</td>
+            <td>BC</td>
+            <td>Apply rule 4 since B and b correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>b$</td>
+            <td>bC</td>
+            <td>Remove b from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>$</td>
+            <td>C</td>
+            <td>Apply rule 6 since B and $ correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>$</td>
+            <td></td>
+            <td>Accept, since $ is at head of input queue and parse stack is empty</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Parse failure examples</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; ab
+        </p>
+        <p>has the following corresponding parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+            <td>$</td>
+          </tr>
+          <tr>
+            <td>S</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+        </table>
+        <p>Note that the $ column is empty here and is only included to be explicit in this illustration.</p>
+        <p>Parsing input string a:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>a$</td>
+            <td>S</td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>a$</td>
+            <td>ab</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>$</td>
+            <td>b</td>
+            <td>Reject, since $ is at head of input queue and parse stack has a terminal at the top</td>
+          </tr>
+        </table>
+        <p>Parsing input string abc:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>abc$</td>
+            <td>S</td>
+            <td>Apply rule 1 since S and a correspond to this production in our table</td>
+          </tr>
+          <tr>
+            <td>abc$</td>
+            <td>ab</td>
+            <td>Remove a from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>bc$</td>
+            <td>b</td>
+            <td>Remove b from head of input queue and parse stack and continue parsing since terminal symbol matches</td>
+          </tr>
+          <tr>
+            <td>c$</td>
+            <td></td>
+            <td>Reject, since terminal c is at head of input queue and parse stack is empty</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>The parsing techniques used here complete the theory needed to fully understand LL(1) parsing. Next, we will introduce the concept of bottom-up parsing in order to facilitate discussion of a wider variety of parsing algorithms.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
