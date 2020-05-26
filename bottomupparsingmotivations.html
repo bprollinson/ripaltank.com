@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Bottom-up parsing motivations</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've explored top-down parsing via the LL(1) parsing algorithm. Next, we will explore the concepts behind bottom-up parsing.</p>
+    </div>
+    <div class="section">
+      <h3>Bottom-up parsing</h3>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>In a bottom-up parsing procedure for context-free languages, we attempt to recognize string s as part of language L using grammar G. To do so, we start with s, the string to be accepted, and apply a sequence of productions {p<sub>1</sub>, p<sub>2</sub>, ..., p<sub>n</sub>} in reverse to reduce s to start symbol S.</p>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>&Sigma; = {a, b, c}</p>
+        <p>
+          S &rarr; AB<br/>
+          A &rarr; a<br/>
+          B &rarr; b<br/>
+          B &rarr; bc
+        </p>
+        <p>The following reverse derivation of the string abc corresponds to a bottom-up parsing procedure:</p>
+        <div class="derivation">abc
+&rarr; Abc (via rule 2)
+&rarr; AB (via rule 4)
+&rarr; S (via rule 1)</div>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Production choice</h3>
+      <p>Similar to in top-down parsing, decisions on which production to use need to be made by the parser.</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>When we have produced Abc and are looking to reduce the terminals b and c, we have two possible rules that could be applied:</p>
+        <ol>
+          <li>B &rarr; b</li>
+          <li>B &rarr; bc</li>
+        </ol> 
+        <p>Because we have b and c in our input string, we would choose rule 4 in this case.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>A dead end</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>&Sigma; = {a, b, c}</p>
+        <p>
+          S &rarr; AC<br/>
+          A &rarr; ab<br/>
+          C &rarr; cc
+        </p>
+        <p>Let's say we have the input string abc and try to derive it (in reverse) using this grammar:</p>
+        <div class="derivation">abc
+&rarr; Ac (via rule 2)</div>
+        <p>Here, we choose to apply rule 2 since it matches nonterminals a and b which appear at the beginning of our input string. However, the single terminal c doesn't match the output of any production in our grammar. The above is not a valid derivation of abc, which is in fact not part of the specified language.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Ambiguity</h3>
+      <p>Similar to top-down parsers, bottom-up parsers may encounter ambiguous situations when trying to match an input string to a language specification.</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>&Sigma; = {a, b}</p>
+        <p>
+          S &rarr; aa<br/>
+          S &rarr; ab
+        </p>
+        <p>Deriving the string ab in reverse:</p>
+        <div class="derivation">ab
+&rarr; S (via rule 2)</div>
+        <p>In this example, looking at the first input symbol a is not enough to decide which production should be used to reduce the input symbols to a nonterminal. Here, we have to look ahead to the next symbol, b, to determine that rule 2 is the correct rule to apply.</p>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>&Sigma; = {a}</p>
+        <p>
+          S &rarr; a<br/>
+          S &rarr; a
+        </p>
+        <p>Deriving the string a in reverse:</p>
+        <div class="derivation">a
+&rarr; S (via rule ?)</div>
+        <p>Similar to in top-down parsing, we know that a is part of our language. However, we can't determine its meaning because it's not clear which production should be used to derive a. This language is ambiguous.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We now have a basic understanding of what bottom-up parsing is. Next, we will look at the parsing actions that are used by LR parsers - a common type of bottom-up parsers.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
