@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>Core LR parsing process</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>In the last section, we saw the underlying idea behind bottom-up parsing. In this section, we will introduce the specific core constructs and processing rules used in the bottom-up LR parsing algorithm. We will keep our constructs simple at first, and begin to explore the construction of LR(0) parsers.</p>
+    </div>
+    <div class="section">
+      <h3>Setup</h3>
+      <p>To apply the LR(0) parsing algorithm, we need the following data structures set up:</p>
+      <p><em>The LR(0) parse table</em></p>
+      <p>Much like in an LL(1) parser, an LR(0) parser uses a parse table to make decisions. However, the LR(0) parse table is somewhat more complex than the LL(1) equivalent.</p>
+      <p>As a result, we will build up a foundation of more LR parsing concepts before introducing it.</p>
+      <p><em>The input queue</em></p>
+      <p>As we done in the LL(1) parsing algorithm, we place our input string into an input queue, with one input symbol in each slot.</p>
+      <p>The queue looks like:</p>
+      <table class="stackorqueue">
+        <tr>
+          <td>(head of queue)</td>
+          <td>&sigma;<sub>1</sub></td>
+          <td>&sigma;<sub>2</sub></td>
+          <td>...</td>
+          <td>&sigma;<sub>2</sub></td>
+        </tr>
+      </table>
+      <p>&sigma;<sub>i</sub> &isin; &Sigma;</p>
+      <p>The input queue here has a very similar setup to the LL(1) input queue.</p>
+      <p>The operations we need to support on the input queue are:</p>
+      <ol>
+        <li>Initialize a queue with a fixed set of symbols</li>
+        <li>Peek - return the element at the head of the queue</li>
+        <li>Dequeue - remove and return the element at the head of the queue</li>
+        <li>Check if empty - determine whether the queue is empty</li>
+      </ol>
+      <p>Note that we've added the peek operation.</p>
+      <p><em>The parse stack</em></p>
+      <p>Similar to in LL(1) parsing, our parse stack looks like:</p>
+      <table class="stackorqueue">
+        <tr>
+          <td>(top of stack)</td>
+          <td>sym<sub>1</sub></td>
+          <td>sym<sub>2</sub></td>
+          <td>...</td>
+          <td>sym<sub>n</sub></td>
+        </tr>
+      </table>
+      <p>sym<sub>i</sub> &isin; T &cup; N</p>
+      <p>As before, we still want to support the following operations:</p>
+      <ol>
+        <li>Initialize a stack with a fixed set of symbols</li>
+        <li>Push - add an element to the top of the stack</li>
+        <li>Pop - remove and return the element at the top of the stack</li>
+        <li>Check if empty - determine whether the stack is empty</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>Shift &amp; reduce actions</h3>
+      <p>In order to understand bottom-up LR(0) parsing, we need to first understand the two key LR parse actions: shift and reduce.</p>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>In the LR(0) shift action, we dequeue the first symbol from the input queue and push it onto the top of the parse stack.</p>
+      </div>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>Given a production N<sub>i</sub> &rarr; sym<sub>i<sub>1</sub></sub>, sym<sub>i<sub>2</sub></sub>, ..., sym<sub>i<sub>n</sub></sub> in our context-free grammar G, we can apply an LR(0) reduce action as follows:</p>
+        <p>Pop n symbols from the top of the parse stack (which should match s<sub>i<sub>1</sub></sub> ... sym<sub>i<sub>n</sub></sub>) and push N<sub>i</sub> onto the top of the parse stack.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>The accept action</h3>
+      <p>Since we need to accept the input string after it has been reduced to the grammar's start symbol, our LR(0) parser must have an accept action.</p>
+    </div>
+    <div class="section">
+      <h3>Shift &amp; reduce example</h3>
+      <p>Given the grammar</p>
+      <p>
+        S &rarr; ABC<br/>
+        A &rarr; a<br/>
+        B &rarr; b<br/>
+        C &rarr; cc
+      </p>
+      <p>we can derive the string abcc in reverse as follows:</p>
+      <table class="parsetrace">
+        <tr>
+          <th>Input queue</th>
+          <th>Parse stack</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>abcc</td>
+          <td></td>
+          <td>Apply shift action</td>
+        </tr>
+        <tr>
+          <td>bcc</td>
+          <td>a</td>
+          <td>Apply reduce action, since a matches the right-hand side of A &rarr; a</td>
+        </tr>
+        <tr>
+          <td>bcc</td>
+          <td>A</td>
+          <td>Apply shift action, since the parse stack does not contain the entire right-hand side of any production</td>
+        </tr>
+        <tr>
+          <td>cc</td>
+          <td>Ab</td>
+          <td>Apply reduce action, since b matches the right-hand size of B &rarr; b</td>
+        </tr>
+        <tr>
+          <td>cc</td>
+          <td>AB</td>
+          <td>Apply shift action, since we want ABC on the parse stack to reduce to S</td>
+        </tr>
+        <tr>
+          <td>c</td>
+          <td>ABc</td>
+          <td>Apply shift action, since we need two cs to reduce to C</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>ABcc</td>
+          <td>Apply reduce action for production C &rarr; cc</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>ABC</td>
+          <td>Apply reduce action for production S &rarr; ABC</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>S</td>
+          <td>Accept, since we've reduced our terminal string to the start symbol</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've gone over some of the fundamental operations of LR parsing which will be first used in an illustration of the LR(0) parsing algorithm. Next, we will look at the motivation for requiring state managemnt in our parsing process.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
