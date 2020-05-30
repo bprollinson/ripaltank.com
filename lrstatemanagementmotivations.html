@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR state management motivations</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the fundamental shift, reduce and accept actions as used by LR parsers. However, LR parsers use some additional tools related to acceptance and state management. This page will introduce some of the motivations for utilizing these concepts.</p>
+    </div>
+    <div class="section">
+      <h3>Motivation for end-of-string lookahead</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Consider the following grammar:</p>
+        <p>
+          S &rarr; ab
+        </p>
+        <p>Now, let's consider an attempt to parse the string abc in a bottom-up fashion:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>abc</td>
+            <td></td>
+            <td>Apply shift action</td>
+          </tr>
+          <tr>
+            <td>bc</td>
+            <td>a</td>
+            <td>Apply shift action</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>ab</td>
+            <td>Apply reduce action for production A &rarr; ab</td>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>S</td>
+            <td>???</td>
+          </tr>
+        </table>
+        <p>Here, we've arrived at nonterminal S. However, we are not at the end of string, since input symbol c has not yet been processed.</p>
+        <p>By inspection, it's clear that abc is not part of our language, so we would reject this input string.</p>
+        <p>As shown in this example, we can argue that we only want to accept the input string if the start symbol (typically S) is reached when the input queue is empty.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>The augmented grammar</h3>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>Given a context-free grammar with start symbol S, nonterminals N, terminals T and productions P, we can construct an augmented grammar with start symbol S', nonterminals N', terminals T' and productions P' as follows:</p>
+        <ol>
+          <li>N' = {S'} &cup; N</li>
+          <li>T' = T</li>
+          <li>P' = {S' &rarr; S $} &cup; P
+        </ol>
+      </div>
+      <p>Informally, we can create a new augmented grammar by creating a new start symbol S' and adding the production S' &rarr; S $. This production is typically added to the beginning of the grammar since, by convention, the start symbol is placed on the left-hand side of the first production.</p>
+      <p>This new production is used to symbolize the final acceptance of our original start symbol S when the end of string is reached in the input queue. Although the $ symbol is not strictly required, we show it here to be explicit.</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S &rarr; A B<br/>
+          A &rarr; a<br/>
+          B &rarr; b
+        </p>
+        <p>we can construct the augmented grammar as follows:</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A B<br/>
+          A &rarr; a<br/>
+          B &rarr; b
+        </p>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S' &rarr; ab
+        </p>
+        <p>we can construct the augmented grammar as follows:</p>
+        <p>
+          S'' &rarr; S' $<br/>
+          S' &rarr; ab
+        </p>
+        <p>Here, even though the creator of the original grammar made the poor choice of S' as its start symbol, we can still construct a new start symbol S'' for the augmented grammar. The name of the special nonterminal doesn't really matter - it's more important that it's not used anywhere else in the grammar.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Motivations for state management</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Let's consider the following grammar:</p>
+        <p>
+          S &rarr; a B<br/>
+          S &rarr; b
+        </p>
+        <p>Using this grammar, we can reduce the string ab to the start state as follows:</p>
+        <div class="derivation">ab
+&rarr; aB
+&rarr; S</div>
+        <p>Conceptually, we can think about the state we are in within our parse at a high level as follows:</p>
+        <ol>
+          <li>ab - We are in a state where none of the input symbols have been reduced to a nonterminal</li>
+          <li>aB - We are in an intermediate state where one reduction has occured but we have not yet reduced to our starting nonterminal</li>
+          <li>S - We are in a state where we have reduced to our start symbol and can now accept the string as part of our language</li>
+        </ol>
+        <p>Although this conceptually makes sense, the language specified here is in fact LL(1) and does not require a more complext mechanism to recognize it.</p>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>However, observe the following grammar:</p>
+        <p>
+          S &rarr; aA<br/>
+          S &rarr; aB<br/>
+          A &rarr; a<br/>
+          B &rarr; b
+        </p>
+        <p>This grammar is obviously not LL(1) because, when start symbol S is encountered with next input symbol a, it's not clear which production to apply.</p>
+        <p>However, observe the following reduction to the start state:</p>
+        <div class="derivation">aa
+&rarr; aA
+&rarr; S</div>
+        <p>Conceptually, we can think about the state we are in within our parse at a high level as follows:</p>
+        <ol>
+          <li>aa - We are in a state where none of the input symbols have been reduced to a nonterminal</li>
+          <li>aA - We are in an intermediate state where one reduction has occured but we have not yet reduced to our starting nonterminal</li>
+          <li>S - We are in a state where we have reduced to our start symbol and can now accept the string as part of our language</li>
+        </ol>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>Now, you've seen some motivation for the mechanisms used in LR(0) state management. Next, we will introduce one additional LR parse action before describing the structure of the LR(0) parse table.</p>
+    </div>
+  </body>
+</html>
