@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>The LR goto action</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the LR shift, reduce and accept actions. We've also provided a motivation for state management in LR parsing. In this section, we will introduce the final LR parse action which is related to state management.</p>
+    </div>
+    <div class="section">
+      <h3>The goto action</h3>
+      <div class="subsection example">
+        <p><em>Definition</em></p>
+        <p>In the LR(0) goto action, we transition from one parse state to a different parse state.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Application</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>
+          S &rarr; aA<br/>
+          S &rarr; aB<br/>
+          A &rarr; a<br/>
+          B &rarr; b
+        </p>
+        <p>Recall that this grammar is not LL(1). However, it has the following conceptual states:</p>
+        <ol>
+          <li>aa - We are in a state where none of the input symbols have been reduced to a nonterminal</li>
+          <li>aA - We are in an intermediate state where one reduction has occured but we have not yet reduced to our starting nonterminal</li>
+          <li>S - We are in a state where we have reduced to our start symbol and can now accept the string as part of our language</li>
+        </ol>
+      </div>
+      <p>Even though we've seen one conceptual example of what parse states mean, their use may still not be entirely clear. The use of parse states will become more apparent in formal LR(0) parse examples.</p>
+      <p>A rudimentary conceptual understanding of these states is helpful to understand the setup of the LR(0) parse table, which will be introduced shortly.</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We have provided a rough introduction to the LR goto action. With this concept, we can now introduce the LR(0) parse table.</p>
+    </div>
+  </body>
+</html>
