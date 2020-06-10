@@ -15,11 +15,11 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
-    <h2>LR(0) parse example - single terminal</h2>
+    <h2>LR(0) parse example - multiple terminals</h2>
     <div class="section">
       <h3>Background</h3>
-      <p>You've seen the fundamental concepts needed to parse strings with an LR(0) parser. However, these concepts are far less intuitive than the concepts used in an LL(1) parser.</p>
-      <p>In this section, we will illustrate the application of these concepts in a simple parser.</p>
+      <p>We've now seen the method an LR(0) uses to recognize a string as a part of a single-terminal language.</p>
+      <p>In this section, we will extend that example to include multiple terminals.</p>
     </div>
     <div class="section">
       <h3>Setup</h3>
@@ -27,18 +27,19 @@
         <p><em>Example</em></p>
         <p>Observe the following grammar:</p>
         <p>
-          S &rarr; a
+          S &rarr; ab
         </p>
         <p>This grammar has the following augmented grammar:</p>
         <p>
           S' &rarr; S $<br/>
-          S &rarr; a
+          S &rarr; ab
         </p>
         <p>It has the following LR(0) parse table:</p>
         <table class="parsetable">
           <tr>
             <td></td>
             <td>a</td>
+            <td>b</td>
             <td>$</td>
             <td>S</td>
             <td>S'</td>
@@ -47,18 +48,29 @@
             <td>state<sub>1</sub></td>
             <td>shift<sub>2</sub></td>
             <td></td>
-            <td>goto<sub>3</sub></td>
+            <td></td>
+            <td>goto<sub>4</sub></td>
             <td></td>
           </tr>
           <tr>
             <td>state<sub>2</sub></td>
-            <td>reduce<sub>1</sub></td>
-            <td>reduce<sub>1</sub></td>
+            <td></td>
+            <td>shift<sub>3</sub></td>
+            <td></td>
             <td></td>
             <td></td>
           </tr>
           <tr>
             <td>state<sub>3</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>4</sub></td>
+            <td></td>
             <td></td>
             <td>accept</td>
             <td></td>
@@ -66,21 +78,12 @@
           </tr>
         </table>
       </div>
-      <p><em>Note</em></p>
-      <p>In the table above, we used some abbreviated notation for convenience as follows:</p>
-      <ol>
-        <li>shift<sub>state<sub>i</sub></sub> is abbreviated as shift<sub>i</sub></li>
-        <li>reduce<sub>p<sub>i</sub></sub> is abbreviated as reduce<sub>i</sub></li>
-        <li>goto<sub>state<sub>i</sub></sub> is abbreviated as goto<sub>i</sub></li>
-      </ol>
-      <p><em>Note</em></p>
-      <p>We will not yet illustrate the exact algorithm for constructing this parse table. It will be easier to explain after you completely understand the parsing procedure.</p>
     </div>
     <div class="section">
       <h3>Parse example</h3>
       <div class="subsection example">
         <p><em>Example</em></p>
-        <p>Parsing input string a:</p>
+        <p>Parsing input string ab:</p>
         <table class="parsetrace">
           <tr>
             <th>Input queue</th>
@@ -88,34 +91,37 @@
             <th>Action</th>
           </tr>
           <tr>
-            <td>a</td>
+            <td>ab</td>
             <td>1</td>
             <td>Apply action of shift<sub>2</sub> which corresponds to state<sub>1</sub> and a in our parse table</td>
           </tr>
           <tr>
-            <td></td>
+            <td>b</td>
             <td>1 a 2</td>
-            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>2</sub> and $ in our parse table</td>
+            <td>Apply action of shift<sub>3</sub> which corresponds to state<sub>2</sub> and b in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 a 2 b 3</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>3</sub> and $ in our parse table</td>
           </tr>
           <tr>
             <td></td>
             <td>1 S</td>
-            <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+            <td>Apply action of goto<sub>4</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
           </tr>
           <tr>
             <td></td>
-            <td>1 S 3</td>
-            <td>Accept, since this action corresponds to state<sub>3</sub> and $ in our parse table</td>
+            <td>1 S 4</td>
+            <td>Accept, since this action corresponds to state<sub>4</sub> and $ in our parse table</td>
           </tr>
         </table>
         <p>This parsing procedure corresponds to the following derivation of string a:</p>
         <div class="derivation">S
-&rarr; a</div>
+&rarr; ab</div>
       </div>
-      <p>As an interesting observation, note that we could have simply accepted the input string once the start symbol S was on the stack with lookahead $.</p>
-      <p>However, the goto action is useful in the use of more complex grammars, which will be illustrated later.</p>
-      <p><em>Note</em></p>
-      <p>Note that we are using the number i to represent state<sub>i</sub> in our parse stack representation for convenience.</p>
+      <p>In the above example, observe how two terminals, a and b, are shifted onto the parse stack before a reduce action is applied. The table's parse states facilitate this so that we can perform a reduction that requires two terminals, a and b, to be reduced to nonterminal S once state<sub>3</sub> has been reached. Here, the intermediate state of state<sub>2</sub> represents a time in the parsing procedure when the terminal a has been encountered and the parser is waiting on terminal b.</p>
+      <p>Once all symbols has been processed via a reduction, we can revert to state<sub>1</sub> and wrap up our parsing procedure.</p>
       <div class="subsection example">
         <p><em>Example</em></p>
         <p>Failing to parse input string aa:</p>
@@ -133,27 +139,14 @@
           <tr>
             <td>a</td>
             <td>1 a 2</td>
-            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>2</sub> and a in our parse table</td>
-          </tr>
-          <tr>
-            <td>a</td>
-            <td>1 S</td>
-            <td>Apply action of goto <sub>3</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
-          </tr>
-          <tr>
-            <td>a</td>
-            <td>1 S 3</td>
-            <td>Reject, since no action corresponds to state<sub>3</sub> and a in our parse table</td>
+            <td>Reject, since no action corresponds to state<sub>2</sub> and a in our parse table</td>
           </tr>
         </table>
-      </div>
+      </div> 
     </div>
     <div class="section">
       <h3>Conclusion</h3>
-      <p>We've now seen LR(0) parse table actions in action. Next, we will examine the parsing procedure for a grammar with multiple terminals.</p>
+      <p>We've now seen an LR(0) parsing procedure for a grammar containing a production with multiple terminals. Next, we will examine the parsing procedure for a grammar with multiple productions.</p>
     </div>
-    <hr/>
-    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
-    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
   </body>
 </html>
