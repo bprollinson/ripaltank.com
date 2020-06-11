@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) parse example - the empty string</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've now seen the method an LR(0) parser uses to recognize a language containing a multi-terminal production.</p>
+      <p>In this section, we will illustrate the parsing procedure for a language that contains no terminals and instead contains only the empty string.</p>
+    </div>
+    <div class="section">
+      <h3>Setup</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; &epsilon;
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; &epsilon;
+        </p>
+        <p>It has the following LR(0) parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>$</td>
+            <td>S</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>goto<sub>2</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Parse example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Parsing the empty input string &epsilon;:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>1</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>2</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 2</td>
+            <td>Accept, since this action corresponds to state<sub>2</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+        <p>This parsing procedure corresponds to the following derivation of the empty string (&epsilon;):</p>
+        <div class="derivation">S
+&rarr; &epsilon;</div>
+      </div>
+      <p>In this example, we can apply the reduce action without first shifting any symbols onto the parse stack. This is permissible because &epsilon; represents an empty set of input symbols. As a result, we can immediately use the reduce and goto actions to reach state<sub>2</sub> and then accept.</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Failing to parse input string a:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>a</td>
+            <td>1</td>
+            <td>Reject, since no action corresponds to state<sub>1</sub> and a in our parse table</td>
+          </tr>
+        </table>
+        <p><em>Note</em></p>
+        <p>This example is a bit of a cheat because &Sigma; = {}. However, the illustration is still relevant.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've seen parse examples for LR(0) languages that contain a finite string and also the language that contains the empty string. Next, we will examine the parsing procedure for a grammar with multiple productions.</p>
+    </div>
+  </body>
+</html>
