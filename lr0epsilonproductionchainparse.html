@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) parse example - &epsilon; production chain</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen a method for parsing a production chain that derives a fixed string.</p>
+      <p>Now, we will illustrate a method for parsing a production chain that derives the empty string &epsilon;.</p>
+    </div>
+    <div class="section">
+      <h3>Setup</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; &epsilon;
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S<br/>
+          S &rarr; A<br/>
+          A &rarr; &epsilon;
+        </p>
+        <p>It has the following LR(0) parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>$</td>
+            <td>S</td>
+            <td>A</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>goto<sub>3</sub></td>
+            <td>goto<sub>2</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>3</sub></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Parse example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Parsing input string &epsilon;:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1</td>
+            <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>1</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>2</sub> which corresponds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 2</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>2</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 3</td>
+            <td>Accept, since this action corresponds to state<sub>3</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+        <p>This parsing procedure corresponds to the following derivation of the empty string (&epsilon;):</p>
+        <div class="derivation">S
+&rarr; &epsilon;</div>
+      </div>
+      <p>The general flow of this parse is similar to our previous example of handling production chains that derive a terminal symbol. However, since there are not input symbols, we do not need to shift any symbols onto the parse stack and can immediately apply our reduce actions in bottom-up order.</p>
+      <p>Here, state<sub>2</sub> represents a point in our parse when our first reduction (to nonternal A) has occurred while state<sub>3</sub> represents a point when our reduction to the start symbol S has been subsequently applied.</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Failing to parse input string a:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>a</td>
+            <td>1</td>
+            <td>Reject, since no action corresponds to state<sub>1</sub> and a in our parse table</td>
+          </tr>
+        </table>
+        <p><em>Note</em></p>
+        <p>This example is a bit of a cheat because &Sigma; = {}. However, the illustration is still relevant.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've now seen some examples of parsing input strings beloning to context-free languages with production chains in their grammars. We have essentially gone deep with productions. Next, we will go wide and look at parsing techniques and analysis related to multi-terminal productions.</p> 
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
