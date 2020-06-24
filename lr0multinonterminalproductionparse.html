@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) parse example - multi-nonterminal production</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen a wide variety of LR(0) parsing techniques.</p>
+      <p>In this section, we will explore parsing productions that have multiple nonterminals on the right-hand side.</p>
+    </div>
+    <div class="section">
+      <h3>Setup</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A B<br/>
+          A &rarr; a<br/>
+          B &rarr; b
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A B<br/>
+          A &rarr; a<br/>
+          B &rarr; b
+        </p>
+        <p>It has the LR(0) parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>a</td>
+            <td>b</td>
+            <td>$</td>
+            <td>S</td>
+            <td>A</td>
+            <td>B</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>shift<sub>5</sub></td>
+            <td></td>
+            <td></td>
+            <td>goto<sub>6</sub></td>
+            <td>goto<sub>2</sub></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td></td>
+            <td>shift<sub>3</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>goto<sub>4</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>3</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>4</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>5</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>6</sub></td>
+            <td></td>
+            <td></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Parse example</h3>
+      <div class="subsection example">
+        <p><em>Example input</em></p>
+        <p>Parsing input string ab:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>ab</td>
+            <td>1</td>
+            <td>Apply action of shift<sub>5</sub>, which corresponds to state<sub>1</sub> and a in our parse table</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>1 a 5</td>
+            <td>Apply action of reduce<sub>3</sub>, which corresponds to state<sub>5</sub> and b in our parse table</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>2</sub>, which corresponds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td>b</td>
+            <td>1 A 2</td>
+            <td>Apply action of shift<sub>3</sub>, which corresponds to state<sub>2</sub> and b in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 2 b 3</td>
+            <td>Apply action of reduce<sub>4</sub>, which corresponds to state<sub>3</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 2 B</td>
+            <td>Apply action of goto<sub>4</sub>, which corresponds to state<sub>2</sub> and B in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 2 B 4</td>
+            <td>Apply action of reduce<sub>2</sub>, which corresponds to state<sub>4</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>6</sub>, which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 6</td>
+            <td>Accept, since this action corresponds to state<sub>6</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+        <p>This parsing procedure corresponds to the following derivation of string ab:</p>
+        <div class="derivation">S
+&rarr; A B
+&rarr; A b
+&rarr; ab</div>
+      </div>
+      <p>In this example, we first reduce terminal a to nonterminal A. We then reduce terminal b to nonterminal B. Finally, we are able to reduce nonterminals A and B to our start symbol S. Since we have reached the end of input at that point, we are able to accept the string as part of our language.</p>
+      <p>This example illustrates a key difference between LL(1) and LR(0) parsing. In an LR(0) parse, the rightmost derivation of our input string is produced. This happens because although we perform our reductions from left to right, this parse is bottom-up, so the illustration of our derivation will be in the reverse right-to-left derivation order.</p>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Failing to parse input string a:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>a</td>
+            <td>1</td>
+            <td>Apply action of shift<sub>5</sub>, which corresponds to state<sub>1</sub> and a in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 a 5</td>
+            <td>Apply action of reduce<sub>3</sub>, which corresponds to state<sub>5</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>2</sub>, which corresponds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 2</td>
+            <td>Reject, since state<sub>2</sub> and $ correspond to &oslash; in our table</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've now seen the parsing procedure for an LR(0) language containing a multi-nonterinal production. In particular, we've seen how it results in the rightmost derivation of a string within our language.</p>
+      <p>Next, we will look at the process for generating an LR(0) parse table from a context-free grammar.</p>
+    </div>
+  </body>
+</html>
