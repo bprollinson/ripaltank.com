@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) parser construction motivations</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the process for using a parse table to apply the LR(0) parsing algorithm in order to recognizing a string as part of a context-free language. In this section, we will briefly outline the reasoning for extending our LR(0) parsing knowledge to construct this LR(0) parser.</p>
+    </div>
+    <div class="section">
+      <h3>Recall</h3>
+      <p>Previously, we illustrated and formally described the LR(0) parsing process.</p>
+      <p>In order to apply this process, we needed the following information:</p>
+      <ol>
+        <li>The general LR(0) parsing algorithm</li>
+        <li>The parse table for the particular language that we are trying to recognize strings from</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>Core motivation</h3>
+      <p>We commonly use context-free grammars to specify context-free languages, including those that are part of the LR(0) subset of this class of languages.</p>
+      <p>Since the only non-static piece of information we need to recognize such as language is its parse table, if we had the ability to generate this table from the language's grammar, then we would have a streamlined process for constructing LR(0) parse tables (and hence parsers).</p>
+    </div>
+    <div class="section">
+      <h3>Visualization of the entire flow</h3>
+      <p>The following diagram illustrates the end-to-end of flow of recognizing a string as part of an LR(0) context-free language specified by a grammar:</p>
+      <img src="assets/lr0parsefullflow.png" alt="Flow diagram illustrating the full LR(0) parsing flow. The parser consists of an LR(0) parse table and the LR(0) parsing algorithm. The LR(0) parse table is constructed by passing the LR(0) context-free grammar through the process of parse table construction. The input string is passed to the LR(0) parser. On success, a parse tree is generated."/>
+      <p>We've already covered the LR(0) parser structure and parsing algorithm.</p>
+      <p>Conversely, we have not yet been covered LR(0) parse table construction.</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We have gone over the motivation for delving into LR(0) parser construction. Next, we will delve into some of the underlying concepts required to start the parser construction process.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>

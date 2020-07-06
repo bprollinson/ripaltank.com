@@ -67,7 +67,7 @@
 &rarr; if (CONDITION) { func1(); } else { func2(); }
 &rarr; if (x) { func1(); } else { func2(); }</div>
         <p>Now, observe the following parse tree:</p>
-        <img src="assets/ifstatementparsetree.png"/ alt="Parse tree for the string if (x) { func1(); } else { func2() }. IFSTATEMENT is at the top of the parse tree. On the second level, IFSTATEMENT becomes 4 symbols: IF, IFBODY, ELSE, ELSEBODY, END. On the third level, IF becomes 5 symbols: if, (, CONDITION, ), {. On the third level, IFBODY becomes func1();. On the third level, ELSE becomes 3 symbols: }, else, {. On the third level, ELSEBODY becomes func2();. On the third level, END becomes }. On the fourth level, CONDITION becomes x.">
+        <img src="assets/ifstatementparsetree.png" alt="Parse tree for the string if (x) { func1(); } else { func2() }. IFSTATEMENT is at the top of the parse tree. On the second level, IFSTATEMENT becomes 4 symbols: IF, IFBODY, ELSE, ELSEBODY, END. On the third level, IF becomes 5 symbols: if, (, CONDITION, ), {. On the third level, IFBODY becomes func1();. On the third level, ELSE becomes 3 symbols: }, else, {. On the third level, ELSEBODY becomes func2();. On the third level, END becomes }. On the fourth level, CONDITION becomes x."/>
       </div>
       <p>If we observe the parse tree and compare it to the leftmost and rightmost derivations, we can see that the tree simultaneously illustrates both derivations.</p>
       <p>To see the leftmost derivation within the tree structure, we can read the terminal (leaf) nodes from left to right and observe the parent nodes that represent the corresponding productions. In this case, we always apply the production needed to derive the leftmost terminal node that has not yet been derived.</p>
