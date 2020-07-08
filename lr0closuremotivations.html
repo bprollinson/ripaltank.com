@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) closure motivations</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the motivations for constructing an LR(0) parse table from a context-free grammar. In this section, we will provide motivations for the underlying construct of the production closure.</p>
+    </div>
+    <div class="section">
+      <h3>Recall</h3>
+      <p>In our LR(0) parsing procedure:</p>
+      <ol>
+        <li>When performing a shift action, we add one terminal and one state to the parse stack</li>
+        <li>When performing a reduce action, we remove a number of terminals and states from the parse stack equal to the number of symbols on the right-hand side of the relevant production</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>Motivating example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C<br/>
+          C &rarr; c
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C<br/>
+          C &rarr; c
+        <p>
+        <p>It has the following LR(0) parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>c</td>
+            <td>$</td>
+            <td>S</td>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>shift<sub>2</sub></td>
+            <td></td>
+            <td>goto<sub>6</sub></td>
+            <td>goto<sub>5</sub></td>
+            <td>goto<sub>4</sub></td>
+            <td>goto<sub>3</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>3</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>4</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>5</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>6</sub></td>
+            <td></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p>Parsing input string c:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>1</td>
+            <td>Apply action of shift<sub>2</sub> which corresponds to state<sub>1</sub> and c in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 c 2</td>
+            <td>Apply action of reduce<sub>5</sub> which corresponds to state<sub>2</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C</td>
+            <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and C in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3</td>
+            <td>Apply action of reduce<sub>4</sub> which corresponds to state<sub>3</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B</td>
+            <td>Apply action of goto<sub>4</sub> which corresponds to state<sub>1</sub> and B in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B 4</td>
+            <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>4</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>5</sub> which corresponds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 5</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>5</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>6</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 6</td>
+            <td>Accept, since this action corresponds to state<sub>6</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+      </div>
+      <p>In the above example, observe how frequently the parser is in state<sub>1</sub>.</p>
+      <p>Since we are chaining productions that don't require the processing of additional terminals for each step, such as:</p>
+      <ol>
+        <li>S &rarr; A</li>
+        <li>A &rarr; B</li>
+        <li>B &rarr; C</li>
+      </ol>
+      <p>we are able to apply a goto action followed by a reduce action multiple times in sequence. This parsing process is centered around state<sub>1</sub>.</p>
+    </div>
+    <div class="section">
+      <h3>Motivating example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C D<br/>
+          C &rarr; c<br/>
+          D &rarr; d
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S<br/>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C D<br/>
+          C &rarr; c</br>
+          D &rarr; d
+        </p>
+        <p>It has the following LR(0) parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>c</td>
+            <td>d</td>
+            <td>$</td>
+            <td>S</td>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>shift<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td>goto<sub>8</sub></td>
+            <td>goto<sub>7</sub></td>
+            <td>goto<sub>6</sub></td>
+            <td>goto<sub>3</sub></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>3</sub></td>
+            <td></td>
+            <td>shift<sub>4</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>goto<sub>5</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>4</sub></td>
+            <td>reduce<sub>6</sub></td>
+            <td>reduce<sub>6</sub></td>
+            <td>reduce<sub>6</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>5</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>6</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>7</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>8</sub></td>
+            <td></td>
+            <td></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p>Parsing input string cd:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>c d</td>
+            <td>1</td>
+            <td>Apply action of shift<sub>2</sub> which corresponds to state<sub>1</sub> and c in our parse table</td>
+          </tr>
+          <tr>
+            <td>d</td>
+            <td>1 c 2</td>
+            <td>Apply action of reduce<sub>5</sub> which corresponds to state<sub>2</sub> and d in our parse table</td>
+          </tr>
+          <tr>
+            <td>d</td>
+            <td>1 C</td>
+            <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and C in our parse table</td>
+          </tr>
+          <tr>
+            <td>d</td>
+            <td>1 C 3</td>
+            <td>Apply action of shift<sub>4</sub> which corresponds to state<sub>3</sub> and d in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3 d 4</td>
+            <td>Apply action of reduce<sub>6</sub> which corresponds to state<sub>4</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3 D</td>
+            <td>Apply action of goto<sub>5</sub> which corresponds to state<sub>3</sub> and D in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3 D 5</td>
+            <td>Apply action of reduce<sub>4</sub> which corresponds to state<sub>5</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B</td>
+            <td>Apply action of goto<sub>6</sub> which corresponds to state<sub>1</sub> and B in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B 6</td>
+            <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>6</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>7</sub> which correspoinds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 7</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>7</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>8</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 8</td>
+            <td>Accept, since this action corresponds to state<sub>8</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+      </div>
+      <p>Observe the apperance of state<sub>1</sub> in the above example.</p>
+      <p>When processing terminal input symbols a and b, the parser leaves state<sub>1</sub> until CD is reduced to B.</p>
+      <p>When applying the reduction of B to A and A to S, the parser is able to use the repeated goto and reduce actions to stay centered around state<sub>1</sub> as observed in the previous example.</p>
+    </div>
+    <div class="section">
+      <h3>The closure concept</h3>
+      <p>In considering the set of productions to begin processing within a particular LR(0) parse state, we need a way to expand a given set as was shown in the above examples.</p>
+      <p>In particular, we can append productions to the set to be considered if they are reachable from the existing set without processing additional terminals. We will call this extended set of production rules the closure of the original set.</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>Now, we've seen motivation for the closure concept when constructing an LR(0) parse table. Next, we will introduce a special symbol to represent where we are in production processing so that we can handle closures appropriately.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
