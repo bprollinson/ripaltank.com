@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) production dot symbol</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the motivation for the handling of closures within LR(0) parse table generation.</p>
+      <p>In this section, we will outline the concept of the production dot symbol which is used to represent where we are in the processing of symbols as part of a production.</p>
+    </div>
+    <div class="section">
+      <h3>Motivating example</h3>
+      <div class="subsection example">
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C<br/>
+          C &rarr; c
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C<br/>
+          C &rarr; c
+        </p>
+        <p>Recall that it has the following parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>c</td>
+            <td>$</td>
+            <td>S</td>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>shift<sub>2</sub></td>
+            <td></td>
+            <td>goto<sub>6</sub></td>
+            <td>goto<sub>5</sub></td>
+            <td>goto<sub>4</sub></td>
+            <td>goto<sub>3</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>3</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>4</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>5</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>6</sub></td>
+            <td></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p>Recall the following parse of input string c:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>c</td>
+            <td>1</td>
+            <td>Apply action of shift<sub>2</sub> which corresponds to state<sub>1</sub> and c in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 c 2</td>
+            <td>Apply action of reduce<sub>5</sub> which corresponds to state<sub>2</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C</td>
+            <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and C in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3</td>
+            <td>Apply action of reduce<sub>4</sub> which corresponds to state<sub>3</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B</td>
+            <td>Apply action of goto<sub>4</sub> which corresponds to state<sub>1</sub> and B in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B 4</td>
+            <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>4</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>5</sub> which corresponds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 5</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>5</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>6</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 6</td>
+            <td>Accept, since this action corresponds to state<sub>6</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+        <p>Here, observe that for the following productions:</p>
+        <ol>
+          <li>S &rarr; A</li>
+          <li>A &rarr; B</li>
+          <li>B &rarr; C</li>
+        </ol>
+        <p>the repeated action of goto followed by reduce can be used to chain the processing of these productions.</p>
+        <p>However, the production C &rarr; c can't be processed in the same way because it requires the processing of an input terminal.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>The dot symbol</h3>
+      <p>In processing productions, we use a special dot symbol (&middot;) to represent where we are in terms of processing symbols from the production.</p>
+      <p>The dot symbol can be though of as a type of input cursor.</p>
+    </div>
+    <div class="section">
+      <h3>Dot symbol examples</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>The above augmented grammar has the production:</p>
+        <p>S &rarr; A</p>
+        <p>Now, consider the parse state we are in before nonterminal A is reduced to nonterminal S. It can be further qualified as follows:</p>
+        <p>S &rarr; &middot; A</p>
+        <p>In this state, the nonterminal A must now be processed. We have seen in our parse example that this processing consists of a goto action follow by a reduction of nonterminal A to nonterminal S. After this processing, we will be in a state that contains the following qualified production:</p>
+         <p>S &rarr; A &middot;</p>
+         <p>In this state, A has been processed.</p>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>The above augmented grammar has the production:</p>
+        <p>C &rarr; c</p>
+        <p>Now, consider the parse state we are in before terminal c is shifted onto the parse stack. It can be further qualified as follows:</p>
+        <p>C &rarr; &middot; c</p>
+        <p>In this state, the terminal c must now be processed. We have seen in our parse example that this processing consists of a shift action on terminal c. After this processing, we will be in a state that contains the following qualified production:</p>
+        <p>C &rarr; c &middot;</p>
+        <p>In this state, c has been processed.</p>
+      </div>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>The above augmented grammar has the production:</p>
+        <p>S' &rarr; S $</p>
+        <p>In our initial parse state, we haven't processed any shift or reduce actions.</p>
+        <p>In particular, we have not yet processed a reduction of nonterminal S to nonterminal S'. As a result, when in the initial parse state, this initial production can be further qualified as follows:</p>
+        <p>S' &rarr; &middot; S $</p>
+        <p>Once S has been processed in our parser setup, the production can be qualified as:</p>
+        <p>S &rarr; S &middot; $</p>
+        <p>Although it's easiest to think of symbol processing as part of a shift or reduce action, this particular example will make more sense once the algorithm for parse table generation is explained.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We have now seen the production dot symbol, which will be very useful in tracking our position within productions in the LR(0) parser construction process.</p>
+      <p>Next, we will use it to fully define the concept of a closure within this process.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
