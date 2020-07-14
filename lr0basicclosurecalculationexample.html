@@ -15,11 +15,11 @@
         <li><a href="contact.html">Contact</a></li>
       </ul>
     </nav>
-    <h2>LR(0) production dot symbol</h2>
+    <h2>LR(0) basic closure calculation example</h2>
     <div class="section">
       <h3>Background</h3>
-      <p>We've seen the motivation for the handling of closures within LR(0) parse table generation.</p>
-      <p>In this section, we will outline the concept of the production dot symbol which is used to represent where we are in the processing of symbols as part of a production.</p>
+      <p>We've seen the motivations for using the concept of the LR(0) closure in our parser construction process. We've also seen the utility of the production dot symbol in this context.</p>
+      <p>In this section, we will begin to flesh out this closure calculation.</p>
     </div>
     <div class="section">
       <h3>Motivating example</h3>
@@ -170,59 +170,62 @@
             <td>Accept, since this action corresponds to state<sub>6</sub> and $ in our parse table</td>
           </tr>
         </table>
-        <p>Here, observe that for the following productions:</p>
-        <ol>
-          <li>S &rarr; A</li>
-          <li>A &rarr; B</li>
-          <li>B &rarr; C</li>
-        </ol>
-        <p>the repeated action of goto followed by reduce can be used to chain the processing of these productions.</p>
-        <p>However, the production C &rarr; c can't be processed in the same way because it requires the processing of an input terminal.</p>
       </div>
+      <p>Also, recall that we are chaining the processing of the following productions via the goto and reduce actions:</p>
+      <ol>
+        <li>S &rarr; A</li>
+        <li>A &rarr; B</li>
+        <li>B &rarr; C</li>
+      </ol>
     </div>
     <div class="section">
-      <h3>The dot symbol</h3>
-      <p>In processing productions, we use a special dot symbol (&middot;) to represent where we are in terms of processing symbols from the production.</p>
-      <p>The dot symbol can be though of as a type of input cursor.</p>
+      <h3>The fundamental question</h3>
+      <p>Using the above example, let's start with a qualified version of our first production as follows:</p>
+      <p>S' &rarr; &middot; S $</p>
+      <p>From this position, we know we need to first process the reduction to nonterminal S.</p>
+      <p>The fundamental question to assess in this context is:</p>
+      <strong>How far can we progress through our productions without processing any input symbols?</strong>
     </div>
     <div class="section">
-      <h3>Dot symbol examples</h3>
-      <div class="subsection example">
-        <p><em>Example</em></p>
-        <p>The above augmented grammar has the production:</p>
-        <p>S &rarr; A</p>
-        <p>Now, consider the parse state we are in before nonterminal A is reduced to nonterminal S. It can be further qualified as follows:</p>
-        <p>S &rarr; &middot; A</p>
-        <p>In this state, the nonterminal A must now be processed. We have seen in our parse example that this processing consists of a goto action follow by a reduction of nonterminal A to nonterminal S. After this processing, we will be in a state that contains the following qualified production:</p>
-         <p>S &rarr; A &middot;</p>
-         <p>In this state, A has been processed.</p>
-      </div>
-      <div class="subsection example">
-        <p><em>Example</em></p>
-        <p>The above augmented grammar has the production:</p>
-        <p>C &rarr; c</p>
-        <p>Now, consider the parse state we are in before terminal c is shifted onto the parse stack. It can be further qualified as follows:</p>
-        <p>C &rarr; &middot; c</p>
-        <p>In this state, the terminal c must now be processed. We have seen in our parse example that this processing consists of a shift action on terminal c. After this processing, we will be in a state that contains the following qualified production:</p>
-        <p>C &rarr; c &middot;</p>
-        <p>In this state, c has been processed.</p>
-      </div>
-      <div class="subsection example">
-        <p><em>Example</em></p>
-        <p>The above augmented grammar has the production:</p>
-        <p>S' &rarr; S $</p>
-        <p>In our initial parse state, we haven't processed any shift or reduce actions.</p>
-        <p>In particular, we have not yet processed a reduction of nonterminal S to nonterminal S'. As a result, when in the initial parse state, this initial production can be further qualified as follows:</p>
-        <p>S' &rarr; &middot; S $</p>
-        <p>Once S has been processed in our parser setup, the production can be qualified as:</p>
-        <p>S &rarr; S &middot; $</p>
-        <p>Although it's easiest to think of symbol processing as part of a shift or reduce action, this particular example will make more sense once the algorithm for parse table generation is explained.</p>
-      </div>
+      <h3>Intuitive argument</h3>
+      <p>Since the dot appears before the symbol S, we can ask this same question about the following production:</p>
+      <p>S &rarr; A</p>
+      <p>Adding the dot to the beginning of the right-hand side (since nothing has been processed so far from this next production), we end up with:</p>
+      <p>S &rarr; &middot; A</p>
+      <p>Repeating this process, we can use this same argument to include all of the following qualified productions:</p>
+      <p>
+        S' &rarr; &middot; S $<br/>
+        S &rarr; &middot; A<br/>
+        A &rarr; &middot; B<br/>
+        B &rarr; &middot; C
+      </p>
+      <p>But what about the production C &rarr; c?</p>
+      <p>Thinking about the derivation of the string c, we can certainly reach the following position without processing the terminal c:</p>
+      <p>C &rarr; &middot; c</p>
+      <p>Keep in mind that in bottom-up parsing, we derive strings in reverse. With that in mind, we can map the actions corresponding to the expansion of our closure from:</p>
+      <p>S &rarr; &middot; S $</p>
+      </p>to:</p>
+      <p>C &rarr; &middot; c</p>
+      <p>to the chain of goto and reduce actions related to the reduction of nonterminals S, A, B and C.</p>
+      <p>However, the shifting of terminal c onto the parse stack does not fit this pattern.</p>
+    </div>
+    <div class="section">
+      <h3>The fundamental answer</h3>
+      <p>Starting with qualified production:</p>
+      <p>S' &rarr; &middot; S $</p>
+      <p>we can chain productions and reach the following set of qualified productions as our closure:</p>
+      <p>
+        S' &rarr; &middot; S $<br/>
+        S &rarr; &middot; A<br/>
+        A &rarr; &middot; B<br/>
+        B &rarr; &middot; C<br/>
+        C &rarr; &middot; c
+      </p>
     </div>
     <div class="section">
       <h3>Conclusion</h3>
-      <p>We have now seen the production dot symbol, which will be very useful in tracking our position within productions in the LR(0) parser construction process.</p>
-      <p>Next, we will use it to illustrate a basic closure calculation.</p>
+      <p>We've seen a basic LR(0) closure calculation.</p>
+      <p>Next, we will illustrate a more advanced closure calculation.</p>
     </div>
     <hr/>
     <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
