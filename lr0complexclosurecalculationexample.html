@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) complex closure calculation example</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen a very basic LR(0) production closure calculation.</p>
+      <p>In this section, we will illustrate a more complex closure calculation.</p>
+    </div>
+    <div class="section">
+      <h3>Motivating example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C D<br/>
+          C &rarr; c<br/>
+          D &rarr; d
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S<br/>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; C D<br/>
+          C &rarr; c<br/>
+          D &rarr; d
+        </p>
+        <p>It has the following LR(0) parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>c</td>
+            <td>d</td>
+            <td>$</td>
+            <td>S</td>
+            <td>A</td>
+            <td>B</td>
+            <td>C</td>
+            <td>D</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>shift<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td>goto<sub>8</sub></td>
+            <td>goto<sub>7</sub></td>
+            <td>goto<sub>6</sub></td>
+            <td>goto<sub>3</sub></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td>reduce<sub>5</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>3</sub></td>
+            <td></td>
+            <td>shift<sub>4</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>goto<sub>5</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>4</sub></td>
+            <td>reduce<sub>6</sub></td>
+            <td>reduce<sub>6</sub></td>
+            <td>reduce<sub>6</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>5</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td>reduce<sub>4</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>6</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>7</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>8</sub></td>
+            <td></td>
+            <td></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p>Parsing input string cd:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td>c d</td>
+            <td>1</td>
+            <td>Apply action of shift<sub>2</sub> which corresponds to state<sub>1</sub> and c in our parse table</td>
+          </tr>
+          <tr>
+            <td>d</td>
+            <td>1 c 2</td>
+            <td>Apply action of reduce<sub>5</sub> which corresponds to state<sub>2</sub> and d in our parse table</td>
+          </tr>
+          <tr>
+            <td>d</td>
+            <td>1 C</td>
+            <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and C in our parse table</td>
+          </tr>
+          <tr>
+            <td>d</td>
+            <td>1 C 3</td>
+            <td>Apply action of shift<sub>4</sub> which corresponds to state<sub>3</sub> and d in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3 d 4</td>
+            <td>Apply action of reduce<sub>6</sub> which corresponds to state<sub>4</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3 D</td>
+            <td>Apply action of goto<sub>5</sub> which corresponds to state<sub>3</sub> and D in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 C 3 D 5</td>
+            <td>Apply action of reduce<sub>4</sub> which corresponds to state<sub>5</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B</td>
+            <td>Apply action of goto<sub>6</sub> which corresponds to state<sub>1</sub> and B in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 B 6</td>
+            <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>6</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>7</sub> which correspoinds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 7</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>7</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>8</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 8</td>
+            <td>Accept, since this action corresponds to state<sub>8</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Intuitive observations</h3>
+      <p>Similar to in the previous example, we can see here how the parsing procedure is rooted in state<sub>1</sub>. In particular, this can be seen with the following parse stack states.</p>
+      <ol>
+        <li>1 C</li>
+        <li>1 B</li>
+        <li>1 A</li>
+        <li>1 S</li>
+      </ol>
+      <p>However, before our reduction to nonterminal B, we must first arrive in the following parse stack state:</p>
+      <p>1 C 3 D 5</p>
+      <p>Because the production B &rarr; C D has two symbols on the right-hand side, we end up pushing two states onto the parse stack before finally reducing to:</p>
+      <p>1 B</p>
+      <p>In short, in order to process this production, we leave the previously displayed paradigm of an alternating sequence of goto and reduce actions. This happens because we must first process C before D. Also, C and D both produce a terminal, which requires input.</p>
+      <p>However, once we reduce to B, this chaining process can proceed. We are able to do this easily because in the reduction to B, we discard all of the additional state information (states 3 and 5) from the parse stack along with nonterminals C and D.</p>
+    </div>
+    <div class="section">
+      <h3>The fundamental question</h3>
+      <p>Using our observations here, we can make our fundamental question more flexible in comparison to the previous example as follows:</p>
+      <p>Given a qualified production as follows:</p>
+      <p>N &rarr; sym<sub>pre<sub>1</sub></sub> sym<sub>pre<sub>2</sub></sub> ... sym<sub>pre<sub>n<sub>pre</sub></sub></sub> &middot; N<sub>next</sub> sym<sub>post<sub>1</sub></sub> sym<sub>post<sub>2</sub></sub> ... sym<sub>post<sub>n<sub>post</sub></sub></sub></p>
+      <p>The fundamental question to assess in this context is:</p>
+      <strong>How far can we progress through our productions without processing any input symbols OR with shifting and reducing input symbols such that we arrive back in the initial parse state?</strong>
+    </div>
+    <div class="section">
+      <h3>The fundamental answer - start position</h3>
+      <u>The direct chain</u>
+      <p>Starting with the qualified production:</p>
+      <p>S' &rarr; &middot; S $</p>
+      <p>we can see from above that, after reducing to state S, our parse stack contains:</p>
+      <p>1 S</p>
+      <p>This state of the parse stack is reached through our typical chaining of goto and reduce actions with the following sequence of stack states:</p>
+      <ol>
+        <li>1 B</li>
+        <li>1 B 6</li>
+        <li>1 A</li>
+        <li>1 A 7</li>
+        <li>1 S</li>
+      </ol>
+      <p>These states of parse stack content are reachable without processing any additional input symbols. As a result, we add the following qualified productions to the closure of S' &rarr; &middot; S:</p>
+      <ol>
+        <li>S &rarr; &middot; A</li>
+        <li>A &rarr; &middot; B</li>
+      </ol>
+      <p>Notice how all such nonterminals are reachable with only state<sub>1</sub> below it on the parse stack.</p>
+      <u>The indirect chain</u>
+      <p>Next, let's consider the following sequence of stack states:</p>
+      <ol>
+        <li>1 C</li>
+        <li>1 C 3</li>
+        <li>1 C 3 d 4</li>
+        <li>1 C 3 D</li>
+        <li>1 C 3 D 5</li>
+        <li>1 B</li>
+      </ol>
+      <p>Note here how 1 C is eventually reduced to 1 B. Although additional nonterminals and terminals are processed in between those two stack states, all of that information is removed from the stack when 1 C 3 D 5 is reduced to 1 B.</p>
+      <p>This is a form of indirect chaining. Although additional steps are taken in between stack states 1 C and 1 B, we do eventually arrive back in state 1.</p>
+      <p>As a result, we add the following qualified production to our closure:</p>
+      <p>B &rarr; &middot; C D</p>
+      <p>Even though the nonterminal D was not considered as part of this additional closure production, this closure extension can take place. Nonterminal D will be handled in a subsequent parse state which is resolved before the stack state of 1 B is reached.</p>
+      <u>The terminal production</u>
+      <p>Finally, because we have the production:</p>
+      <p>C &rarr; c</p>
+      <p>in our grammar, we add the following to our closure:</p>
+      <p>C &rarr; &middot; c</p>
+      <p>since no additional symbols are needed to reach this point in the parsing process.</p>
+      <u>The closure</u>
+      <p>In conclusion, the closure of the qualified production set:</p>
+      <p>{S &rarr; &middot; S $}</p>
+      <p>is:</p>
+      <p>{S &rarr; &middot; S $, S &rarr; &middot; A, A &rarr; &middot; B C, C &rarr; &middot; c}</p>
+    </div>
+    <div class="section">
+      <h3>The fundamental answer - subsequent position</h3>
+      <p>Starting with the qualified production:</p>
+      <p>B &rarr; C &middot; D</p>
+      <p>we know that nonterminal D appears on the left-hand side of the following production:</p>
+      <p>D &rarr; d</p>
+      <p>Before processing this production, we are in the following qualified production state:</p>
+      <p>D &rarr; &middot; d</p>
+      <p>As a result, we can say that the closure of:</p>
+      <p>{B &rarr; C &middot; D}</p>
+      <p>is</p>
+      <p>{B &rarr; C &middot; D, D &rarr; &middot; d}</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've seen many examples of qualified production closure calculations.</p>
+      <p>Next, we will introduce the formal definition of this closure calculation.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
