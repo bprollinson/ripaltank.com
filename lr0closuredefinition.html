@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) closure definition</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've see a few examples of grammar rule set closures.</p>
+      <p>In this section, we will formally define this closure and provide some more examples of closure calculations using this definition.</p>
+    </div>
+    <div class="section">
+      <h3>Defining qualified productions</h3>
+      <div class="subsection definition">
+        <p><em>Definition</em></p>
+        <p>We will define a qualified production as:</p>
+        <p>N<sub>i</sub> &rarr; sym<sub>pre<sub>i<sub>1</sub></sub></sub> sym<sub>pre<sub>i<sub>2</sub></sub></sub> ... sym<sub>pre<sub>i<sub>n<sub>pre</sub></sub></sub></sub> &middot; sym<sub>post<sub>i<sub>1</sub></sub></sub> sym<sub>post<sub>i<sub>2</sub></sub></sub> ... sym<sub>post<sub>i<sub>n<sub>pre</sub></sub></sub></sub> | sym<sub>j</sub> &isin; N &cup; T &cup; {&epsilon;}</p>
+      </div>
+      <p>This matches the construct we used in our earlier examples. Typically, this production (minus &middot;) belongs to our language's grammar.</p>
+    </div>
+    <div class="section">
+      <h3>Closure calculation goal</h3>
+      <p>In our closure calculation, we start with a set of qualified productions. Let's call this set P<sub>qualified<sub>initial</sub></sub>. These productions take the form illustated above.</p>
+      <p>At the end of our closure calculation, we also end up with a set of qualified productions. Let's call this set P<sub>qualified<sub>final</sub></sub>. As a result, we can represent this mapping as:</p>
+      <p>P<sub>qualified<sub>final</sub></sub> = closure(G, P<sub>qualified<sub>initial</sub></sub>)</p>
+      <p>Here, G is our language's grammar.</p>
+      <p>We know that P<sub>qualified<sub>initial</sub></sub> &sube; P<sub>qualified<sub>final</sub></sub>, since we start a closure calcuation with our initial qualified production set and extend it through the closure calulation process.</p>
+    </div>
+    <div class="section">
+      <h3>Defining the closure calculation</h3>
+      <p>Given a set of qualified productions P<sub>qualified<sub>initial</sub></sub> and our context-free grammr G, we can define the result of our closure calculation (i.e. our production closure) P<sub>qualified<sub>final</sub></sub> with the following two rules:</p>
+      <ol>
+        <li>If some qualified production P<sub>i</sub> &isin; P<sub>qualified<sub>initial</sub></sub> then P<sub>i</sub> &isin; P<sub>qualified<sub>final</sub></sub></li>
+        <li>If
+          <ol>
+            <li>some qualified production P<sub>current</sub> = N<sub>current</sub> &rarr; sym<sub>pre<sub>i<sub>1</sub></sub></sub> sym<sub>pre<sub>i<sub>2</sub></sub></sub> ... sym<sub>pre<sub>i<sub>n<sub>pre</sub></sub></sub></sub> &middot; N<sub>next</sub> sym<sub>post<sub>i<sub>2</sub></sub></sub> ... sym<sub>post<sub>i<sub>n<sub>pre</sub></sub></sub></sub> &isin; P<sub>qualified<sub>final</sub></sub> AND</li>
+            <li>some production N<sub>next</sub> = sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub> &isin; G</li>
+          </ol>
+        then N<sub>next</sub> = &middot; sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub> &isin; P<sub>qualified<sub>final</sub></sub></li>
+      </ol>
+      <p>Intuitively, the first rule simply states that our initial qualified rules are also part of our final production closure.</p>
+      <p>The second rule describes the main mechanism for expanding the closure. This is the main mechanism we used in previous examples to allow our goto / reduce actions to chain through multiple productions in our language's grammar.</p>
+    </div>
+    <div class="section">
+      <h3>Simple example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A C<br/>
+          A &rarr; a<br/>
+          A &rarr; B<br/>
+          B &rarr; b
+        </p>
+        <p>and initial set of qualified production rules P<sub>qualified<sub>initial</sub></sub></p>
+        <p>{S' &rarr; &middot; S $}</p>
+        <p>let's calculate P<sub>qualified<sub>final</sub></sub>.</p>
+        <p>From rule 1, we can initialize P<sub>qualfied<sub>final</sub></sub> = P<sub>qualified<sub>initial</sub></sub>.</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {S' &rarr; &middot; S $}</p>
+        <p>From rule 2, since P<sub>qualified<sub>final</sub></sub> contains rule S' &rarr; &middot; S $ and G contains production S &rarr; A C, we can add qualified production S &rarr; &middot; A C to P<sub>qualified<sub>final</sub></sub>.</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {S' &rarr; &middot; S $, S &rarr; &middot; A C}</p>
+        <p>From rule 2, since P<sub>qualified<sub>final</sub></sub> contains rule S &rarr; &middot; A B and G contains productions A &rarr; a and A &rarr; B, we can apply the same process and extend P<sub>qualified<sub>final</sub></sub> to add the qualified versions of these two rules.</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {S' &rarr; &middot; S $, S &rarr; &middot; A C, A &rarr; &middot; a, A &rarr; &middot; B}</p>
+        <p>Finally, we can complete the closure calculation by applying this same expansion process using qualified production A &rarr; &middot; B and grammr rule B &rarr; b.</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {S' &rarr; &middot; S $, S &rarr; &middot; A C, A &rarr; &middot; a, A &rarr; &middot; B, B &rarr; &middot; b}</p>
+        <p>From this set of qualified productions, there is nothing more from our grammar that we can add, so we have our closure.</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Cycle example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the grammar</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A B<br/>
+          A &rarr; a<br/>
+          B &rarr; C B<br/>
+          B &rarr; b<br/>
+          C &rarr; B<br/>
+          C &rarr; c
+        </p>
+        <p>and initial set of qualified production rules P<sub>qualified<sub>initial</sub></sub></p>
+        <p>{B &rarr; &middot; C B}</p>
+        <p>let's calculate P<sub>qualified<sub>final</sub></sub>.</p>
+        <p>From rule 1, we can initialize P<sub>qualified<sub>final</sub></sub> = P<sub>qualified<sub>initial</sub></sub>.</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {B &rarr; &middot; C B}</p>
+        <p>From rule 2, since P<sub>qualified<sub>final</sub></sub> contains rule B &rarr; &middot; C B and G contains productions C &rarr; B and C &rarr; c, we can extend our closure as follows:</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {B &rarr; &middot; C B, C &rarr; &middot; B, C &rarr; &middot; c}</p>
+        <p>Finally, we should look at expanding the closure via the qualified production C &rarr; &middot; B. From this qualified production, rule 2 allows us to expand the closure via the following set of productions with nonterminal B on the left-hand side:</p>
+        <ol>
+          <li>B &rarr; C B</li>
+          <li>B &rarr; b</li>
+        </ol>
+        <p>Here, note how our closure already contains qualified production B &rarr; &middot; C B. Since a closure is a set, we don't track the same element multiple times. Intuitively, this makes sense since we can already apply the reduction chain for productions already covered within our parser state. Our final closure set is:</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {B &rarr; &middot; C B, C &rarr; &middot; B, C &rarr; &middot; c, B &rarr; &middot; b}</p>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Observations</h3>
+      <p>There are a few observations we can immediately make from this process. In particular:</p>
+      <ol>
+        <li>When adding a production starting with a terminal symbol on the right-hand side, there are no subsequent additions to be made</li>
+        <li>When adding a production starting with a nonterminal symbol on the right-hand side, there may be subsequent additions to be made, and the process may be chained across multiple productions</li>
+        <li>When adding a qualified production that already exists as part of the closure set, the chaining process ends (at least for that one production chain)</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've now seen the formal definition of the LR(0) closure calculation, which is relevant to parser construction.</p>
+      <p>Next, we will look at expanding this concept to handle the construction of a state machine which can subsequently be used to generate our LR(0) parse table.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
