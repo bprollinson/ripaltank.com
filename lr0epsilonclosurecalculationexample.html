@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) &epsilon; closure calculation example</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen a couple of LR(0) production closure examples.</p>
+      <p>In this section, we will illustrate a closure calculation that involves an &epsilon; production.</p>
+    </div>
+    <div class="section">
+      <h3>Motivating example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Observe the following grammar:</p>
+        <p>
+          S &rarr; A<br/>
+          A &rarr; &epsilon;
+        </p>
+        <p>This grammar has the following augmented grammar:</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A<br/>
+          A &rarr; &epsilon;
+        </p>
+        <p>Recall that is has the following parse table:</p>
+        <table class="parsetable">
+          <tr>
+            <td></td>
+            <td>$</td>
+            <td>S</td>
+            <td>A</td>
+            <td>S'</td>
+          </tr>
+          <tr>
+            <td>state<sub>1</sub></td>
+            <td>reduce<sub>3</sub></td>
+            <td>goto<sub>3</sub></td>
+            <td>goto<sub>2</sub></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>2</sub></td>
+            <td>reduce<sub>2</sub></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>state<sub>3</sub></td>
+            <td>accept</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </table>
+        <p>Recall the following parse of input string &epsilon;:</p>
+        <table class="parsetrace">
+          <tr>
+            <th>Input queue</th>
+            <th>Parse stack</th>
+            <th>Action</th>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1</td>
+            <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>1</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A</td>
+            <td>Apply action of goto<sub>2</sub> which corresponds to state<sub>1</sub> and A in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 A 2</td>
+            <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>2</sub> and $ in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>1 S 3</td>
+            <td>Accept, since this action corresponds to state<sub>3</sub> and $ in our parse table</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="section">
+      <h3>The fundamental question</h3>
+      <p>Given a qualified production as follows:</p>
+      <p>N &rarr; sym<sub>pre<sub>1</sub></sub> sym<sub>pre<sub>2</sub></sub> ... sym<sub>pre<sub>n<sub>pre</sub></sub></sub> &middot; N<sub>next</sub> sym<sub>post<sub>1</sub></sub> sym<sub>post<sub>2</sub></sub> ... sym<sub>post<sub>n<sub>post</sub></sub></sub></p>
+      <p>The fundamental question to assess in this context is:</p>
+      <strong>How far can we progress through our productions without processing any input symbols OR with shifting and reducing input symbols such that we arrive back in the initial parse state?</strong>
+    </div>
+    <div class="section">
+      <h3>The fundamental answer</h3>
+      <p>Starting with the qualified production:</p>
+      <p>S' &rarr; &middot; S $</p>
+      <p>we see the typical chaining of reduce and goto actions through the following sequence of parse stack states:</p>
+      <ol>
+        <li>1</li>
+        <li>1 A</li>
+        <li>1 A 2</li>
+        <li>1 S</li>
+        <li>1 S 3</li>
+      </ol>
+      <p>This chaining is fairly typical, with the exception of the transition from stack state 1 to state 1 A.</p>
+      <p>In this transition, we don't need to shift any symbol onto the parse stack before reducing according to production:</p>
+      <p>A &rarr; &epsilon;</p>
+      <p>Since &epsilon; is the empty string and not an input symbol, we can remain in state<sub>1</sub> in the processing of its corresponding production. We don't need to shift into an additional state because there is no terminal to shift.</p>
+      <p>As a result, the closure of the qualified production set:</p>
+      <p>{S' &rarr; &middot; S $}</p>
+      <p>is:</p>
+      <p>{S' &rarr; &middot; S $, S &rarr; &middot; A, A &rarr; &middot; &epsilon;, A &rarr; &epsilon; &middot;}</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've seen many examples of qualified production closure calculations.</p>
+      <p>Next, we will introduce the formal definition of this closure calculation.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
