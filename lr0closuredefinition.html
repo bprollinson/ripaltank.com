@@ -40,24 +40,26 @@
     </div>
     <div class="section">
       <h3>Defining the closure calculation</h3>
-      <p>Given a set of qualified productions P<sub>qualified<sub>initial</sub></sub> and our context-free grammr G, we can define the result of our closure calculation (i.e. our production closure) P<sub>qualified<sub>final</sub></sub> with the following two rules:</p>
+      <p>Given a set of qualified productions P<sub>qualified<sub>initial</sub></sub> and our context-free grammr G, we can define the result of our closure calculation (i.e. our production closure) P<sub>qualified<sub>final</sub></sub> with the following three rules:</p>
       <ol>
         <li>If some qualified production P<sub>i</sub> &isin; P<sub>qualified<sub>initial</sub></sub> then P<sub>i</sub> &isin; P<sub>qualified<sub>final</sub></sub></li>
         <li>If
           <ol>
             <li>some qualified production P<sub>current</sub> = N<sub>current</sub> &rarr; sym<sub>pre<sub>i<sub>1</sub></sub></sub> sym<sub>pre<sub>i<sub>2</sub></sub></sub> ... sym<sub>pre<sub>i<sub>n<sub>pre</sub></sub></sub></sub> &middot; N<sub>next</sub> sym<sub>post<sub>i<sub>2</sub></sub></sub> ... sym<sub>post<sub>i<sub>n<sub>pre</sub></sub></sub></sub> &isin; P<sub>qualified<sub>final</sub></sub> AND</li>
-            <li>some production N<sub>next</sub> = sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub> &isin; G</li>
+            <li>some production N<sub>next</sub> &rarr; sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub> &isin; G</li>
           </ol>
-        then N<sub>next</sub> = &middot; sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub> &isin; P<sub>qualified<sub>final</sub></sub></li>
+        then P<sub>next</sub> = N<sub>next</sub> &rarr; &middot; sym<sub>next<sub>1</sub></sub> sym<sub>next<sub>2</sub></sub> ... sym<sub>next<sub>n</sub></sub> &isin; P<sub>qualified<sub>final</sub></sub></li>
+        <li>If some qualified production P<sub>current</sub> = N<sub>current</sub> &rarr; &middot; &epsilon; &isin; P<sub>qualified<sub>final</sub></sub> then P<sub>next</sub> = N<sub>next</sub> &rarr; &epsilon; &middot; &isin; P<sub>qualified<sub>final</sub></sub></li>
       </ol>
       <p>Intuitively, the first rule simply states that our initial qualified rules are also part of our final production closure.</p>
       <p>The second rule describes the main mechanism for expanding the closure. This is the main mechanism we used in previous examples to allow our goto / reduce actions to chain through multiple productions in our language's grammar.</p>
+      <p>The third rule allows us to extend our closures past &epsilon; symbols since they do not represent an actual terminal symbol.</p>
     </div>
     <div class="section">
       <h3>Simple example</h3>
       <div class="subsection example">
         <p><em>Example</em></p>
-        <p>Given the grammar</p>
+        <p>Given the augmented grammar</p>
         <p>
           S' &rarr; S $<br/>
           S &rarr; A C<br/>
@@ -83,7 +85,7 @@
       <h3>Cycle example</h3>
       <div class="subsection example">
         <p><em>Example</em></p>
-        <p>Given the grammar</p>
+        <p>Given the augmented grammar</p>
         <p>
           S' &rarr; S $<br/>
           S &rarr; A B<br/>
@@ -110,12 +112,40 @@
       </div>
     </div>
     <div class="section">
+      <h3>&epsilon; example</h3>
+      <div class="subsection example">
+        <p><em>Example</em></p>
+        <p>Given the augmented grammar:</p>
+        <p>
+          S' &rarr; S $<br/>
+          S &rarr; A<br/>
+          A &rarr; B<br/>
+          B &rarr; b<br/>
+          B &rarr; &epsilon;
+        </p>
+        <p>and initial set of qualified rules P<sub>qualified<sub>initial</sub></sub></p>
+        <p>{S' &rarr; &middot; S $}</p>
+        <p>let's calculate P<sub>qualified<sub>final</sub></sub>.</p>
+        <p>From rule 1, we can initialize P<sub>qualified<sub>final</sub></sub> = P<sub>qualified<sub>initial</sub></sub>.</p>
+        <p>P<sub>qualified<sub>final</sub></sub> = {S' &rarr; &middot; S $}</p>
+        <p>From rule 2, since P<sub>qualified<sub>final</sub></sub> contains rule S' &rarr; &middot; S $ and G contains production S &rarr; A, we can extend our closure as follows:</p>
+        <p>{S' &rarr; &middot; S $, S &rarr; &middot; A}</p>
+        <p>From rule 2, since P<sub>qualified<sub>final</sub></sub> contains rule S &rarr; &middot; A and G contains production A &rarr; B, we can extend our closure as follows:</p>
+        <p>{S' &rarr; &middot; S $, S &rarr; &middot; A, A &rarr; &middot; B}</p>
+        <p>From rule 2, since P<sub>qualified<sub>final</sub></sub> contains rule A &rarr; &middot; B and G contains productions B &rarr; b and B &rarr; &epsilon;, we can extend our closure as follows:</p>
+        <p>{S' &rarr; &middot; S $, S &rarr; &middot; A, A &rarr; &middot; B, B &rarr; &middot; b, B &rarr; &middot; &epsilon;}</p>
+        <p>From rule 3, since P<sub>qualified<sub>final</sub></sub> contains rule B &rarr; &middot; &epsilon;, we can create a new qualified production rule with the dot shifted past the &epsilon; symbol. Our final closure set is:</p>
+        <p>{S' &rarr; &middot; S $, S &rarr; &middot; A, A &rarr; &middot; B, B &rarr; &middot; b, B &rarr; &middot; &epsilon;, B &rarr; &epsilon; &middot;}</p>
+      </div>
+    </div>
+    <div class="section">
       <h3>Observations</h3>
       <p>There are a few observations we can immediately make from this process. In particular:</p>
       <ol>
         <li>When adding a production starting with a terminal symbol on the right-hand side, there are no subsequent additions to be made</li>
         <li>When adding a production starting with a nonterminal symbol on the right-hand side, there may be subsequent additions to be made, and the process may be chained across multiple productions</li>
         <li>When adding a qualified production that already exists as part of the closure set, the chaining process ends (at least for that one production chain)</li>
+        <li>The &epsilon; symbol is not a terminal symbol, and does not require a separate state for processing as part of reducing via a production rule</li>
       </ol>
     </div>
     <div class="section">
