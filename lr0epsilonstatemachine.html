@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) &epsilon; state machine</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen all of the constructs involved in performing a closure calculation.</p>
+      <p>In this section, we will construct our first LR(0) state machine.</p>
+    </div>
+    <div class="section">
+      <h3>Our grammar</h3>
+      <p>The language we will be analyzing is specified by the following grammar:</p>
+      <p>
+        S &rarr; &epsilon;
+      </p>
+      <p>This grammar has the following augmented grammar:</p>
+      <p>
+        S' &rarr; S $<br/>
+        S &rarr; &epsilon;
+      </p>
+    </div>
+    <div class="section">
+      <h3>Our parse table</h3>
+      <p>This language has the following LR(0) parse table:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>$</td>
+          <td>S</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td>goto<sub>2</sub></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td>accept</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Parsing input string &epsilon;:</p>
+      <table class="parsetrace">
+        <tr>
+          <th>Input queue</th>
+          <th>Parse stack</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1</td>
+          <td>reduce<sub>2</sub></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 S</td>
+          <td>goto<sub>2</sub></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 S 2</td>
+          <td>accept</td>
+        </tr>
+      </table>
+      <p>This parsing procedure corresponds to the following derivation of the empty string (&epsilon;):</p>
+      <div class="derivation">S
+&rarr; &epsilon;</div>
+    </div>
+    <div class="section">
+      <h3>Initial state</h3>
+      <p>To begin our parser state machine (DFA) construction, we should first compute our initial closure.</p>
+      <p>To do so, we qualify our initial production rule by adding a dot at the start of the right-hand side:</p>
+      <p>S' &rarr; &middot; S $</p>
+      <p>Our initial set of qualified productions is:</p>
+      <p>{S' &rarr; &middot; S $}</p>
+      <p>Calculating the closure of this set, we end up with:</p>
+      <p>{S' &rarr; &middot; S $, S &rarr; &middot; &epsilon;, S &rarr; &epsilon; &middot;}</p>
+      <p>Observe here how our initial parse state contains qualified production S &rarr; &epsilon; &middot;, which corresponds to the observed parsing behaviour of reducing via the rule S &rarr; &epsilon;.</p>
+      <p>We can visualize this initial parse state as:</p>
+      <img src="assets/epsilondfaparsestate1.png" alt="DFA state 1. This state contains the following productions: S prime produces dot S $, S prime produces dot &epsilon;, S prime produces &epsilon; dot."/>
+    </div>
+    <div class="section">
+      <h3>Extending the DFA</h3>
+      <p>We've reached the production S &rarr; &epsilon; in our initial parse state.</p>
+      <p>However, after we've performed the reduction via the rule S &rarr; &epsilon;, as shown above, the parser needs to transition into a state to indicate that S has been fully processed.</p>
+      <p>In particular, we want to reach the qualified production: S &rarr; S &middot; $. The corresponding state is:</p>
+      <img src="assets/epsilondfaparsestate2.png" alt="DFA state 2. This state contains the following production: S prime produces S dot $."/>
+      <p>There are no additional qualified productions to be reached through a closure here, since our next symbol is $ and not a nonterminal.</p>
+      <p>Since this state is reached from a goto action corresponding to nonterminal S, we can link our two states with a transition on nonterminal S:</p>
+      <img src="assets/epsilondfa2parsestates.png" alt="DFA containing two states. State 1 contains the following productions: S prime produces dot S $, S prime produces dot &epsilon;, S prime produces &epsilon; dot. State 2 contains the following production: S prime produces S dot $. State 1 transitions to state 2 on nonterminal symbol S."/>
+    </div>
+    <div class="section">
+      <h3>Handling end of string</h3>
+      <p>Continuing on with this pattern, we can induce that we want to use the same construct to process the end of string symbol $.</p>
+      <p>In particular, we want to transition from qualified production S' &rarr; S &middot; $ to S' &rarr; S $ &middot;. We can update our DFA to be:</p>
+      <img src="assets/epsilondfa3parsestates.png" alt="DFA containing three states. State 1 contains the following productions: S prime produces dot S $, S prime produces dot &epsilon;, S prime produces &epsilon; dot. State 2 contains the following production: S prime produces S dot $. State 1 transitions to state 2 on nonterminal symbol S. State 3 contains the following production: S prime produces S $ dot. State 2 transitions to state 3 on end of string symbol $."/>
+      <p>The $ transition here illustrates that we are moving into an accepting state once we reach the end of our input string. Note that state<sub>3</sub> is marked as an accepting state with a double border.</p>
+      <p>Although state<sub>3</sub> is not explicitly used in our parsing process, we treat the transition to state<sub>3</sub> as the accept action because this state is an accepting state.</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've see the LR(0) DFA construction process for a grammar that derives the empty string &epsilon;.</p>
+      <p>Next, we will extend this process to handle a grammar that derives a simple string.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
