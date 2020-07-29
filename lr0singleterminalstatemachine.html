@@ -29,7 +29,7 @@
       </p>
       <p>This grammar has the following augmented grammar:</p>
       <p>
-        S' &rarr; S<br/>
+        S' &rarr; S $<br/>
         S &rarr; a
       </p>
     </div>
@@ -101,9 +101,9 @@
     <div class="section">
       <h3>Initial state</h3>
       <p>Like in the previous example, we start our closure calculation by adding a dot to the beginning of the right-hand size of our initial production rule.</p>
-      <p>The qualified closure production set:</p>
+      <p>Our initial set of qualified productions is:</p>
       <p>{S' &rarr; &middot; S $}</p>
-      <p>is:</p>
+      <p>Calculating the closure of this set, we end up with:</p>
       <p>{S' &rarr; &middot; S $, S &rarr; &middot; a}</p>
       <p>We can't move any farther in our closure calculation since we've hit a dead end with the terminal a. Advancing would require the processing of the input symbol a.</p>
       <p>We can visualize our initial parse state as:</p>
