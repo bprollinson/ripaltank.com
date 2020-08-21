@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) production chain state machine</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the process for constructing an LR(0) DFA for a grammar that derives a fixed string through a single production.</p>
+      <p>In this section, we will expand this process to handle a grammar that contains a production chain.</p>
+    </div>
+    <div class="section">
+      <h3>Our grammar</h3>
+      <p>The language we will be analyzing is specified by the following grammar:</p>
+      <p>
+        S &rarr; A<br/>
+        A &rarr; a
+      </p>
+      <p>This grammar has the following augmented grammar:</p>
+      <p>
+        S' &rarr; S $<br/>
+        S &rarr; A<br/>
+        A &rarr; a
+      </p>
+    </div>
+    <div class="section">
+      <h3>Our parse table</h3>
+      <p>This grammar has the following LR(0) parse table:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>a</td>
+          <td>$</td>
+          <td>S</td>
+          <td>A</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>shift<sub>2</sub></td>
+          <td></td>
+          <td>goto<sub>4</sub></td>
+          <td>goto<sub>3</sub></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td>reduce<sub>3</sub></td>
+          <td>reduce<sub>3</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>3</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>4</sub></td>
+          <td></td>
+          <td>accept</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Parsing input string a:</p>
+      <table class="parsetrace">
+        <tr>
+          <th>Input queue</th>
+          <th>Parse stack</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td>a</td>
+          <td>1</td>
+          <td>Apply action of shift<sub>2</sub> which corresponds to state<sub>1</sub> and a in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 a 2</td>
+          <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>2</sub> and $ in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 A</td>
+          <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and A in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 A 3</td>
+          <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>3</sub> and $ in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+            <td>1 S</td>
+            <td>Apply action of goto<sub>4</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+          </tr>
+          <tr>
+          <td></td>
+          <td>1 S 4</td>
+          <td>Accept, since this action corresponds to state<sub>4</sub> and $ in our parse table</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Initial state</h3>
+      <p>As before, we will construct our initial parse state using a closure starting with our initial qualified production rule.</p>
+      <p>Our initial set of qualified productions is:</p>
+      <p>{S' &rarr; &middot; S $}</p>
+      <p>Calculating the closure set, we end up with:</p>
+      <p>{S' &rarr; &middot; S $, S &rarr; &middot; A, A &rarr; &middot; a}</p>
+      <p>We can't move any farther in our closure calculation since we've hit a dead end with the terminal a. Advancing would require the processing of the input symbol a.</p>
+      <p>We can visualize our initial parse state as:</p>
+      <img src="assets/productionchaindfaparsestate1.png" alt="DFA state 1. This state contains the following productions: S prime produces dot S $, S produces dot A, A produces dot a."/>
+    </div>
+    <div class="section">
+      <h3>Handling terminal a</h3>
+      <p>Observe the following sequence of parse stack states encountered in the parsing example above:</p>
+      <ol>
+        <li>1</li>
+        <li>1 a 2</li>
+        <li>1 A</li>
+      </ol>
+      <p>Before applying our reduction corresponding to the rule A &rarr; a, we must first shift terminal a onto the stack and move into state<sub>2</sub>.</p>
+      <p>To do so, we take the following qualified production:</p>
+      <p>A &rarr; &middot; a</p>
+      <p>We shift the dot past the terminal a that we are processing and create the following qualified production set from this action:</p>
+      <p>{A &rarr; a &middot;}</p>
+      <p>Since the dot is at the end of the production, this closure can't be further expanded. We end up with state<sub>2</sub> being defined as follows:</p>
+      <img src="assets/productionchaindfaparsestate2.png" alt="DFA state 2. This state contains the following production: A produces a dot."/>
+      <p>Finally, we connect state<sub>1</sub> and state<sub>2</sub> with the appropriate transition as follows:</p>
+      <img src="assets/productionchaindfa2parsestates.png" alt="DFA containing two states. State 1 contains the following productions: S prime produces dot S $, S produces dot A, A produces dot a. State 2 contains the following production: A produces a dot. State 1 transitions to state 2 on terminal symbol a."/>
+    </div>
+    <div class="section">
+      <h3>Handling nonterminal A</h3>
+      <p>Observe the following sequence of parse stack states encountered in the parsing example above:</p>
+      <ol>
+        <li>1 A</li>
+        <li>1 A 3</li>
+        <li>1 S</li>
+      </ol>
+      <p>Before applying our reduction corresponding to the rule S &rarr; A, we must first recognize that we have nonterminal A on the top of the parse stack. Once we know this, we use a goto action to enter state<sub>3</sub> where this reduction can be applied.</p>
+      <p>In handling nonterminal A, we start with the following qualified production from our start state:</p>
+      <p>S &rarr; &middot; A</p>
+      <p>and shift the dot past A, creating the following closure to start state<sub>3</sub>:</p>
+      <p>{S &rarr; A &middot;}</p>
+      <p>Since the dot is at the end of the production, this closure can't be further expanded. We end up with state<sub>3</sub> being defined as follows:</p>
+      <img src="assets/productionchaindfaparsestate3.png" alt="DFA state 3. This state contains the following production: S produces A dot."/>
+      <p>Since we use a goto action to transition from state<sub>1</sub> to state<sub>3</sub> when preparing to handle nonterminal A, we extend our DFA with a subsequent transition to state<sub>3</sub>:</p>
+      <img src="assets/productionchaindfa3parsestates.png" alt="DFA containing three states. State 1 contains the following productions: S prime produces dot S $, S produces dot A, A produces dot a. State 2 contains the following production: A produces a dot. State 1 transitions to state 2 on terminal symbol a. State 3 contains the following production: S produces A dot. State 1 transitions to state 3 on nonterminal symbol A."/>
+    </div>
+    <div class="section">
+      <h3>Handling end of string</h3>
+      <p>After reducing A to S, from state<sub>1</sub>, we want to process the end of string according to our standard approach.</p>
+      <p>Extending our DFA, we end up with a final diagram of:</p>
+      <img src="assets/productionchaindfa5parsestates.png" alt="DFA containing five states. State 1 contains the following productions: S prime produces dot S $, S produces dot A, A produces dot a. State 2 contains the following production: A produces a dot. State 1 transitions to state 2 on terminal symbol a. State 3 contains the following production: S produces A dot. State 1 transitions to state 3 on nonterminal symbol A. State 4 contains the following production: S prime produces S dot $. State 1 transitions to state 4 on nonterminal symbol S. State 5 contains the following production: S prime produces S $ dot. State 4 transitions to state 5 on end of string symbol $. State 5 is an accepting state."/>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've seen the LR(0) DFA construction process for a grammar that derives a terminal symbol through a production chain.</p>
+      <p>Next, we will investigate a similar process related to the derivation of the empty string through a production chain.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
