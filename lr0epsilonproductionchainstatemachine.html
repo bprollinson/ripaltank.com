@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) &epsilon; production chain state machine</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the process for constructing and LR(0) DFA for a grammar containing a production chain that derives terminal.</p>
+      <p>In this section, we will expand this process to handle a grammar containing a production chain that derives &epsilon;, the empty string.</p>
+    </div>
+    <div class="section">
+      <h3>Our grammar</h3>
+      <p>The language we will be analzying is specified by the following grammar:</p>
+      <p>
+        S &rarr; A<br/>
+        A &rarr; &epsilon;
+      </p>
+      <p>This grammar has the following augmented grammar:</p>
+      <p>
+        S' &rarr; S $<br/>
+        S &rarr; A<br/>
+        A &rarr; &epsilon;
+      </p>
+    </div>
+    <div class="section">
+      <h3>Our parse table</h3>
+      <p>This grammar has the following LR(0) parse table:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>$</td>
+          <td>S</td>
+          <td>A</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>reduce<sub>3</sub></td>
+          <td>goto<sub>3</sub></td>
+          <td>goto<sub>2</sub></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>3</sub></td>
+          <td>accept</td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Parsing input string &epsilon;:</p>
+      <table class="parsetrace">
+        <tr>
+          <th>Input queue</th>
+          <th>Parse stack</th>
+          <th>Action</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1</td>
+          <td>Apply action of reduce<sub>3</sub> which corresponds to state<sub>1</sub> and $ in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 A</td>
+          <td>Apply action of goto<sub>2</sub> which corresponds to state<sub>1</sub> and A in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 A 2</td>
+          <td>Apply action of reduce<sub>2</sub> which corresponds to state<sub>2</sub> and $ in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 S</td>
+          <td>Apply action of goto<sub>3</sub> which corresponds to state<sub>1</sub> and S in our parse table</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>1 S 3</td>
+          <td>Accept, since this action corresponds to state<sub>3</sub> and $ in our parse table</td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Initial state</h3>
+      <p>As per our standard process, we will construct our initial qualified production rule.</p>
+      <p>Our initial set of qualified productions is:</p>
+      <p>{S' &rarr; &middot; S}</p>
+      <p>Calculating the closure set, we end up with:</p>
+      <p>{S' &rarr; &middot; S, S &rarr; &middot; A, A &rarr; &middot; &epsilon;, A &rarr; &epsilon; &middot;}</p>
+      <p>In this case, we are able to move the dot past the &epsilon; symbol because no input symbol needs to be processed in doing so.</p>
+      <p>As a result, our initial parse state is:</p>
+      <img src="assets/epsilonproductionchaindfaparsestate1.png" alt="DFA state 1. This state contains the following productions: S prime produces dot S $, S produces dot A, A produces dot &epsilon;, A produces &epsilon; dot."/>
+    </div>
+    <div class="section">
+      <h3>Handing nonterminal A</h3>
+      <p>Observe the following sequence of parse stack states encountered in the parsing example above:</p>
+      <ol>
+        <li>1</li>
+        <li>1 A</li>
+        <li>1 A 2</li>
+        <li>1 S</li>
+      </ol>
+      <p>In this language, because the production A &rarr; &epsilon; does not produce a terminal, we don't need to shift any terminals onto the stack before applying the reduction.</p>
+      <p>As a result, we can apply the actions of reduce followed by goto right away.</p>
+      <p>Starting with the following qualified production from state<sub>1</sub>:</p>
+      <p>S &rarr; &middot; A</p>
+      <p>we can shift the dot past nonterminal A and state state<sub>2</sub> with the following production set:</p>
+      <p>{S &rarr; A &middot;}</p>
+      <p>Since the dot is at the end of the production, this closure can't be further expanded. As a result, state<sub>2</sub> can be represented as:</p>
+      <img src="assets/epsilonproductionchaindfaparsestate2.png" alt="DFA state 2. This state contains the following production: A produces A dot."/>
+      <p>We can represent this transition into state<sub>2</sub> with the following DFA:</p>
+      <img src="assets/epsilonproductionchaindfa2parsestates.png" alt="DFA containing two states. State 1 contains the following productions: S prime produces dot S $, S produces dot A, A produces dot &epsilon;, A produces &epsilon; dot. State 2 contains the following production: A produces A dot. State 1 transitions to state 2 on nonterminal symbol A."/>
+      <p>Once state<sub>2</sub> is reached, nontermal A can be reduced to S, and we can return to state<sub>1</sub>.</p>
+    </div>
+    <div class="section">
+      <h3>Handling end of string</h3>
+      <p>After reducing A to S, from state<sub>1</sub>, we want to process the end of string according to our standard approach.</p>
+      <p>Extending our DFA, we end up with a final diagram of:</p>
+      <img src="assets/epsilonproductionchaindfa4parsestates.png" alt="DFA containing four states. State 1 contains the following productions: S prime produces dot S $, S produces dot A, A produces dot &epsilon;, A produces &epsilon; dot. State 2 contains the following production: A produces A dot. State 1 transitions to state 2 on nonterminal symbol A. State 3 contains the following production: S prime produces S dot $. State 1 transitions to state 3 on nonterminal symbol S. State 4 contains the following production: S prime produces S $ dot. State 3 transitions to state 4 on end of string symbol $. State 4 is an accepting state."/>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We've seen the LR(0) DFA construction process for a grammar that derives the empty string, &epsilon; through a production chain.</p>
+      <p>Next, we will investigate the DFA contruction for a grammar containing a production that produces multiple nonterminal symbols.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
