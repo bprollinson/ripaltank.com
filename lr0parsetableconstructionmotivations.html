@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) parse table construction motivations</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen various techniques for constructing an LR(0) DFA from a context-free grammar.</p>
+      <p>In this section, we will provide motivations for developing a process to convert an LR(0) DFA into an LR(0) parse table.</p>
+    </div>
+    <div class="section">
+      <h3>What we've covered so far</h3>
+      <p>Given a context-free grammar, we have the ability to construct an LR(0) DFA from it.</p>
+    </div>
+    <div class="section">
+      <h3>What we're looking for</h3>
+      <p>In order to parse an LR(0) language, we need to construct an LR(0) parser. This type of parser consists of the following two pieces of information:</p>
+      <ol>
+        <li>The general LR(0) parsing algorithm</li>
+        <li>The LR(0) parse table corresponding to the specified context-free grammar</li>
+      </ol>
+    </div>
+    <div class="section">
+      <h3>Closing the gap</h3>
+      <p>Since we already know the LR(0) parsing algorithm which is not language-specific, we just need to be able to construct an LR(0) parse table.</p>
+      <p>If we can construct an LR(0) parse table from an LR(0) DFA, then we can complete our parser construction process.</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We have seen the motivation for developing a process to construct an LR(0) parse table from an LR(0) DFA.</p>
+      <p>In the next section, we will begin to illustrate this process.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
