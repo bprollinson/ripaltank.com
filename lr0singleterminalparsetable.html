@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <title>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</title>
+    <link href="styles/styles.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  </head>
+  <body>
+    <h1>RIPAL: Responsive and Intuitive Parsing for the Analysis of Language</h1>
+    <h2>Pages</h2>
+    <nav aria-label="Pages">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="theory.html">Theory</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <h2>LR(0) single-terminal parse table construction</h2>
+    <div class="section">
+      <h3>Background</h3>
+      <p>We've seen the motivation for building up a process to convert an LR(0) DFA into a parse table.</p>
+      <p>In this section, we will illustrate an example of this process for a simple CFG that produces a single-terminal string.</p>
+    </div>
+    <div class="section">
+      <h3>Our language</h3>
+      <p>The language we will be analyzing is specified by the following grammar:</p>
+      <p>
+        S &rarr; a
+      </p>
+      <p>This grammar has the following augmented grammar:</p>
+      <p>
+       S' &rarr; S $<br/>
+       S &rarr; a
+      </p>
+      <p>Recall that this grammar has the following corresponding LR(0) DFA:</p>
+      <img src="assets/singleterminaldfa4parsestates.png" alt="DFA containing four states. State 1 contains the following productions: S prime produces dot S $, S produces dot a. State 2 contains the following production: S prime produces S a dot. State 1 transitions to state 2 on terminal symbol a. State 3 contains the following production: S prime produces S dot $. State 1 transitions to state 3 on nonterminal symbol S. State 4 contains the following production: S prime produces S $ dot. State 3 transitions to state 4 on end of string symbol $. State 4 is an accepting state."/>
+    </div>
+    <div class="section">
+      <h3>Setting up the parse table</h3>
+      <p>We know that the basic structure of an LR(0) parse table is as follows:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>sym<sub>1</sub></td>
+          <td>sym<sub>2</sub></td>
+          <td>...</td>
+          <td>sym<sub>n</sub></td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>a<sub>n<sub>1</sub>,t<sub>1</sub></sub></td>
+          <td>a<sub>n<sub>1</sub>,t<sub>2</sub></sub></td>
+          <td>...</td>
+          <td>a<sub>n<sub>1</sub>,t<sub>n</sub></sub></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td>a<sub>n<sub>2</sub>,t<sub>1</sub></sub></td>
+          <td>a<sub>n<sub>2</sub>,t<sub>2</sub></sub></td>
+          <td>...</td>
+          <td>a<sub>n<sub>2</sub>,t<sub>n</sub></sub></td>
+        </tr>
+        <tr>
+          <td>...</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>n</sub></td>
+          <td>a<sub>n<sub>n</sub>,t<sub>1</sub></sub></td>
+          <td>a<sub>n<sub>n</sub>,t<sub>2</sub></sub></td>
+          <td>...</td>
+          <td>a<sub>n<sub>n</sub>,t<sub>n</sub></sub></td>
+        </tr>
+      </table>
+      <p>for t<sub>i</sub> &isin; &Sigma; &cup; $, sym<sub>i</sub> &isin; T &cup; N &cup; $, a<sub>n<sub>i</sub>,t<sub>j</sub></sub> &isin; A &cup; &oslash;.</p>
+      <p>From our DFA, we can easily pick out our states and symbols as follows:</p>
+      <p>States = {state<sub>1</sub>, state<sub>2</sub>, state<sub>3</sub>, state<sub>4</sub>}</p>
+      <p>T = {a}</p>
+      <p>N = {S, S'}</p>
+      <p>From this, we know that sym<sub>i</sub> &isin; {a, $, S, S'}. Note that we order our set this way for convenience.</p>
+      <p>Filling in the structure of the table, we end up with:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>a</td>
+          <td>$</td>
+          <td>S</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>3</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>4</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Handling terminal a</h3>
+      <p>Observe the following state transition in our DFA:</p>
+      <img src="assets/singleterminaldfa2parsestates.png" alt="DFA containing two states. State 1 contains the following productions: S prime produces dot S $, S produces dot a. State 2 contains the following production: S produces S a dot. State 1 transitions to state 2 on terminal symbol a."/>
+      <p>When we are in state<sub>1</sub> and encounter terminal a, we want to shift a onto the parse stack and transition to state<sub>2</sub>, as illustrated by the transition in the DFA above.</p>
+      <p>Filling this action in within our parse table, we have:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>a</td>
+          <td>$</td>
+          <td>S</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>shift<sub>2</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>3</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>4</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Next, observe the qualified production in state<sub>2</sub>:</p>
+      <p>S &rarr; a &middot;</p>
+      <p>Since the dot appears at the right-hand side of the production, we know that we have processed all symbols on the right-hand side of this production by this point.</p>
+      <p>As a result, we know we need to apply a reduce action from this state.</p>
+      <p>Since the production S &rarr; a is the second production in our augmented grammar, we know that the action we will be adding to our parse table is reduce<sub>2</sub>. However, which symbols will we be applying this action for?</p>
+      <p>We know that, when about to apply this reduce action, we will not have a nonterminal symbol on the top of our parse stack. This is because a nonterminal would only be on top right after a reduce action and before the corresponding goto action.</p>
+      <p>Because of this, we only need to consider the set of symbols {a, $}. In our current state, we don't have any additional information about the next input symbol. As a result, we add this action for each of these symbols as follows:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>a</td>
+          <td>$</td>
+          <td>S</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>shift<sub>2</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>3</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>4</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Handling nonterminal A</h3>
+      <p>Observe the following state transition in our DFA:</p>
+      <img src="assets/singleterminaldfaparsestates1and3.png" alt="DFA containing two states. State 1 contains the following productions: S prime produces dot S $, S produces dot a. State 3 contains the following production: S produces S dot $. State 1 transitions to state 3 on nonterminal symbol A."/>
+      <p>After we reduce terminal a to nonterminal A, we will be in state<sub>1</sub> with A on the top of our parse stack.</p>
+      <p>We need to transition to state<sub>3</sub> so that we can subsequently accept the input string if the end of string is encountered.</p>
+      <p>As a result, we need to add an action of goto<sub>3</sub> from state<sub>1</sub> when nonterminal symbol S is encountered. We can update the parse table as follows:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>a</td>
+          <td>$</td>
+          <td>S</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>shift<sub>2</sub></td>
+          <td></td>
+          <td>goto<sub>3</sub></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>3</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>4</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Next, observe the following state transition:</p>
+      <img src="assets/singleterminaldfaparsestates3and4.png" alt="DFA containing two states. State 3 contains the following production: S prime produces S dot $. State 4 contains the following production: S prime produces S $ dot. State 3 transitions to state 4 on end of string symbol $. State 4 is an accepting state."/>
+      <p>Observe how, from state<sub>3</sub>, if the end of string symbol is encountered, we can transition to state<sub>4</sub> and immediately accept.</p>
+      <p>Since we only need to encounter one symbol (the end of string symbol) from state<sub>3</sub>, we can immediately accept the input string from there in this case without needing to handle state<sub>4</sub> explicitly, as follows:</p>
+      <table class="parsetable">
+        <tr>
+          <td></td>
+          <td>a</td>
+          <td>$</td>
+          <td>S</td>
+          <td>S'</td>
+        </tr>
+        <tr>
+          <td>state<sub>1</sub></td>
+          <td>shift<sub>2</sub></td>
+          <td></td>
+          <td>goto<sub>3</sub></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td>reduce<sub>2</sub></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>3</sub></td>
+          <td></td>
+          <td>accept</td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>state<sub>4</sub></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </table>
+      <p>Note that the row corresponding to state<sub>4</sub> and the column corresponding to S' can optionally be eliminated from the parse table, since there are no legitimate actions present in those sections of the table.</p>
+    </div>
+    <div class="section">
+      <h3>Conclusion</h3>
+      <p>We have seen the process for generating an LR(0) parse table for a grammar that produces a single-terminal string.</p>
+      <p>In the next section, we will look at extending this process to handle a grammar that produces a multi-terminal string.</p>
+    </div>
+    <hr/>
+    <p>GitHub Repository: <a href="https://github.com/bprollinson/ripal">https://github.com/bprollinson/ripal</a></p>
+    <p>Copyright &copy; 2017 Brendan Rollinson-Lorimer</p>
+  </body>
+</html>
